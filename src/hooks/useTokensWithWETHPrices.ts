@@ -1,7 +1,7 @@
 import { ChainId, WETH, Token, Blockchain } from '@venomswap/sdk'
 import { useMemo } from 'react'
 import useGovernanceToken from './useGovernanceToken'
-import useTokenWethPrice from './useTokenWethPrice'
+import useTokenWethPrice from './useTokenWETHPrice'
 import useBlockchain from './useBlockchain'
 import getToken from '../utils/getToken'
 import { useActiveWeb3React } from './index'
