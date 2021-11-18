@@ -1,4 +1,4 @@
-# Venomswap Interface
+# FoxSwap Interface
 
 [![Lint](https://github.com/Uniswap/uniswap-interface/workflows/Lint/badge.svg)](https://github.com/Uniswap/uniswap-interface/actions?query=workflow%3ALint)
 [![Tests](https://github.com/Uniswap/uniswap-interface/workflows/Tests/badge.svg)](https://github.com/Uniswap/uniswap-interface/actions?query=workflow%3ATests)
@@ -15,9 +15,9 @@ An open source interface for Uniswap -- a protocol for decentralized exchange of
 - Discord: [Uniswap](https://discord.gg/FCfyBSbCU5)
 - Whitepaper: [Link](https://hackmd.io/C-DvwDSfSxuh-Gd4WKE_ig)
 
-## Accessing the Venomswap Interface
+## Accessing the FoxSwap Interface
 
-To access the Venomswap Interface, use an IPFS gateway link from the
+To access the FoxSwap Interface, use an IPFS gateway link from the
 [latest release](https://github.com/Uniswap/uniswap-interface/releases/latest), 
 or visit [app.uniswap.org](https://app.uniswap.org).
 

@@ -1,4 +1,4 @@
-import { ChainId, TokenAmount, Blockchain } from '@venomswap/sdk'
+import { ChainId, TokenAmount, Blockchain } from '@foxswap/sdk'
 import React, { useState } from 'react'
 import { Text } from 'rebass'
 import { NavLink } from 'react-router-dom'

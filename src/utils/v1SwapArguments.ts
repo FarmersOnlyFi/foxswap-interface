@@ -7,7 +7,7 @@ import {
   TradeOptionsDeadline,
   TradeType,
   DEFAULT_CURRENCIES
-} from '@venomswap/sdk'
+} from '@foxswap/sdk'
 import { getTradeVersion } from '../data/V1'
 import { Version } from '../hooks/useToggledVersion'
 

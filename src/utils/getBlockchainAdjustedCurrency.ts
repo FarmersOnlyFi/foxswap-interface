@@ -1,4 +1,4 @@
-import { Blockchain, Currency, ETHER, BINANCE_COIN, HARMONY } from '@venomswap/sdk'
+import { Blockchain, Currency, ETHER, BINANCE_COIN, HARMONY } from '@foxswap/sdk'
 
 export default function getBlockchainAdjustedCurrency(
   blockchain: Blockchain,

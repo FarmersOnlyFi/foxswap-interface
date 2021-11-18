@@ -1,4 +1,4 @@
-import { Currency, Token, ETHER, HARMONY, BINANCE_COIN, DEFAULT_CURRENCIES, Blockchain } from '@venomswap/sdk'
+import { Currency, Token, ETHER, HARMONY, BINANCE_COIN, DEFAULT_CURRENCIES, Blockchain } from '@foxswap/sdk'
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 

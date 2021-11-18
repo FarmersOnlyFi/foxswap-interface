@@ -1,4 +1,4 @@
-import { Blockchain, ChainId } from '@venomswap/sdk'
+import { Blockchain, ChainId } from '@foxswap/sdk'
 
 export default function getBlockchain(chainId: ChainId | undefined): Blockchain {
   switch (chainId) {

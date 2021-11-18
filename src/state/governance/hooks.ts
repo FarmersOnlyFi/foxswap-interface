@@ -1,5 +1,5 @@
 import { PRELOADED_PROPOSALS } from './../../constants/index'
-import { TokenAmount } from '@venomswap/sdk'
+import { TokenAmount } from '@foxswap/sdk'
 import { isAddress } from 'ethers/lib/utils'
 import { useGovernanceContract, useUniContract } from '../../hooks/useContract'
 import { useSingleCallResult, useSingleContractMultipleData } from '../multicall/hooks'

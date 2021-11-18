@@ -1,4 +1,4 @@
-import { Currency, Token, DEFAULT_CURRENCIES } from '@venomswap/sdk'
+import { Currency, Token, DEFAULT_CURRENCIES } from '@foxswap/sdk'
 import { BASE_CURRENCY } from '../connectors'
 
 export function currencyId(currency: Currency): string {

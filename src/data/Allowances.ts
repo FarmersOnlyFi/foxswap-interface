@@ -1,4 +1,4 @@
-import { Token, TokenAmount } from '@venomswap/sdk'
+import { Token, TokenAmount } from '@foxswap/sdk'
 import { useMemo } from 'react'
 
 import { useTokenContract } from '../hooks/useContract'

@@ -1,4 +1,4 @@
-import { Blockchain } from '@venomswap/sdk'
+import { Blockchain } from '@foxswap/sdk'
 
 // Returns the block time in seconds
 export default function getBlockchainBlockTime(blockchain: Blockchain): number {

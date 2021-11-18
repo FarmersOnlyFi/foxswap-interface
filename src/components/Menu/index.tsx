@@ -12,7 +12,7 @@ import { ButtonPrimary } from '../Button'
 
 import useGovernanceToken from '../../hooks/useGovernanceToken'
 import useBlockchain from '../../hooks/useBlockchain'
-import { Blockchain } from '@venomswap/sdk'
+import { Blockchain } from '@foxswap/sdk'
 
 const StyledMenuIcon = styled(MenuIcon)`
   path {

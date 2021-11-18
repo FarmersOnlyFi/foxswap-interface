@@ -1,4 +1,4 @@
-import { TokenAmount, Pair, Currency } from '@venomswap/sdk'
+import { TokenAmount, Pair, Currency } from '@foxswap/sdk'
 import { useMemo } from 'react'
 import { abi as IUniswapV2PairABI } from '@venomswap/core/build/IUniswapV2Pair.json'
 import { Interface } from '@ethersproject/abi'

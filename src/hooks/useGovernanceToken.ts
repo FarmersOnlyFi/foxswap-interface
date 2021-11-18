@@ -1,4 +1,4 @@
-import { Token } from '@venomswap/sdk'
+import { Token } from '@foxswap/sdk'
 import { GOVERNANCE_TOKEN } from '../constants'
 import { useActiveWeb3React } from './index'
 
