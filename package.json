@@ -2,10 +2,10 @@
   "name": "@foxswap/interface",
   "description": "FoxSwap Interface",
   "homepage": ".",
-  "private": true,
+  "private": false,
   "devDependencies": {
     "@ethersproject/experimental": "^5.1.2",
-    "@foxswap/sdk": "^1.1.2",
+    "@foxswap/sdk": "^1.1.4",
     "@popperjs/core": "^2.4.4",
     "@reach/dialog": "^0.10.3",
     "@reach/portal": "^0.10.3",
@@ -130,7 +130,6 @@
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "@venomswap/default-token-list": "^2.1.0",
-    "@foxswap/sdk": "^1.1.2",
     "toformat": "^2.0.0"
   }
 }
