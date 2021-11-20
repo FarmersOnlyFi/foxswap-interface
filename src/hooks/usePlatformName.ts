@@ -9,7 +9,7 @@ export default function usePlatformName(): string {
     case Blockchain.HARMONY:
       return 'ViperSwap'
     case Blockchain.ETHEREUM:
-      return 'Venomswap'
+      return 'FoxSwap'
     default:
       return 'ViperSwap'
   }

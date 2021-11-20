@@ -5,7 +5,7 @@ import { useSingleCallResult, useSingleContractMultipleData } from '../multicall
 import { tryParseAmount } from '../swap/hooks'
 import { useMasterBreederContract } from '../../hooks/useContract'
 import { useMultipleContractSingleData } from '../../state/multicall/hooks'
-import { abi as IUniswapV2PairABI } from '@venomswap/core/build/IUniswapV2Pair.json'
+import { abi as IUniswapV2PairABI } from '@foxswap/core/build/IUniswapV2Pair.json'
 import { Interface } from '@ethersproject/abi'
 import useGovernanceToken from '../../hooks/useGovernanceToken'
 import useTokensWithWethPrices from '../../hooks/useTokensWithWETHPrices'

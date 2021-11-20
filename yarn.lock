@@ -2005,6 +2005,49 @@
     "@ethersproject/properties" "^5.2.0"
     "@ethersproject/strings" "^5.2.0"
 
+"@foxswap/community-token-list@^2.3.1":
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/@foxswap/community-token-list/-/community-token-list-2.3.3.tgz#fcdd42524d903b372fdb33c19e1829ae28b4a536"
+  integrity sha512-xFc6cAbyuLFhmmGuQxFXlvM8+Qdh0JG3JdX47B+OyRQIYy6PwuorvpZLrAvMX48SetzWTTnLx130GDVuUO2Raw==
+
+"@foxswap/core@1.0.0", "@foxswap/core@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@foxswap/core/-/core-1.0.0.tgz#4002ddfecd4dd9e3cbe04f2e404a088c12ea7641"
+  integrity sha512-94hPc6avu2nfVntXcccq8wo/zkh37I2qC0IxELYUUepR1OVUBPrCKPJFERXD2GWB4RsbtsRgAhd+3Ki5ho4hHA==
+
+"@foxswap/default-token-list@^15.1.0", "@foxswap/default-token-list@^5.3.0":
+  version "15.1.0"
+  resolved "https://registry.yarnpkg.com/@foxswap/default-token-list/-/default-token-list-15.1.0.tgz#fdbeb7b4e890010cd3543f87fccff92a7ae3998a"
+  integrity sha512-bErkb0vsAsqwCPe3YcJ6C4BQzHKgDDGRgHjyXp3Pv8glAtzKE7Q3IznYpq0a+pxOhbpxirGKNXYjPcZ63jMmyA==
+
+"@foxswap/lib@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@foxswap/lib/-/lib-1.0.0.tgz#4713a9001009c80504eca980fce5bac01089797a"
+  integrity sha512-6HsZh8CziexSx+YNsnifGujvJHJ/eMtaS5r0h33GL0y7inbXiYsAqtLZH5oKi6x9etK7J3qjoxLabTEAVqKO0w==
+
+"@foxswap/periphery@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@foxswap/periphery/-/periphery-1.0.0.tgz#6c17998fcf51ac76be4292a8d59a893670023d8c"
+  integrity sha512-zhY4fxndNZgsa6ehZ8MIfmLW579kpyXSUUhp4jlf0ZFxM0AeYaK1yrSM0/IKjZay3NbfYXUSw5zoE8NESJnSig==
+  dependencies:
+    "@foxswap/core" "1.0.0"
+    "@foxswap/lib" "1.0.0"
+
+"@foxswap/sdk-extra@^1.3.4":
+  version "1.3.5"
+  resolved "https://registry.yarnpkg.com/@foxswap/sdk-extra/-/sdk-extra-1.3.5.tgz#64f94facc12b8d2b11f425e01eade2919ee84fd7"
+  integrity sha512-uzKMtfAQzJ2CbxepUO2VV2LYzV/w8+VC4l/ZW9cN5kMXNyIVW8vQp3ACu8R3Xbm2G7jhDFu12gNgdMx056z4Zg==
+  dependencies:
+    "@ethersproject/address" "^5.3.0"
+    "@ethersproject/contracts" "^5.3.0"
+    "@ethersproject/providers" "^5.3.0"
+    "@ethersproject/solidity" "^5.3.0"
+    "@foxswap/community-token-list" "^2.3.1"
+    "@foxswap/default-token-list" "^5.3.0"
+    "@foxswap/sdk" "^1.1.4"
+    "@types/lodash.random" "^3.2.6"
+    lodash.random "^3.2.0"
+
 "@foxswap/sdk@^1.1.4":
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/@foxswap/sdk/-/sdk-1.1.4.tgz#604cb9a4f2699a4223f40e7a6c5507d3fec6f4d2"
@@ -3457,11 +3500,6 @@
   resolved "https://registry.npmjs.org/@uniswap/token-lists/-/token-lists-1.0.0-beta.24.tgz"
   integrity sha512-9IMltV7ITwxnjuK0LYXlUZhYIB8wVAdwx5NAbGjHF9ss+zKL9FTyFfWTFif/EL6PCWvST+2B15ofUwSVZd17RA==
 
-"@venomswap/community-token-list@^2.3.1":
-  version "2.3.2"
-  resolved "https://registry.npmjs.org/@venomswap/community-token-list/-/community-token-list-2.3.2.tgz"
-  integrity sha512-+qr7R6hp+QeeOrbHun+lcJg/9EG/hGa7Zc6lnUZ9SOWAkhvyMiCJSlX1JSHIRvFxtfw8g3ILuJF6li/32pYMTA==
-
 "@venomswap/contracts@^1.0.4":
   version "1.0.4"
   resolved "https://registry.npmjs.org/@venomswap/contracts/-/contracts-1.0.4.tgz"
@@ -3477,16 +3515,6 @@
   resolved "https://registry.npmjs.org/@venomswap/core/-/core-1.0.0.tgz"
   integrity sha512-cd4+e5KKH7QmSjMhe50lty35eHuZVTh9YYnkWPdQPe6KG3R5P5JE3LFliwNLpuV4jWEYYRlEa3OaG3ie+BlYrg==
 
-"@venomswap/default-token-list@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.npmjs.org/@venomswap/default-token-list/-/default-token-list-2.1.0.tgz"
-  integrity sha512-3VfaxDrv6o9WRqD1LxziUY14A68KMtx4qEOe4hWI+VKdZ8FrmE1D8JqF5IL4joIhFq1x3sYz9xruKjcXJhfZhQ==
-
-"@venomswap/default-token-list@^5.3.0":
-  version "5.3.0"
-  resolved "https://registry.npmjs.org/@venomswap/default-token-list/-/default-token-list-5.3.0.tgz"
-  integrity sha512-A6Uben5EE/xQAeRzDoUtzSPEFi+QCwC4Eig/vHUO/bzZJLSM97uUg1ve9y3OyFLahwRf10ykvfrLxm2QQkABHQ==
-
 "@venomswap/lib@1.0.0", "@venomswap/lib@^1.0.0":
   version "1.0.0"
   resolved "https://registry.npmjs.org/@venomswap/lib/-/lib-1.0.0.tgz"
@@ -3499,34 +3527,6 @@
   dependencies:
     "@venomswap/core" "1.0.0"
     "@venomswap/lib" "1.0.0"
-
-"@venomswap/sdk-extra@^1.0.5":
-  version "1.3.2"
-  resolved "https://registry.npmjs.org/@venomswap/sdk-extra/-/sdk-extra-1.3.2.tgz"
-  integrity sha512-b1wMa4PGLjbeXo34RgigDUbzcxcD5Kbh7FazSIYaablHEnCAfxnj+h9kHpEwYbFVf7tI1B16cseHg34nPCSYjA==
-  dependencies:
-    "@ethersproject/address" "^5.3.0"
-    "@ethersproject/contracts" "^5.3.0"
-    "@ethersproject/providers" "^5.3.0"
-    "@ethersproject/solidity" "^5.3.0"
-    "@types/lodash.random" "^3.2.6"
-    "@venomswap/community-token-list" "^2.3.1"
-    "@venomswap/default-token-list" "^5.3.0"
-    "@venomswap/sdk" "^1.1.2"
-    lodash.random "^3.2.0"
-
-"@venomswap/sdk@^1.1.2":
-  version "1.1.2"
-  resolved "https://registry.npmjs.org/@venomswap/sdk/-/sdk-1.1.2.tgz"
-  integrity sha512-2UWpiH2Tz26TsF06iISTbmGSD/ARP1Y14kz7brDay2bE6S9fH19/CEs7caRnYaC2Hqu3nqpbGLSDerzI4Y9xHQ==
-  dependencies:
-    "@venomswap/core" "^1.0.0"
-    big.js "^6.1.1"
-    decimal.js-light "^2.5.1"
-    jsbi "^3.1.5"
-    tiny-invariant "^1.1.0"
-    tiny-warning "^1.0.3"
-    toformat "^2.0.0"
 
 "@walletconnect/browser-utils@^1.4.1":
   version "1.4.1"
@@ -5175,11 +5175,6 @@ big.js@^5.2.2:
   resolved "https://registry.npmjs.org/big.js/-/big.js-5.2.2.tgz"
   integrity sha512-vyL2OymJxmarO8gxMr0mhChsO9QGwhynfuu4+MHTAW6czfq9humCB7rKpUjDd9YUiDPU4mzpyupFSvOClAwbmQ==
 
-big.js@^6.1.1:
-  version "6.1.1"
-  resolved "https://registry.npmjs.org/big.js/-/big.js-6.1.1.tgz"
-  integrity sha512-1vObw81a8ylZO5ePrtMay0n018TcftpTA5HFKDaSuiUDBo8biRBtjIobw60OpwuvrGk+FsxKamqN4cnmj/eXdg==
-
 binary-extensions@^1.0.0:
   version "1.13.1"
   resolved "https://registry.npmjs.org/binary-extensions/-/binary-extensions-1.13.1.tgz"
@@ -6801,7 +6796,7 @@ decamelize@^1.2.0:
   resolved "https://registry.npmjs.org/decamelize/-/decamelize-1.2.0.tgz"
   integrity sha1-9lNNFRSCabIDUue+4m9QH5oZEpA=
 
-decimal.js-light@^2.5.0, decimal.js-light@^2.5.1:
+decimal.js-light@^2.5.0:
   version "2.5.1"
   resolved "https://registry.npmjs.org/decimal.js-light/-/decimal.js-light-2.5.1.tgz"
   integrity sha512-qIMFpTMZmny+MMIitAB6D7iVPEorVw6YQRWkvarTkT4tBeSLLiHzcwj6q0MmYSFCiVpiqPJTJEYIrpcPzVEIvg==
@@ -10680,11 +10675,6 @@ jsbi@^3.1.1:
   version "3.1.4"
   resolved "https://registry.npmjs.org/jsbi/-/jsbi-3.1.4.tgz"
   integrity sha512-52QRRFSsi9impURE8ZUbzAMCLjPm4THO7H2fcuIvaaeFTbSysvkodbQQXIVsNgq/ypDbq6dJiuGKL0vZ/i9hUg==
-
-jsbi@^3.1.5:
-  version "3.2.5"
-  resolved "https://registry.npmjs.org/jsbi/-/jsbi-3.2.5.tgz"
-  integrity sha512-aBE4n43IPvjaddScbvWRA2YlTzKEynHzu7MqOyTipdHucf/VxS63ViCjxYRg86M8Rxwbt/GfzHl1kKERkt45fQ==
 
 jsbn@~0.1.0:
   version "0.1.1"
