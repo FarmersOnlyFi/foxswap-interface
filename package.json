@@ -129,7 +129,7 @@
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "@foxswap/default-token-list": "^15.1.0",
+    "@venomswap/default-token-list": "^15.1.0",
     "toformat": "^2.0.0"
   },
   "version": "0.0.1"
