@@ -2005,7 +2005,7 @@
     "@ethersproject/properties" "^5.2.0"
     "@ethersproject/strings" "^5.2.0"
 
-"@foxswap/community-token-list@^2.3.1":
+"@foxswap/community-token-list@^2.3.2":
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/@foxswap/community-token-list/-/community-token-list-2.3.3.tgz#fcdd42524d903b372fdb33c19e1829ae28b4a536"
   integrity sha512-xFc6cAbyuLFhmmGuQxFXlvM8+Qdh0JG3JdX47B+OyRQIYy6PwuorvpZLrAvMX48SetzWTTnLx130GDVuUO2Raw==
@@ -2014,11 +2014,6 @@
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@foxswap/core/-/core-1.0.0.tgz#4002ddfecd4dd9e3cbe04f2e404a088c12ea7641"
   integrity sha512-94hPc6avu2nfVntXcccq8wo/zkh37I2qC0IxELYUUepR1OVUBPrCKPJFERXD2GWB4RsbtsRgAhd+3Ki5ho4hHA==
-
-"@foxswap/default-token-list@^5.3.0":
-  version "15.1.0"
-  resolved "https://registry.yarnpkg.com/@foxswap/default-token-list/-/default-token-list-15.1.0.tgz#fdbeb7b4e890010cd3543f87fccff92a7ae3998a"
-  integrity sha512-bErkb0vsAsqwCPe3YcJ6C4BQzHKgDDGRgHjyXp3Pv8glAtzKE7Q3IznYpq0a+pxOhbpxirGKNXYjPcZ63jMmyA==
 
 "@foxswap/lib@1.0.0":
   version "1.0.0"
@@ -2034,18 +2029,18 @@
     "@foxswap/lib" "1.0.0"
 
 "@foxswap/sdk-extra@^1.3.4":
-  version "1.3.5"
-  resolved "https://registry.yarnpkg.com/@foxswap/sdk-extra/-/sdk-extra-1.3.5.tgz#64f94facc12b8d2b11f425e01eade2919ee84fd7"
-  integrity sha512-uzKMtfAQzJ2CbxepUO2VV2LYzV/w8+VC4l/ZW9cN5kMXNyIVW8vQp3ACu8R3Xbm2G7jhDFu12gNgdMx056z4Zg==
+  version "1.3.6"
+  resolved "https://registry.yarnpkg.com/@foxswap/sdk-extra/-/sdk-extra-1.3.6.tgz#01a5da2172198d93e7dc0c8b59f298a2c4172ca8"
+  integrity sha512-CZJo3r6m8N/YPj74mIc5j+w/qWwtdZCOF9uFr52lO3Ln4B3+kQCGMz3BKHK7MD+LRZcx6SOQqwuj4xYgWsKFOg==
   dependencies:
     "@ethersproject/address" "^5.3.0"
     "@ethersproject/contracts" "^5.3.0"
     "@ethersproject/providers" "^5.3.0"
     "@ethersproject/solidity" "^5.3.0"
-    "@foxswap/community-token-list" "^2.3.1"
-    "@foxswap/default-token-list" "^5.3.0"
-    "@foxswap/sdk" "^1.1.4"
+    "@foxswap/community-token-list" "^2.3.2"
+    "@foxswap/sdk" "^1.1.5"
     "@types/lodash.random" "^3.2.6"
+    "@venomswap/default-token-list" "^5.3.0"
     lodash.random "^3.2.0"
 
 "@foxswap/sdk@^1.1.4":
@@ -2054,6 +2049,19 @@
   integrity sha512-nQZZs/Uvs38hYlkSZul8WxcaN7+eDXbIp1xqJqLgp5c7IRufvkXYIrIfSlV4dDdm3Q7rFV5V++95aEyTrBaUbA==
   dependencies:
     "@venomswap/core" "^1.0.0"
+    big.js "^5.2.2"
+    decimal.js-light "^2.5.0"
+    jsbi "^3.1.1"
+    tiny-invariant "^1.1.0"
+    tiny-warning "^1.0.3"
+    toformat "^2.0.0"
+
+"@foxswap/sdk@^1.1.5":
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/@foxswap/sdk/-/sdk-1.1.5.tgz#79d1e90740b0ac569093a9d979c27cb7fbf862e3"
+  integrity sha512-hCBWXp2e5lrlg05BHc7SKz/V25iCbg6Vu/uWamj0o9AFy6uZzY81InOmN6X2WLSGZdqj8ZDnx/WXftVqhC6jgg==
+  dependencies:
+    "@foxswap/core" "^1.0.0"
     big.js "^5.2.2"
     decimal.js-light "^2.5.0"
     jsbi "^3.1.1"
@@ -3515,7 +3523,7 @@
   resolved "https://registry.npmjs.org/@venomswap/core/-/core-1.0.0.tgz"
   integrity sha512-cd4+e5KKH7QmSjMhe50lty35eHuZVTh9YYnkWPdQPe6KG3R5P5JE3LFliwNLpuV4jWEYYRlEa3OaG3ie+BlYrg==
 
-"@venomswap/default-token-list@^15.1.0":
+"@venomswap/default-token-list@^5.3.0":
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/@venomswap/default-token-list/-/default-token-list-5.3.0.tgz#3d1111940efc7863a10ae707c63eb08721490ada"
   integrity sha512-A6Uben5EE/xQAeRzDoUtzSPEFi+QCwC4Eig/vHUO/bzZJLSM97uUg1ve9y3OyFLahwRf10ykvfrLxm2QQkABHQ==

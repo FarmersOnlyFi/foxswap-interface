@@ -32,8 +32,8 @@ export const BASE_WRAPPED_CURRENCY: Currency = generatedBaseCurrencies[1]
 
 export const BLOCKCHAIN: Blockchain = getBlockchain(NETWORK_CHAIN_ID)
 
-let networkLibrary: Web3Provider | undefined
-export function getNetworkLibrary(): Web3Provider {
+let networkLibrary: Web3Provider | any
+export function getNetworkLibrary(): any {
   return (networkLibrary = networkLibrary ?? new Web3Provider(network.provider as any))
 }
 

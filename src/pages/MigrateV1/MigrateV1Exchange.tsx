@@ -161,7 +161,7 @@ function V1PairMigration({ liquidityTokenAmount, token }: { liquidityTokenAmount
         account,
         Math.floor(new Date().getTime() / 1000) + DEFAULT_DEADLINE_FROM_NOW
       )
-      .then((response: TransactionResponse) => {
+      .then((response: TransactionResponse | any) => {
         ReactGA.event({
           category: 'Migrate',
           action: 'V1->V2',

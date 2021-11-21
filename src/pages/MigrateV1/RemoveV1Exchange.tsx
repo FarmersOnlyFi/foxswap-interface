@@ -71,7 +71,7 @@ function V1PairRemoval({
         1, // min_tokens, this is safe because we're removing liquidity
         Math.floor(new Date().getTime() / 1000) + DEFAULT_DEADLINE_FROM_NOW
       )
-      .then((response: TransactionResponse) => {
+      .then((response: TransactionResponse | any) => {
         ReactGA.event({
           category: 'Remove',
           action: 'V1',

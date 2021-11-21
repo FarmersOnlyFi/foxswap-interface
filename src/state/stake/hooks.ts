@@ -71,7 +71,6 @@ export interface StakingInfo {
 
 // gets the staking info from the network for the active chain id
 export function useStakingInfo(active: boolean | undefined = undefined, pairToFilterBy?: Pair | null): StakingInfo[] {
-  console.log('useStakingInfo')
   const { chainId, account } = useActiveWeb3React()
   const masterBreederContract = useMasterBreederContract()
 
