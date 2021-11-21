@@ -132,5 +132,5 @@
     "@venomswap/default-token-list": "^5.3.0",
     "toformat": "^2.0.0"
   },
-  "version": "0.0.3"
+  "version": "0.0.4"
 }

@@ -56,7 +56,7 @@ export const MASTER_BREEDER: { [chainId in ChainId]: string } = {
   [ChainId.GÖRLI]: ZERO_ONE_ADDRESS,
   [ChainId.KOVAN]: ZERO_ONE_ADDRESS,
   [ChainId.BSC_MAINNET]: ZERO_ONE_ADDRESS,
-  [ChainId.BSC_TESTNET]: '0x15e04418d328c39ba747690f6dae9bbf548cd358',
+  [ChainId.BSC_TESTNET]: ZERO_ONE_ADDRESS,
   [ChainId.HARMONY_MAINNET]: '0x15e04418d328c39ba747690f6dae9bbf548cd358',
   [ChainId.HARMONY_TESTNET]: '0x15e04418d328c39ba747690f6dae9bbf548cd358'
 }
@@ -68,7 +68,7 @@ export const PIT_BREEDER: { [chainId in ChainId]: string } = {
   [ChainId.GÖRLI]: ZERO_ONE_ADDRESS,
   [ChainId.KOVAN]: ZERO_ONE_ADDRESS,
   [ChainId.BSC_MAINNET]: ZERO_ONE_ADDRESS,
-  [ChainId.BSC_TESTNET]: '0x38a75B033c2C3444Cb91D580645F76d042F98EdA',
+  [ChainId.BSC_TESTNET]: ZERO_ONE_ADDRESS,
   [ChainId.HARMONY_MAINNET]: '0x1A51AdcC669199B23CAD8713f7b27c8B9253565e',
   [ChainId.HARMONY_TESTNET]: '0x1A51AdcC669199B23CAD8713f7b27c8B9253565e'
 }
@@ -80,13 +80,7 @@ export const PIT: { [chainId in ChainId]: Token } = {
   [ChainId.GÖRLI]: new Token(ChainId.GÖRLI, ZERO_ONE_ADDRESS, 18, 'xFOX', 'FoxDen'),
   [ChainId.KOVAN]: new Token(ChainId.KOVAN, ZERO_ONE_ADDRESS, 18, 'xFOX', 'FoxDen'),
   [ChainId.BSC_MAINNET]: new Token(ChainId.BSC_MAINNET, ZERO_ONE_ADDRESS, 18, 'xFOX', 'FoxDen'),
-  [ChainId.BSC_TESTNET]: new Token(
-    ChainId.BSC_TESTNET,
-    '0x9E49E395683501780e3069493161b30DaD31874e',
-    18,
-    'xFOX',
-    'FoxDen'
-  ),
+  [ChainId.BSC_TESTNET]: new Token(ChainId.BSC_TESTNET, ZERO_ONE_ADDRESS, 18, 'xFOX', 'FoxDen'),
   [ChainId.HARMONY_MAINNET]: new Token(
     ChainId.HARMONY_MAINNET,
     '0x9E49E395683501780e3069493161b30DaD31874e',
@@ -111,8 +105,8 @@ export const PIT_SETTINGS: { [chainId in ChainId]: Record<string, string> } = {
   [ChainId.KOVAN]: { name: '', path: '' },
   [ChainId.BSC_MAINNET]: { name: '', path: '' },
   [ChainId.BSC_TESTNET]: { name: '', path: '' },
-  [ChainId.HARMONY_MAINNET]: { name: 'FoxDen', path: '/foxDen' },
-  [ChainId.HARMONY_TESTNET]: { name: 'FoxDen', path: '/foxDen' }
+  [ChainId.HARMONY_MAINNET]: { name: 'Den', path: '/den' },
+  [ChainId.HARMONY_TESTNET]: { name: 'Den', path: '/den' }
 }
 
 export const WEB_INTERFACES: { [chainId in ChainId]: string[] } = {
@@ -123,8 +117,8 @@ export const WEB_INTERFACES: { [chainId in ChainId]: string[] } = {
   [ChainId.KOVAN]: [''],
   [ChainId.BSC_MAINNET]: [''],
   [ChainId.BSC_TESTNET]: [''],
-  [ChainId.HARMONY_MAINNET]: ['swap.farmersonly.fi'],
-  [ChainId.HARMONY_TESTNET]: ['swap.farmersonly.fi']
+  [ChainId.HARMONY_MAINNET]: ['swap.farmersonly.fi', 'foxswap.one', 'foxswap.fi'],
+  [ChainId.HARMONY_TESTNET]: ['swap.farmersonly.fi', 'foxswap.one', 'foxswap.fi']
 }
 
 export { PRELOADED_PROPOSALS } from './proposals'
