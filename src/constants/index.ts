@@ -69,8 +69,8 @@ export const PIT_BREEDER: { [chainId in ChainId]: string } = {
   [ChainId.KOVAN]: ZERO_ONE_ADDRESS,
   [ChainId.BSC_MAINNET]: ZERO_ONE_ADDRESS,
   [ChainId.BSC_TESTNET]: '0x38a75B033c2C3444Cb91D580645F76d042F98EdA',
-  [ChainId.HARMONY_MAINNET]: '0x9E49E395683501780e3069493161b30DaD31874e',
-  [ChainId.HARMONY_TESTNET]: '0x9E49E395683501780e3069493161b30DaD31874e'
+  [ChainId.HARMONY_MAINNET]: '0x1A51AdcC669199B23CAD8713f7b27c8B9253565e',
+  [ChainId.HARMONY_TESTNET]: '0x1A51AdcC669199B23CAD8713f7b27c8B9253565e'
 }
 
 export const PIT: { [chainId in ChainId]: Token } = {
@@ -224,10 +224,6 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
   [ChainId.MAINNET]: [
-    [
-      new Token(ChainId.MAINNET, '0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643', 8, 'cDAI', 'Compound Dai'),
-      new Token(ChainId.MAINNET, '0x39AA39c021dfbaE8faC545936693aC917d5E7563', 8, 'cUSDC', 'Compound USD Coin')
-    ],
     [USDC, USDT],
     [DAI, USDT]
   ]
