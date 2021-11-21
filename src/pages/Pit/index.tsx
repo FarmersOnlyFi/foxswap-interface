@@ -25,11 +25,11 @@ import { PIT, PIT_SETTINGS } from '../../constants'
 import { GOVERNANCE_TOKEN_INTERFACE } from '../../constants/abis/governanceToken'
 import { PIT_INTERFACE } from '../../constants/abis/pit'
 import useGovernanceToken from 'hooks/useGovernanceToken'
-import useTotalCombinedTVL from '../../hooks/useTotalCombinedTVL'
+// import useTotalCombinedTVL from '../../hooks/useTotalCombinedTVL'
 import usePitRatio from '../../hooks/usePitRatio'
-import { useStakingInfo } from '../../state/stake/hooks'
-import useFilterStakingInfos from '../../hooks/useFilterStakingInfos'
-import CombinedTVL from '../../components/CombinedTVL'
+// import { useStakingInfo } from '../../state/stake/hooks'
+// import useFilterStakingInfos from '../../hooks/useFilterStakingInfos'
+// import CombinedTVL from '../../components/CombinedTVL'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
@@ -102,22 +102,12 @@ const DataRow = styled(RowBetween)`
   `};
 `
 
-const NonCenteredDataRow = styled(RowBetween)`
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-flex-direction: column;
-`};
-`
-
 export default function Pit({
   match: {
     params: { currencyIdA, currencyIdB }
   }
 }: RouteComponentProps<{ currencyIdA: string; currencyIdB: string }>) {
   const { account, chainId } = useActiveWeb3React()
-
-  const isActive = true
-  const filteredStakingInfos = useFilterStakingInfos(useStakingInfo(isActive), isActive)
-  const TVLs = useTotalCombinedTVL(filteredStakingInfos)
 
   const govToken = useGovernanceToken()
   const govTokenBalance: TokenAmount | undefined = useTokenBalance(
@@ -175,20 +165,6 @@ export default function Pit({
       )}
 
       <TopSection gap="lg" justify="center">
-        <AutoColumn gap="lg" style={{ width: '100%', maxWidth: '720px' }}>
-          <NonCenteredDataRow style={{ alignItems: 'baseline' }}>
-            <TYPE.mediumHeader></TYPE.mediumHeader>
-            {TVLs?.stakingPoolTVL?.greaterThan('0') && (
-              <TYPE.black>
-                <span role="img" aria-label="wizard-icon" style={{ marginRight: '0.5rem' }}>
-                  🏆
-                </span>
-                <CombinedTVL />
-              </TYPE.black>
-            )}
-          </NonCenteredDataRow>
-        </AutoColumn>
-
         <BottomSection gap="lg" justify="center">
           <CustomCard>
             <CardSection>

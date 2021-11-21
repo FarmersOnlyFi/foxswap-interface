@@ -71,6 +71,7 @@ export interface StakingInfo {
 
 // gets the staking info from the network for the active chain id
 export function useStakingInfo(active: boolean | undefined = undefined, pairToFilterBy?: Pair | null): StakingInfo[] {
+  console.log('useStakingInfo')
   const { chainId, account } = useActiveWeb3React()
   const masterBreederContract = useMasterBreederContract()
 
@@ -296,32 +297,21 @@ export function useTotalGovTokensEarned(): TokenAmount | undefined {
 
 export function useTotalLockedGovTokensEarned(): TokenAmount | undefined {
   const govToken = useGovernanceToken()
-  const stakingInfos = useStakingInfo(true)
+  const stakingInfos = null // useStakingInfo(true)
 
   return useMemo(() => {
     if (!govToken) return undefined
-    return (
-      stakingInfos?.reduce(
-        (accumulator, stakingInfo) => accumulator.add(stakingInfo.lockedEarnedAmount),
-        new TokenAmount(govToken, '0')
-      ) ?? new TokenAmount(govToken, '0')
-    )
+    return new TokenAmount(govToken, '0')
   }, [stakingInfos, govToken])
 }
 
 export function useTotalUnlockedGovTokensEarned(): TokenAmount | undefined {
   const govToken = useGovernanceToken()
-  const stakingInfos = useStakingInfo(true)
 
   return useMemo(() => {
     if (!govToken) return undefined
-    return (
-      stakingInfos?.reduce(
-        (accumulator, stakingInfo) => accumulator.add(stakingInfo.unlockedEarnedAmount),
-        new TokenAmount(govToken, '0')
-      ) ?? new TokenAmount(govToken, '0')
-    )
-  }, [stakingInfos, govToken])
+    return new TokenAmount(govToken, '0')
+  }, [govToken])
 }
 
 // based on typed value
