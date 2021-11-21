@@ -4,13 +4,11 @@ import useBlockchain from './useBlockchain'
 export default function usePlatformName(): string {
   const blockchain = useBlockchain()
   switch (blockchain) {
-    case Blockchain.BINANCE_SMART_CHAIN:
-      return 'Cobraswap'
     case Blockchain.HARMONY:
-      return 'ViperSwap'
+      return 'FoxSwap'
     case Blockchain.ETHEREUM:
       return 'FoxSwap'
     default:
-      return 'ViperSwap'
+      return 'FoxSwap'
   }
 }

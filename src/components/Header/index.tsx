@@ -7,8 +7,8 @@ import { useTranslation } from 'react-i18next'
 
 import styled from 'styled-components'
 
-// import ViperLogo from '../../assets/svg/viperswap/black.svg'
-// import ViperLogoDark from '../../assets/svg/viperswap/white.svg'
+// import ViperLogo from '../../assets/svg/foxswap/black.svg'
+// import ViperLogoDark from '../../assets/svg/foxswap/white.svg'
 // import CobraLogo from '../../assets/svg/cobraswap/black.svg'
 // import CobraLogoDark from '../../assets/svg/cobraswap/white.svg'
 import FoxLogo from '../../assets/svg/foxswap/img.png'
