@@ -2015,6 +2015,11 @@
   resolved "https://registry.yarnpkg.com/@foxswap/core/-/core-1.0.0.tgz#4002ddfecd4dd9e3cbe04f2e404a088c12ea7641"
   integrity sha512-94hPc6avu2nfVntXcccq8wo/zkh37I2qC0IxELYUUepR1OVUBPrCKPJFERXD2GWB4RsbtsRgAhd+3Ki5ho4hHA==
 
+"@foxswap/default-token-list@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@foxswap/default-token-list/-/default-token-list-2.1.1.tgz#a3f663e4df7c2557d97e69420264141e194ee1a5"
+  integrity sha512-iPJzPp9rx60kn7SggMmUN3cxXMRQqdGa0Uc95X0owPyCbONGIMt0nQcF5o8WFKNUO5SwVxfehTJzPvkRpED6Qg==
+
 "@foxswap/lib@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@foxswap/lib/-/lib-1.0.0.tgz#4713a9001009c80504eca980fce5bac01089797a"
