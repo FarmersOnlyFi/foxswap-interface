@@ -7,8 +7,8 @@
     "@ethersproject/experimental": "^5.1.2",
     "@foxswap/core": "^1.0.0",
     "@foxswap/periphery": "^1.0.0",
-    "@foxswap/sdk": "^1.1.4",
-    "@foxswap/sdk-extra": "^1.3.4",
+    "@foxswap/sdk": "^1.1.5",
+    "@foxswap/sdk-extra": "^1.3.8",
     "@popperjs/core": "^2.4.4",
     "@reach/dialog": "^0.10.3",
     "@reach/portal": "^0.10.3",
@@ -132,5 +132,5 @@
     "@foxswap/default-token-list": "^2.1.1",
     "toformat": "^2.0.0"
   },
-  "version": "0.0.5"
+  "version": "0.0.6"
 }
