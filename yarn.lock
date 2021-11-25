@@ -1775,6 +1775,11 @@
   resolved "https://registry.yarnpkg.com/@foxswap/default-token-list/-/default-token-list-2.1.1.tgz#a3f663e4df7c2557d97e69420264141e194ee1a5"
   integrity sha512-iPJzPp9rx60kn7SggMmUN3cxXMRQqdGa0Uc95X0owPyCbONGIMt0nQcF5o8WFKNUO5SwVxfehTJzPvkRpED6Qg==
 
+"@foxswap/default-token-list@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@foxswap/default-token-list/-/default-token-list-2.1.2.tgz#70a78c49a7fb975669f8a0d2a59f35f3ac139af0"
+  integrity sha512-2r5MnFMfCs8NJrUIiXr3nfinvANe0cR+kEJITotS8i5K55NFWe+jTboUiF4cfG42dUSzVtN1Gmo/VL7dIJX7FA==
+
 "@foxswap/lib@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@foxswap/lib/-/lib-1.0.0.tgz#4713a9001009c80504eca980fce5bac01089797a"
@@ -1788,22 +1793,22 @@
     "@foxswap/core" "1.0.0"
     "@foxswap/lib" "1.0.0"
 
-"@foxswap/sdk-extra@^1.3.4":
-  version "1.3.6"
-  resolved "https://registry.yarnpkg.com/@foxswap/sdk-extra/-/sdk-extra-1.3.6.tgz#01a5da2172198d93e7dc0c8b59f298a2c4172ca8"
-  integrity sha512-CZJo3r6m8N/YPj74mIc5j+w/qWwtdZCOF9uFr52lO3Ln4B3+kQCGMz3BKHK7MD+LRZcx6SOQqwuj4xYgWsKFOg==
+"@foxswap/sdk-extra@^1.3.8":
+  version "1.3.8"
+  resolved "https://registry.yarnpkg.com/@foxswap/sdk-extra/-/sdk-extra-1.3.8.tgz#2fafe1f9725888483a7cd2adb2ea5ad50a341a84"
+  integrity sha512-VPIPAmtAEMcN2dDwkXmeiEiRkhQNh2wBKZlo7zF1ZUVnOiuc4AwA8f0ujIb+pNyvayOFBvNHicoxI0Wj4223mw==
   dependencies:
     "@ethersproject/address" "^5.3.0"
     "@ethersproject/contracts" "^5.3.0"
     "@ethersproject/providers" "^5.3.0"
     "@ethersproject/solidity" "^5.3.0"
     "@foxswap/community-token-list" "^2.3.2"
+    "@foxswap/default-token-list" "^2.1.2"
     "@foxswap/sdk" "^1.1.5"
     "@types/lodash.random" "^3.2.6"
-    "@venomswap/default-token-list" "^5.3.0"
     lodash.random "^3.2.0"
 
-"@foxswap/sdk@^1.1.4", "@foxswap/sdk@^1.1.5":
+"@foxswap/sdk@^1.1.5":
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/@foxswap/sdk/-/sdk-1.1.5.tgz#79d1e90740b0ac569093a9d979c27cb7fbf862e3"
   integrity sha512-hCBWXp2e5lrlg05BHc7SKz/V25iCbg6Vu/uWamj0o9AFy6uZzY81InOmN6X2WLSGZdqj8ZDnx/WXftVqhC6jgg==
@@ -3273,11 +3278,6 @@
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/@venomswap/contracts/-/contracts-1.0.7.tgz#495753d815e98493991a308723b346abaa4dc26f"
   integrity sha512-RRL3uLb4h+6qKgkblSyd7vKkm8bH3AJloqHQg1Qr3u0EOIMH1rrNus21XAhypyw7Vo8ddxfg5gDbYIfQ4JkUDA==
-
-"@venomswap/default-token-list@^5.3.0":
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/@venomswap/default-token-list/-/default-token-list-5.3.0.tgz#3d1111940efc7863a10ae707c63eb08721490ada"
-  integrity sha512-A6Uben5EE/xQAeRzDoUtzSPEFi+QCwC4Eig/vHUO/bzZJLSM97uUg1ve9y3OyFLahwRf10ykvfrLxm2QQkABHQ==
 
 "@walletconnect/browser-utils@^1.6.6":
   version "1.6.6"
