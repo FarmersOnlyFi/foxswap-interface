@@ -5,9 +5,9 @@
   "private": false,
   "devDependencies": {
     "@ethersproject/experimental": "^5.1.2",
-    "@foxswap/core": "^1.0.0",
+    "@foxswap/core": "^1.0.1",
     "@foxswap/periphery": "^1.0.0",
-    "@foxswap/sdk": "^1.1.6",
+    "@foxswap/sdk": "^1.1.7",
     "@foxswap/sdk-extra": "^1.3.8",
     "@popperjs/core": "^2.4.4",
     "@reach/dialog": "^0.10.3",
