@@ -17,8 +17,8 @@ export const ROUTER_ADDRESSES: { [chainId in ChainId]: string } = {
   [ChainId.KOVAN]: ZERO_ONE_ADDRESS,
   [ChainId.BSC_MAINNET]: ZERO_ONE_ADDRESS,
   [ChainId.BSC_TESTNET]: ZERO_ONE_ADDRESS,
-  [ChainId.HARMONY_MAINNET]: '0x2136A1A1229A3572a07Dd431498E935385275f25',
-  [ChainId.HARMONY_TESTNET]: '0x2136A1A1229A3572a07Dd431498E935385275f25'
+  [ChainId.HARMONY_MAINNET]: '0x4A92aA1D58F1C9AB755Cb6cE1E8669344f39eA0D',
+  [ChainId.HARMONY_TESTNET]: '0x4A92aA1D58F1C9AB755Cb6cE1E8669344f39eA0D'
 }
 
 export const GOVERNANCE_ADDRESS = '0x5e4be8Bc9637f0EAA1A755019e06A68ce081D58F'
@@ -69,8 +69,8 @@ export const PIT_BREEDER: { [chainId in ChainId]: string } = {
   [ChainId.KOVAN]: ZERO_ONE_ADDRESS,
   [ChainId.BSC_MAINNET]: ZERO_ONE_ADDRESS,
   [ChainId.BSC_TESTNET]: ZERO_ONE_ADDRESS,
-  [ChainId.HARMONY_MAINNET]: '0x1A51AdcC669199B23CAD8713f7b27c8B9253565e',
-  [ChainId.HARMONY_TESTNET]: '0x1A51AdcC669199B23CAD8713f7b27c8B9253565e'
+  [ChainId.HARMONY_MAINNET]: '0x9D28bE93bC69e5E29072E54E48354ab1180c6B98',
+  [ChainId.HARMONY_TESTNET]: '0x9D28bE93bC69e5E29072E54E48354ab1180c6B98'
 }
 
 export const PIT: { [chainId in ChainId]: Token } = {
@@ -83,14 +83,14 @@ export const PIT: { [chainId in ChainId]: Token } = {
   [ChainId.BSC_TESTNET]: new Token(ChainId.BSC_TESTNET, ZERO_ONE_ADDRESS, 18, 'xFOX', 'FoxDen'),
   [ChainId.HARMONY_MAINNET]: new Token(
     ChainId.HARMONY_MAINNET,
-    '0x9E49E395683501780e3069493161b30DaD31874e',
+    '0xb6514fE45a4A11Bfd6aD5d6F2eFF745a98207288',
     18,
     'xFOX',
     'FoxDen'
   ),
   [ChainId.HARMONY_TESTNET]: new Token(
     ChainId.HARMONY_TESTNET,
-    '0x9E49E395683501780e3069493161b30DaD31874e',
+    '0xb6514fE45a4A11Bfd6aD5d6F2eFF745a98207288',
     18,
     'xFOX',
     'FoxDen'
@@ -172,11 +172,11 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   [ChainId.HARMONY_MAINNET]: [
     ...WETH_ONLY[ChainId.HARMONY_MAINNET],
     getTokenWithDefault(ChainId.HARMONY_MAINNET, 'BUSD'),
-    getTokenWithDefault(ChainId.HARMONY_MAINNET, 'bscBUSD'),
+    getTokenWithDefault(ChainId.HARMONY_MAINNET, 'UST'),
     getTokenWithDefault(ChainId.HARMONY_MAINNET, '1USDC'),
     getTokenWithDefault(ChainId.HARMONY_MAINNET, 'FOX'),
     getTokenWithDefault(ChainId.HARMONY_MAINNET, '1ETH'),
-    getTokenWithDefault(ChainId.HARMONY_MAINNET, 'LINK')
+    getTokenWithDefault(ChainId.HARMONY_MAINNET, 'MIS')
   ]
 }
 
@@ -196,7 +196,7 @@ export const SUGGESTED_BASES: ChainTokenList = {
   [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, USDC, USDT, WBTC],
   [ChainId.HARMONY_MAINNET]: [
     ...WETH_ONLY[ChainId.HARMONY_MAINNET],
-    getTokenWithDefault(ChainId.HARMONY_MAINNET, 'BUSD'),
+    getTokenWithDefault(ChainId.HARMONY_MAINNET, 'UST'),
     getTokenWithDefault(ChainId.HARMONY_MAINNET, 'FOX')
   ]
 }
@@ -208,11 +208,11 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   [ChainId.HARMONY_MAINNET]: [
     ...WETH_ONLY[ChainId.HARMONY_MAINNET],
     getTokenWithDefault(ChainId.HARMONY_MAINNET, 'BUSD'),
-    getTokenWithDefault(ChainId.HARMONY_MAINNET, 'bscBUSD'),
+    getTokenWithDefault(ChainId.HARMONY_MAINNET, 'UST'),
     getTokenWithDefault(ChainId.HARMONY_MAINNET, '1USDC'),
     getTokenWithDefault(ChainId.HARMONY_MAINNET, 'FOX'),
     getTokenWithDefault(ChainId.HARMONY_MAINNET, '1ETH'),
-    getTokenWithDefault(ChainId.HARMONY_MAINNET, 'LINK')
+    getTokenWithDefault(ChainId.HARMONY_MAINNET, 'MIS')
   ]
 }
 
