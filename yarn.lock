@@ -1770,6 +1770,11 @@
   resolved "https://registry.yarnpkg.com/@foxswap/core/-/core-1.0.0.tgz#4002ddfecd4dd9e3cbe04f2e404a088c12ea7641"
   integrity sha512-94hPc6avu2nfVntXcccq8wo/zkh37I2qC0IxELYUUepR1OVUBPrCKPJFERXD2GWB4RsbtsRgAhd+3Ki5ho4hHA==
 
+"@foxswap/core@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@foxswap/core/-/core-1.0.1.tgz#8e8dbb567bf50154d5158183afa7eb78ad7efa85"
+  integrity sha512-UWpJJsOc0sAkRtViggJ/ACLCAGgVbgJ1TsXdJsHdM0NOZ8LQB4bhzKNPb8+x/rAIOFSRQA10hyWu+ZZtSP/QfQ==
+
 "@foxswap/default-token-list@^2.1.1":
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/@foxswap/default-token-list/-/default-token-list-2.1.1.tgz#a3f663e4df7c2557d97e69420264141e194ee1a5"
@@ -1814,6 +1819,19 @@
   integrity sha512-hCBWXp2e5lrlg05BHc7SKz/V25iCbg6Vu/uWamj0o9AFy6uZzY81InOmN6X2WLSGZdqj8ZDnx/WXftVqhC6jgg==
   dependencies:
     "@foxswap/core" "^1.0.0"
+    big.js "^5.2.2"
+    decimal.js-light "^2.5.0"
+    jsbi "^3.1.1"
+    tiny-invariant "^1.1.0"
+    tiny-warning "^1.0.3"
+    toformat "^2.0.0"
+
+"@foxswap/sdk@^1.1.6":
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/@foxswap/sdk/-/sdk-1.1.6.tgz#ee9982d4aceeca5bc17012ed0e58bcbe8a492dbf"
+  integrity sha512-KbXW/Qs0Gq/QCOhyH+bzpvUrUjsJhuNXweqJWyuxzqKuoAQA3hTTxNNUhY/o19mEIE1wdl3VIHK9dp3koC50tQ==
+  dependencies:
+    "@foxswap/core" "^1.0.1"
     big.js "^5.2.2"
     decimal.js-light "^2.5.0"
     jsbi "^3.1.1"
