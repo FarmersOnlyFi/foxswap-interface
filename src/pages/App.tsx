@@ -19,10 +19,12 @@ import {
 } from './AddLiquidity/redirects'
 
 import Pit from './Pit'
+import Bond from './Bond'
 import MigrateV1 from './MigrateV1'
 import MigrateV1Exchange from './MigrateV1/MigrateV1Exchange'
 import RemoveV1Exchange from './MigrateV1/RemoveV1Exchange'
 import Pool from './Pool'
+import Earn from './Earn'
 import PoolFinder from './PoolFinder'
 import RemoveLiquidity from './RemoveLiquidity'
 import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redirects'
@@ -109,6 +111,8 @@ export default function App() {
               <Route exact strict path="/send" component={RedirectPathToSwapOnly} />
               <Route exact strict path="/find" component={PoolFinder} />
               <Route exact strict path="/pool" component={Pool} />
+              <Route exact strict path="/bond" component={Bond} />
+              <Route exact strict path="/stake" component={Earn} />
               <Route exact strict path={pitSettings?.path} component={Pit} />
               {blockchain === Blockchain.ETHEREUM && <Route exact strict path="/vote" component={Vote} />}
               <Route exact strict path="/create" component={RedirectToAddLiquidity} />
