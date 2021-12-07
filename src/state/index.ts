@@ -10,19 +10,30 @@ import mint from './mint/reducer'
 import lists from './lists/reducer'
 import burn from './burn/reducer'
 import multicall from './multicall/reducer'
-
+import accountReducer from "./slices/account-slice";
+import bondingReducer from "./slices/bond-slice";
+import appReducer from "./slices/app-slice";
+import pendingTransactionsReducer from "./slices/pending-txns-slice";
+import messagesReducer from "./slices/messages-slice";
+import wrappingReducer from "./slices/wrap-slice";
 const PERSISTED_KEYS: string[] = ['user', 'transactions', 'lists']
 
 const store = configureStore({
   reducer: {
-    application,
-    user,
-    transactions,
-    swap,
-    mint,
-    burn,
-    multicall,
-    lists
+    application: application,
+    user: user,
+    transactions: transactions,
+    swap: swap,
+    mint: mint,
+    burn: burn,
+    multicall: multicall,
+    lists: lists,
+    account: accountReducer,
+    bonding: bondingReducer,
+    app: appReducer,
+    pendingTransactions: pendingTransactionsReducer,
+    messages: messagesReducer,
+    wrapping: wrappingReducer,
   },
   middleware: [...getDefaultMiddleware({ thunk: false }), save({ states: PERSISTED_KEYS })],
   preloadedState: load({ states: PERSISTED_KEYS })

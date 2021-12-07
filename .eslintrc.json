@@ -11,7 +11,8 @@
   "ignorePatterns": [
     "node_modules/**/*",
     "build/**/*",
-    "dist/**/*"
+    "dist/**/*",
+    "src/**/*"
   ],
   "settings": {
     "react": {

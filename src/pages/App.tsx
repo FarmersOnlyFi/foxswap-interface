@@ -17,9 +17,10 @@ import {
   RedirectOldAddLiquidityPathStructure,
   RedirectToAddLiquidity
 } from './AddLiquidity/redirects'
+import { RedirectToBond } from './Bond/redirects'
 
 import Pit from './Pit'
-import Bond from './Bond'
+// import Bond from './Bond'
 import MigrateV1 from './MigrateV1'
 import MigrateV1Exchange from './MigrateV1/MigrateV1Exchange'
 import RemoveV1Exchange from './MigrateV1/RemoveV1Exchange'
@@ -38,6 +39,8 @@ import usePlatformName from '../hooks/usePlatformName'
 
 import { Blockchain } from '@foxswap/sdk'
 import useBlockchain from '../hooks/useBlockchain'
+import ChooseBond from "./ChooseBond";
+import Bond from "./Bond/backup-index";
 
 const AppWrapper = styled.div`
   display: flex;
@@ -111,7 +114,9 @@ export default function App() {
               <Route exact strict path="/send" component={RedirectPathToSwapOnly} />
               <Route exact strict path="/find" component={PoolFinder} />
               <Route exact strict path="/pool" component={Pool} />
-              <Route exact strict path="/bond" component={Bond} />
+              <Route exact strict path="/bond" component={ChooseBond} />
+              <Route exact strict path="/mint" component={Bond} />
+              <Route exact strict path="/mint/:bond" component={RedirectToBond} />
               <Route exact strict path="/stake" component={Earn} />
               <Route exact strict path={pitSettings?.path} component={Pit} />
               {blockchain === Blockchain.ETHEREUM && <Route exact strict path="/vote" component={Vote} />}

@@ -1,62 +1,84 @@
-import styled from 'styled-components'
-import { AutoColumn } from '../../components/Column'
-import React from 'react'
-import './bond.scss'
-import Row, { RowBetween } from '../../components/Row'
-import { CardNoise, CardSection, DataCard } from '../../components/earn/styled'
-import { TYPE } from '../../theme'
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { trim } from "../../helpers";
+import { Grid, Backdrop, Box, Fade } from "@material-ui/core";
+// @ts-ignore
+import TabPanel from "../../components/TabPanel";
+import BondHeader from "./BondHeader";
+import BondRedeem from "./BondRedeem";
+import BondPurchase from "./BondPurchase";
+import "./bond.scss";
+// import { useWeb3Context } from "../../hooks/web3-context";
+import { Skeleton } from "@material-ui/lab";
+import { IReduxState } from "../../state/slices/state.interface";
+import { IAllBondData } from "../../hooks/useBonds";
+import classnames from "classnames";
+import React from "react";
 
-const PageWrapper = styled(AutoColumn)`
-  max-width: 640px;
-  width: 100%;
-`
-const CustomCard = styled(DataCard)`
-  background: radial-gradient(
-    76.02% 75.41% at 1.84% 0%,
-    ${({ theme }) => theme.customCardGradientStart} 0%,
-    ${({ theme }) => theme.customCardGradientEnd} 100%
-  );
-  overflow: hidden;
-`
-
-export default function Bond() {
-  return (
-    <PageWrapper>
-      <Row>
-        <CustomCard>
-          <CardSection>
-            <CardNoise />
-            <AutoColumn gap="md">
-              <RowBetween>
-                <TYPE.white fontWeight={600}>FOX - DEX fee sharing</TYPE.white>
-              </RowBetween>
-              <RowBetween style={{ alignItems: 'baseline' }}>
-                <TYPE.white fontSize={14}>
-                  Stake your xFOX tokens and earn 1/3rd of the generated trading fees.
-                </TYPE.white>
-              </RowBetween>
-              <br />
-            </AutoColumn>
-          </CardSection>
-        </CustomCard>
-      </Row>
-      <BondButton buttonText="Bond" />
-    </PageWrapper>
-  )
+interface IBondProps {
+    bond: IAllBondData;
 }
 
-function BondButton(props: any) {
-  return (
-    <div className="container">
-      <div className="center">
-        <button className="btn">
-          <svg width="180px" height="60px" viewBox="0 0 180 60" className="border">
-            <polyline points="179,1 179,59 1,59 1,1 179,1" className="bg-line" />
-            <polyline points="179,1 179,59 1,59 1,1 179,1" className="hl-line" />
-          </svg>
-          <span>{props.buttonText}</span>
-        </button>
-      </div>
-    </div>
-  )
+function Bond({ bond }: IBondProps) {
+    // const { address } = useWeb3Context();
+
+    const [slippage, setSlippage] = useState(0.5);
+
+    const [view, setView] = useState(0);
+
+    const isBondLoading = useSelector<IReduxState, boolean>(state => state.bonding.loading ?? true);
+
+    const onSlippageChange = (value: any) => {
+        return setSlippage(value);
+    };
+
+    const changeView = (newView: number) => () => {
+        setView(newView);
+    };
+
+    return (
+        <Fade in={true} mountOnEnter unmountOnExit>
+            <Grid className="bond-view">
+                <Backdrop open={true}>
+                    <Fade in={true}>
+                        <div className="bond-card">
+                            <BondHeader bond={bond} slippage={slippage} onSlippageChange={onSlippageChange} />
+                            {/* @ts-ignore */}
+                            <Box direction="row" className="bond-price-data-row">
+                                <div className="bond-price-data">
+                                    <p className="bond-price-data-title">Mint Price</p>
+                                    <p className="bond-price-data-value">
+                                        {isBondLoading ? <Skeleton /> : bond.isLP || bond.name === "wavax" ? `$${trim(bond.bondPrice, 2)}` : `${trim(bond.bondPrice, 2)} MIM`}
+                                    </p>
+                                </div>
+                                <div className="bond-price-data">
+                                    <p className="bond-price-data-title">TIME Price</p>
+                                    <p className="bond-price-data-value">{isBondLoading ? <Skeleton /> : `$${trim(bond.marketPrice, 2)}`}</p>
+                                </div>
+                            </Box>
+
+                            <div className="bond-one-table">
+                                <div className={classnames("bond-one-table-btn", { active: !view })} onClick={changeView(0)}>
+                                    <p>Mint</p>
+                                </div>
+                                <div className={classnames("bond-one-table-btn", { active: view })} onClick={changeView(1)}>
+                                    <p>Redeem</p>
+                                </div>
+                            </div>
+
+                            <TabPanel value={view} index={0}>
+                                <BondPurchase bond={bond} slippage={slippage} />
+                            </TabPanel>
+
+                            <TabPanel value={view} index={1}>
+                                <BondRedeem bond={bond} />
+                            </TabPanel>
+                        </div>
+                    </Fade>
+                </Backdrop>
+            </Grid>
+        </Fade>
+    );
 }
+
+export default Bond;
