@@ -122,7 +122,7 @@ export default function Pool() {
 
   const hasV1Liquidity = useUserHasLiquidityInAllTokens()
 
-  // show liquidity even if its deposited in rewards contract
+  // // show liquidity even if its deposited in rewards contract
   const stakingInfo = useStakingInfo(true)
   const stakingInfosWithBalance = stakingInfo?.filter(pool => JSBI.greaterThan(pool.stakedAmount.raw, BIG_INT_ZERO))
   const stakingPairs = usePairs(stakingInfosWithBalance?.map(stakingInfo => stakingInfo.tokens))

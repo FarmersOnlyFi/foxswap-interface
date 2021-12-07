@@ -7,14 +7,11 @@ import { abi as MASTER_BREEDER_ABI } from '@venomswap/contracts/build/MasterBree
 import { abi as PIT_ABI } from '@venomswap/contracts/build/Pit.json'
 import { abi as PIT_BREEDER_ABI } from '@venomswap/contracts/build/PitBreeder.json'
 import { abi as MERKLE_DISTRIBUTOR_ABI } from '@uniswap/merkle-distributor/build/MerkleDistributor.json'
-import { ChainId, WETH } from '@foxswap/sdk'
+import { WETH } from '@foxswap/sdk'
 import { abi as IUniswapV2PairABI } from '@foxswap/core/build/IUniswapV2Pair.json'
 import { useMemo } from 'react'
 import { GOVERNANCE_ADDRESS, MERKLE_DISTRIBUTOR_ADDRESS, MASTER_BREEDER, PIT, PIT_BREEDER } from '../constants'
-import {
-  ARGENT_WALLET_DETECTOR_ABI,
-  ARGENT_WALLET_DETECTOR_MAINNET_ADDRESS
-} from '../constants/abis/argent-wallet-detector'
+import { ARGENT_WALLET_DETECTOR_ABI } from '../constants/abis/argent-wallet-detector'
 import ENS_PUBLIC_RESOLVER_ABI from '../constants/abis/ens-public-resolver.json'
 import ENS_ABI from '../constants/abis/ens-registrar.json'
 import { ERC20_BYTES32_ABI } from '../constants/abis/erc20'
@@ -66,27 +63,22 @@ export function useWETHContract(withSignerIfPossible?: boolean): Contract | null
 }
 
 export function useArgentWalletDetectorContract(): Contract | null {
-  const { chainId } = useActiveWeb3React()
-  return useContract(
-    chainId === ChainId.MAINNET ? ARGENT_WALLET_DETECTOR_MAINNET_ADDRESS : undefined,
-    ARGENT_WALLET_DETECTOR_ABI,
-    false
-  )
+  return useContract(undefined, ARGENT_WALLET_DETECTOR_ABI, false)
 }
 
 export function useENSRegistrarContract(withSignerIfPossible?: boolean): Contract | null {
-  const { chainId } = useActiveWeb3React()
+  // const { chainId } = useActiveWeb3React()
   let address: string | undefined
-  if (chainId) {
-    switch (chainId) {
-      case ChainId.MAINNET:
-      case ChainId.GÖRLI:
-      case ChainId.ROPSTEN:
-      case ChainId.RINKEBY:
-        address = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e'
-        break
-    }
-  }
+  // if (chainId) {
+  //   switch (chainId) {
+  //     // case ChainId.MAINNET:
+  //     // case ChainId.GÖRLI:
+  //     // case ChainId.ROPSTEN:
+  //     // case ChainId.RINKEBY:
+  //       address = '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e'
+  //       break
+  //   }
+  // }
   return useContract(address, ENS_ABI, withSignerIfPossible)
 }
 
@@ -145,10 +137,6 @@ export function useMasterBreederContract(withSignerIfPossible?: boolean): Contra
 }
 
 export function useSocksController(): Contract | null {
-  const { chainId } = useActiveWeb3React()
-  return useContract(
-    chainId === ChainId.MAINNET ? '0x65770b5283117639760beA3F867b69b3697a91dd' : undefined,
-    UNISOCKS_ABI,
-    false
-  )
+  // const { chainId } = useActiveWeb3React()
+  return useContract(undefined, UNISOCKS_ABI, false)
 }

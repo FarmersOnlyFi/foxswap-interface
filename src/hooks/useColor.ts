@@ -2,13 +2,13 @@ import { useState, useLayoutEffect } from 'react'
 import { shade } from 'polished'
 import Vibrant from 'node-vibrant'
 import { hex } from 'wcag-contrast'
-import { Token, ChainId } from '@foxswap/sdk'
+import { Token } from '@foxswap/sdk'
 import uriToHttp from 'utils/uriToHttp'
 
 async function getColorFromToken(token: Token): Promise<string | null> {
-  if (token.chainId === ChainId.RINKEBY && token.address === '0xc7AD46e0b8a400Bb3C915120d284AafbA8fc4735') {
-    return Promise.resolve('#FAAB14')
-  }
+  // if (token.chainId === ChainId.RINKEBY && token.address === '0xc7AD46e0b8a400Bb3C915120d284AafbA8fc4735') {
+  //   return Promise.resolve('#FAAB14')
+  // }
 
   const path = [56, 97, 1666600000, 1666700000].includes(token.chainId)
     ? `https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/${token.symbol}.png`

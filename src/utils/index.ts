@@ -19,13 +19,13 @@ export function isAddress(value: any): string | false {
 }
 
 const ETHERSCAN_PREFIXES: { [chainId in ChainId]: string } = {
-  1: '',
-  3: 'ropsten.',
-  4: 'rinkeby.',
-  5: 'goerli.',
-  42: 'kovan.',
-  56: 'bscscan.com',
-  97: 'testnet.bscscan.com',
+  // 1: '',
+  // 3: 'ropsten.',
+  // 4: 'rinkeby.',
+  // 5: 'goerli.',
+  // 42: 'kovan.',
+  // 56: 'bscscan.com',
+  // 97: 'testnet.bscscan.com',
   1666600000: 'explorer.harmony.one/#',
   1666700000: 'explorer.testnet.harmony.one/#'
 }
@@ -35,7 +35,7 @@ export function getEtherscanLink(
   data: string,
   type: 'transaction' | 'token' | 'address' | 'block'
 ): string {
-  let prefix = `https://${ETHERSCAN_PREFIXES[chainId] || ETHERSCAN_PREFIXES[1]}`
+  let prefix = `https://${ETHERSCAN_PREFIXES[chainId]}`
   prefix = [56, 97, 1666600000, 1666700000].includes(chainId) ? prefix : `${prefix}etherscan.io`
 
   switch (type) {
