@@ -49,7 +49,9 @@ export const GOVERNANCE_TOKEN: { [chainId in ChainId]: Token } = {
   )
 }
 
-export const MASTER_BREEDER: { [chainId in ChainId]: string } = {
+export declare enum ChainIdEmpty {}
+
+export const MASTER_BREEDER: { [chainId in ChainIdEmpty]: string } = {
   // [ChainId.MAINNET]: ZERO_ONE_ADDRESS,
   // [ChainId.RINKEBY]: ZERO_ONE_ADDRESS,
   // [ChainId.ROPSTEN]: ZERO_ONE_ADDRESS,
@@ -57,8 +59,8 @@ export const MASTER_BREEDER: { [chainId in ChainId]: string } = {
   // [ChainId.KOVAN]: ZERO_ONE_ADDRESS,
   // [ChainId.BSC_MAINNET]: ZERO_ONE_ADDRESS,
   // [ChainId.BSC_TESTNET]: ZERO_ONE_ADDRESS,
-  [ChainId.HARMONY_MAINNET]: '0x15e04418d328c39ba747690f6dae9bbf548cd358',
-  [ChainId.HARMONY_TESTNET]: '0x15e04418d328c39ba747690f6dae9bbf548cd358'
+  // [ChainId.HARMONY_MAINNET]: '0x15e04418d328c39ba747690f6dae9bbf548cd358',
+  // [ChainId.HARMONY_TESTNET]: '0x15e04418d328c39ba747690f6dae9bbf548cd358'
 }
 
 export const PIT_BREEDER: { [chainId in ChainId]: string } = {
