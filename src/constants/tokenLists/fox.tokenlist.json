@@ -1,9 +1,9 @@
 {
-  "name": "Venomswap Default",
-  "timestamp": "2021-11-30T18:09:45.600Z",
+  "name": "FoxSwap Default",
+  "timestamp": "2021-12-06T18:09:45.600Z",
   "version": {
-    "major": 5,
-    "minor": 4,
+    "major": 1,
+    "minor": 1,
     "patch": 0
   },
   "tags": {},
@@ -252,6 +252,30 @@
       "name": "Tranquil",
       "decimals": 18,
       "logoURI": "https://app.farmersonly.fi/assets/images/tokens/tranq.svg"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0x9b68BF4bF89c115c721105eaf6BD5164aFcc51E4",
+      "symbol": "XYA",
+      "name": "Freyala",
+      "decimals": 18,
+      "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/XYA.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0x340042552D19211795dbe55d84FA2E63bc49B890",
+      "symbol": "YANG",
+      "name": "Yang",
+      "decimals": 18,
+      "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/YANG.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0xE59AA7f9e91B4Cc6C25D3542CEcb851e0316138c",
+      "symbol": "YIN",
+      "name": "Yin",
+      "decimals": 18,
+      "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/YIN.png"
     }
   ]
 }

@@ -17,9 +17,10 @@ const CMC_ALL_LIST = 'defi.cmc.eth'
 const CMC_STABLECOIN = 'stablecoin.cmc.eth'
 const KLEROS_LIST = 't2crtokens.eth'
 const GEMINI_LIST = 'https://www.gemini.com/uniswap/manifest.json'*/
-const VENOMSWAP_DEFAULT_LIST = 'https://d1xrz6ki9z98vb.cloudfront.net/venomswap/lists/venomswap-default.tokenlist.json'
-const VENOMSWAP_COMMUNITY_LIST =
-  'https://d1xrz6ki9z98vb.cloudfront.net/venomswap/lists/venomswap-community.tokenlist.json'
+// const VENOMSWAP_DEFAULT_LIST = 'https://d1xrz6ki9z98vb.cloudfront.net/venomswap/lists/venomswap-default.tokenlist.json'
+// const VENOMSWAP_COMMUNITY_LIST = 'https://d1xrz6ki9z98vb.cloudfront.net/venomswap/lists/venomswap-community.tokenlist.json'
+const FOXSWAP_DEFUALT_LIST =
+  'https://raw.githubusercontent.com/FarmersOnlyFi/foxswap-interface/main/src/constants/tokenLists/fox.tokenlist.json'
 
 // lower index == higher priority for token import
 export const DEFAULT_LIST_OF_LISTS: string[] = [
@@ -36,10 +37,9 @@ export const DEFAULT_LIST_OF_LISTS: string[] = [
   CMC_STABLECOIN,
   KLEROS_LIST,
   GEMINI_LIST,*/
-  VENOMSWAP_DEFAULT_LIST,
-  VENOMSWAP_COMMUNITY_LIST,
+  FOXSWAP_DEFUALT_LIST,
   ...UNSUPPORTED_LIST_URLS // need to load unsupported tokens as well
 ]
 
 // default lists to be 'active' aka searched across
-export const DEFAULT_ACTIVE_LIST_URLS: string[] = [VENOMSWAP_DEFAULT_LIST]
+export const DEFAULT_ACTIVE_LIST_URLS: string[] = [FOXSWAP_DEFUALT_LIST]
