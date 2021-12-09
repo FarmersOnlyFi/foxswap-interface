@@ -1826,10 +1826,10 @@
     tiny-warning "^1.0.3"
     toformat "^2.0.0"
 
-"@foxswap/sdk@^1.1.8":
-  version "1.1.8"
-  resolved "https://registry.yarnpkg.com/@foxswap/sdk/-/sdk-1.1.8.tgz#d8c535a6f1850207c224415dfa992c162727e5bf"
-  integrity sha512-0SfUN/dsR1HFM6zfhefYb6z8MZwl3/LC/qtENWMVCKB5Bj7yOPdlTO61XcX7vq0Qnu2TRt4MU/EOuTuFzEqwZQ==
+"@foxswap/sdk@^1.1.9":
+  version "1.1.9"
+  resolved "https://registry.yarnpkg.com/@foxswap/sdk/-/sdk-1.1.9.tgz#b185d3f6cb994e0568bf31b514504aef73a62e52"
+  integrity sha512-bZx0D3p1c5Yopf5vWxse5qBR3cDDs09+oLT6pOYvyOZEA1gnSt3pOQz0zzlfT+acYR0jAkG7wayMi5i8YSM05A==
   dependencies:
     "@foxswap/core" "^1.0.1"
     big.js "^5.2.2"
