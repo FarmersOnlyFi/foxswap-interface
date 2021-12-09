@@ -14,8 +14,13 @@ import useBlockchain from '../../hooks/useBlockchain'
 export const getTokenLogoURL = (address: string) =>
   `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`
 
-export const getTokenFallbackLogoURL = (currency: Currency) =>
-  `https://app.farmersonly.fi/assets/images/tokens/${currency.symbol?.toLocaleLowerCase()}.png`
+export const getTokenFallbackLogoURL = (currency: Currency) => {
+  const symbol = currency.symbol?.toLocaleLowerCase()
+  if (symbol && (symbol === 'fox' || symbol === 'mis' || symbol === 'rvrs')) {
+    return `https://app.farmersonly.fi/assets/images/tokens/${symbol}.png`
+  }
+  return `https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/${currency.symbol}.png`
+}
 
 const StyledEthereumLogo = styled.img<{ size: string }>`
   width: ${({ size }) => size};
@@ -34,7 +39,7 @@ const StyledLogo = styled(Logo)<{ size: string }>`
 
 export default function CurrencyLogo({
   currency,
-  size = '24px',
+  size = '30px',
   style
 }: {
   currency?: Currency
