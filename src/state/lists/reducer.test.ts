@@ -1,4 +1,4 @@
-import { DEFAULT_ACTIVE_LIST_URLS } from './../../constants/lists'
+import { DEFAULT_ACTIVE_LIST_URLS } from '../../constants/lists'
 import { createStore, Store } from 'redux'
 import { DEFAULT_LIST_OF_LISTS } from '../../constants/lists'
 import { updateVersion } from '../global/actions'
@@ -435,9 +435,7 @@ describe('list reducer', () => {
 
       it('clears the current lists', () => {
         expect(
-          store.getState().byUrl[
-            'https://unpkg.com/@foxswap/default-token-list@latest/uniswap-default.tokenlist.json'
-          ]
+          store.getState().byUrl['https://unpkg.com/@foxswap/default-token-list@latest/uniswap-default.tokenlist.json']
         ).toBeUndefined()
         expect(store.getState().byUrl['https://unpkg.com/@foxswap/default-token-list@latest']).toBeUndefined()
       })
@@ -488,9 +486,7 @@ describe('list reducer', () => {
 
       it('does not remove lists not in last initialized list of lists', () => {
         expect(
-          store.getState().byUrl[
-            'https://unpkg.com/@foxswap/default-token-list@latest/uniswap-default.tokenlist.json'
-          ]
+          store.getState().byUrl['https://unpkg.com/@foxswap/default-token-list@latest/uniswap-default.tokenlist.json']
         ).toEqual({
           error: null,
           current: STUB_TOKEN_LIST,

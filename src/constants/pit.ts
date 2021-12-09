@@ -34,15 +34,5 @@ export const PIT_POOLS: {
       pid: 0,
       tokens: getPairTokensWithDefaults(ChainId.HARMONY_TESTNET, 'WONE/BUSD')
     }
-  ],
-  [ChainId.BSC_TESTNET]: [
-    {
-      pid: 0,
-      tokens: getPairTokensWithDefaults(ChainId.BSC_TESTNET, 'WBNB/BUSD')
-    },
-    {
-      pid: 1,
-      tokens: getPairTokensWithDefaults(ChainId.BSC_TESTNET, 'WBNB/COBRA')
-    }
   ]
 }

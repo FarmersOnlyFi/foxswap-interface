@@ -15,7 +15,7 @@ export const getTokenLogoURL = (address: string) =>
   `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`
 
 export const getTokenFallbackLogoURL = (currency: Currency) =>
-  `https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/${currency.symbol}.png`
+  `https://app.farmersonly.fi/assets/images/tokens/${currency.symbol?.toLocaleLowerCase()}.png`
 
 const StyledEthereumLogo = styled.img<{ size: string }>`
   width: ${({ size }) => size};
@@ -48,7 +48,7 @@ export default function CurrencyLogo({
     if (currency && DEFAULT_CURRENCIES.includes(currency)) return []
 
     if (currency instanceof Token) {
-      const logoUrlLocation = [56, 97, 1666600000, 1666700000].includes(currency.chainId)
+      const logoUrlLocation = [1666600000, 1666700000].includes(currency.chainId)
         ? getTokenFallbackLogoURL(currency)
         : getTokenLogoURL(currency.address)
 
