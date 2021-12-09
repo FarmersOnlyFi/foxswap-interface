@@ -9,6 +9,5 @@ export interface StakingRewardsInfo {
 export const STAKING_REWARDS_INFO: {
   [chainId in ChainId]?: StakingRewardsInfo[]
 } = {
-  [ChainId.HARMONY_MAINNET]: [],
-  [ChainId.BSC_TESTNET]: []
+  [ChainId.HARMONY_MAINNET]: []
 }

@@ -1775,10 +1775,10 @@
   resolved "https://registry.yarnpkg.com/@foxswap/core/-/core-1.0.1.tgz#8e8dbb567bf50154d5158183afa7eb78ad7efa85"
   integrity sha512-UWpJJsOc0sAkRtViggJ/ACLCAGgVbgJ1TsXdJsHdM0NOZ8LQB4bhzKNPb8+x/rAIOFSRQA10hyWu+ZZtSP/QfQ==
 
-"@foxswap/default-token-list@^2.1.3":
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/@foxswap/default-token-list/-/default-token-list-2.1.3.tgz#4f0a5df3d008bc7688392e3c2565585360e4075c"
-  integrity sha512-k+aa/OmIR3EuotXjsT8w9aodJAOUMZ1cqg7qoChgk35BDcaUT1jbN++oleBjWl3QHyuEFC1Cy7lwA2C7pH7+/g==
+"@foxswap/default-token-list@^2.1.4":
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/@foxswap/default-token-list/-/default-token-list-2.1.4.tgz#3a16d746e2ba77221bbc3ec13cd190178fcf19c9"
+  integrity sha512-TcLV/pPxyjS3tkT5Ah/Y2VOQLl0HbuYZtpLEtHxitZKsKn7yUdtsErX5mDRLAweyuYel8EDVoQpOSGBW1lhJRQ==
 
 "@foxswap/lib@1.0.0":
   version "1.0.0"
@@ -1793,17 +1793,17 @@
     "@foxswap/core" "1.0.0"
     "@foxswap/lib" "1.0.0"
 
-"@foxswap/sdk-extra@^1.3.9":
-  version "1.3.9"
-  resolved "https://registry.yarnpkg.com/@foxswap/sdk-extra/-/sdk-extra-1.3.9.tgz#f9a1e19427f66ae9d7588a5cee5c48b4b8635def"
-  integrity sha512-qPI8EarJujXv5/QgDuyt+4NGv1qn+QO22NTXhpBiNnqkqey2PlHwze5OlEEhEi7G44aA2RSYGO+DTEUkIis9JQ==
+"@foxswap/sdk-extra@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@foxswap/sdk-extra/-/sdk-extra-1.4.0.tgz#84556570ea96837ed536924c6947030b3d905c16"
+  integrity sha512-YJ/tEV6IEzg0sxvp1/LD5XTVtdiS4VyF1AFGAw0uHoYyIHCNs3eXhGOTbsnv5a5gABwYrUczAdphMMj9xamq4g==
   dependencies:
     "@ethersproject/address" "^5.3.0"
     "@ethersproject/contracts" "^5.3.0"
     "@ethersproject/providers" "^5.3.0"
     "@ethersproject/solidity" "^5.3.0"
     "@foxswap/community-token-list" "^2.3.2"
-    "@foxswap/default-token-list" "^2.1.3"
+    "@foxswap/default-token-list" "^2.1.4"
     "@foxswap/sdk" "^1.1.7"
     "@types/lodash.random" "^3.2.6"
     lodash.random "^3.2.0"

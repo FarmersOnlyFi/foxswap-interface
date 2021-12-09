@@ -3,7 +3,7 @@ import { Currency, CurrencyAmount, Pair, Token, Trade } from '@foxswap/sdk'
 import flatMap from 'lodash.flatmap'
 import { useMemo } from 'react'
 
-import { BASES_TO_CHECK_TRADES_AGAINST, CUSTOM_BASES, BETTER_TRADE_LESS_HOPS_THRESHOLD } from '../constants'
+import { BASES_TO_CHECK_TRADES_AGAINST, BETTER_TRADE_LESS_HOPS_THRESHOLD } from '../constants'
 import { PairState, usePairs } from '../data/Reserves'
 import { wrappedCurrency } from '../utils/wrappedCurrency'
 
@@ -45,7 +45,7 @@ function useAllCommonPairs(currencyA?: Currency, currencyB?: Currency): Pair[] {
             .filter(([t0, t1]) => t0.address !== t1.address)
             .filter(([tokenA, tokenB]) => {
               if (!chainId) return true
-              const customBases = CUSTOM_BASES[chainId]
+              const customBases = false
               if (!customBases) return true
 
               const customBasesA: Token[] | undefined = customBases[tokenA.address]
@@ -53,8 +53,8 @@ function useAllCommonPairs(currencyA?: Currency, currencyB?: Currency): Pair[] {
 
               if (!customBasesA && !customBasesB) return true
 
-              if (customBasesA && !customBasesA.find(base => tokenB.equals(base))) return false
-              if (customBasesB && !customBasesB.find(base => tokenA.equals(base))) return false
+              // if (customBasesA && !customBasesA.find((base: any) => tokenB.equals(base))) return false
+              // if (customBasesB && !customBasesB.find((base: any) => tokenA.equals(base))) return false
 
               return true
             })
