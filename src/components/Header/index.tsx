@@ -349,6 +349,9 @@ export default function Header() {
           >
             {t('pool')}
           </StyledNavLink>
+          <StyledNavLink id={`bond-nav-link`} to={'/bond'}>
+            {t('Bond')}
+          </StyledNavLink>
           <StyledNavLink id={`stake-nav-link`} to={`${pitSettings?.path}`}>
             {pitSettings?.name}
           </StyledNavLink>
