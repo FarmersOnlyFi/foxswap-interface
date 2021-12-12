@@ -10,8 +10,7 @@ import { ChainId, Blockchain } from '@foxswap/sdk'
 import { BLOCKCHAIN_SETTINGS } from '@foxswap/sdk-extra'
 import MetamaskIcon from '../../assets/images/metamask.png'
 import { ReactComponent as Close } from '../../assets/images/x.svg'
-import { fortmatic, injected, portis, NETWORK_CHAIN_ID } from '../../connectors'
-import { OVERLAY_READY } from '../../connectors/Fortmatic'
+import { injected, portis, NETWORK_CHAIN_ID } from '../../connectors'
 import { SUPPORTED_WALLETS } from '../../constants'
 import usePrevious from '../../hooks/usePrevious'
 import { ApplicationModal } from '../../state/application/actions'
@@ -204,13 +203,6 @@ export default function WalletModal({
         }
       })
   }
-
-  // close wallet modal if fortmatic modal is active
-  useEffect(() => {
-    fortmatic.on(OVERLAY_READY, () => {
-      toggleWalletModal()
-    })
-  }, [toggleWalletModal])
 
   // get wallets user can switch too, depending on device/browser
   function getOptions() {

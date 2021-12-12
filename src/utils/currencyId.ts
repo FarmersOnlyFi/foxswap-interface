@@ -6,5 +6,6 @@ export function currencyId(currency: Currency): string {
     return BASE_CURRENCY && BASE_CURRENCY.symbol ? BASE_CURRENCY.symbol : 'ETH'
   }
   if (currency instanceof Token) return currency.address
+  console.log(currency, currency instanceof Token)
   throw new Error('invalid currency')
 }

@@ -35,9 +35,9 @@ function useAllCommonPairs(currencyA?: Currency, currencyB?: Currency): Pair[] {
             // the direct pair
             [tokenA, tokenB],
             // token A against all bases
-            ...bases.map((base): [Token, Token] => [tokenA, base]),
+            ...bases.map((base): [Token, Token] => [base, tokenA]),
             // token B against all bases
-            ...bases.map((base): [Token, Token] => [tokenB, base]),
+            ...bases.map((base): [Token, Token] => [base, tokenB]),
             // each base against all bases
             ...basePairs
           ]
@@ -61,7 +61,6 @@ function useAllCommonPairs(currencyA?: Currency, currencyB?: Currency): Pair[] {
         : [],
     [tokenA, tokenB, bases, basePairs, chainId]
   )
-
   const allPairs = usePairs(allPairCombinations)
 
   // only pass along valid pairs, non-duplicated pairs

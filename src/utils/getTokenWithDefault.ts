@@ -1,6 +1,6 @@
 import { ChainId, Token, WETH } from '@foxswap/sdk'
 import { TOKENS } from '@foxswap/sdk-extra'
-import { GOVERNANCE_TOKEN, ZERO_ONE_ADDRESS } from '../constants/index'
+import { GOVERNANCE_TOKEN, ZERO_ONE_ADDRESS } from '../constants'
 
 export default function getTokenWithDefault(chainId: ChainId, symbol: string): Token {
   symbol = symbol.toUpperCase()
@@ -17,10 +17,11 @@ export default function getTokenWithDefault(chainId: ChainId, symbol: string): T
       token = retrievedToken ? retrievedToken : new Token(chainId, ZERO_ONE_ADDRESS, 18, symbol, symbol)
       break
   }
+  // console.log('getTokenWithDefault', TOKENS[chainId])
 
   if (
     (!token || token.address === ZERO_ONE_ADDRESS) &&
-    [ChainId.HARMONY_TESTNET, ChainId.BSC_TESTNET].includes(chainId)
+    [ChainId.HARMONY_MAINNET, ChainId.HARMONY_TESTNET].includes(chainId)
   ) {
     const govToken = GOVERNANCE_TOKEN[chainId]
     if (symbol.toUpperCase() === govToken.symbol?.toUpperCase()) {

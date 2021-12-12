@@ -151,7 +151,7 @@ export default function Manage({
         <TYPE.mediumHeader style={{ margin: 0 }}>
           {currencyA?.symbol}-{currencyB?.symbol} Liquidity Mining
         </TYPE.mediumHeader>
-        <DoubleCurrencyLogo currency0={currencyA ?? undefined} currency1={currencyB ?? undefined} size={24} />
+        <DoubleCurrencyLogo currency0={currencyA ?? undefined} currency1={currencyB ?? undefined} size={30} />
       </RowBetween>
 
       <DataRow style={{ gap: '24px' }}>

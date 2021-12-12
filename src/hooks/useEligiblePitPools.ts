@@ -5,7 +5,7 @@ import { JSBI } from '@foxswap/sdk'
 export default function useEligiblePitPools(
   stakingPools: any,
   balanceResults: CallState[],
-  minimumAmountWei = '10000000000000000'
+  minimumAmountWei = '100000000'
 ): string[][] {
   return useMemo<string[][]>(() => {
     const claimFrom: string[] = []
