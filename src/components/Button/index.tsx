@@ -38,6 +38,14 @@ const Base = styled(RebassButton)<{
   }
 `
 
+export const MintButton = styled(Base)`
+  padding: 10px;
+  border-radius: 10px;
+  background: transparent;
+  border: 1px white solid;
+  font-size: 11px;
+`
+
 export const ButtonPrimary = styled(Base)`
   background-color: ${({ theme }) => theme.primary1};
   color: white;

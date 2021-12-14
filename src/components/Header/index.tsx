@@ -11,7 +11,7 @@ import styled from 'styled-components'
 // import ViperLogoDark from '../../assets/svg/foxswap/white.svg'
 // import CobraLogo from '../../assets/svg/cobraswap/black.svg'
 // import CobraLogoDark from '../../assets/svg/cobraswap/white.svg'
-import FoxLogo from '../../assets/svg/foxswap/img.png'
+import FoxLogo from '../../assets/svg/foxswap/foxswap-logos_transparent.png'
 import { useActiveWeb3React } from '../../hooks'
 import { useDarkModeManager } from '../../state/user/hooks'
 import { useETHBalances, useAggregateGovTokenBalance } from '../../state/wallet/hooks'
@@ -113,11 +113,18 @@ const HeaderRow = styled(RowFixed)`
 `
 
 const HeaderLinks = styled(Row)`
-  justify-content: center;
+  margin-left: 400px;
   ${({ theme }) => theme.mediaWidth.upToMedium`
     padding: 1rem 0 1rem 1rem;
     justify-content: flex-end;
 `};
+`
+
+const LogoImage = styled('img')`
+  width: 350px;
+  height: 350px;
+  position: absolute;
+  margin: 0 400px 0 0;
 `
 
 const AccountElement = styled.div<{ active: boolean }>`
@@ -209,6 +216,7 @@ const StyledNavLink = styled(NavLink).attrs({
   ${({ theme }) => theme.flexRowNoWrap}
   align-items: left;
   border-radius: 3rem;
+  border: 1px red solid;
   outline: none;
   cursor: pointer;
   text-decoration: none;
@@ -329,7 +337,7 @@ export default function Header() {
       <HeaderRow>
         <Title href=".">
           {/*<UniIcon>*/}
-          <img width={'108px'} src={FoxLogo} alt="logo" />
+          <LogoImage src={FoxLogo} alt="logo" />
           {/*</UniIcon>*/}
         </Title>
         <HeaderLinks>
@@ -348,6 +356,9 @@ export default function Header() {
             }
           >
             {t('pool')}
+          </StyledNavLink>
+          <StyledNavLink id={`swap-nav-link`} to={'/bond'}>
+            {t('Bond')}
           </StyledNavLink>
           <StyledNavLink id={`stake-nav-link`} to={`${pitSettings?.path}`}>
             {pitSettings?.name}
