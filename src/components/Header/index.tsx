@@ -11,6 +11,7 @@ import styled from 'styled-components'
 // import ViperLogoDark from '../../assets/svg/foxswap/white.svg'
 // import CobraLogo from '../../assets/svg/cobraswap/black.svg'
 // import CobraLogoDark from '../../assets/svg/cobraswap/white.svg'
+import BlackFoxLogo from '../../assets/svg/foxswap/foxswap-logos_black.png'
 import FoxLogo from '../../assets/svg/foxswap/foxswap-logos_transparent.png'
 import { useActiveWeb3React } from '../../hooks'
 import { useDarkModeManager } from '../../state/user/hooks'
@@ -113,7 +114,7 @@ const HeaderRow = styled(RowFixed)`
 `
 
 const HeaderLinks = styled(Row)`
-  margin-left: 400px;
+  margin-left: 350px;
   ${({ theme }) => theme.mediaWidth.upToMedium`
     padding: 1rem 0 1rem 1rem;
     justify-content: flex-end;
@@ -121,10 +122,10 @@ const HeaderLinks = styled(Row)`
 `
 
 const LogoImage = styled('img')`
-  width: 350px;
-  height: 350px;
+  width: 290px;
+  height: 275px;
   position: absolute;
-  margin: 0 400px 0 0;
+  //margin-top: 200px;
 `
 
 const AccountElement = styled.div<{ active: boolean }>`
@@ -215,8 +216,7 @@ const StyledNavLink = styled(NavLink).attrs({
 })`
   ${({ theme }) => theme.flexRowNoWrap}
   align-items: left;
-  border-radius: 3rem;
-  border: 1px red solid;
+  border-radius: 2rem;
   outline: none;
   cursor: pointer;
   text-decoration: none;
@@ -225,9 +225,11 @@ const StyledNavLink = styled(NavLink).attrs({
   width: fit-content;
   margin: 0 12px;
   font-weight: 500;
+  padding: 8px;
 
   &.${activeClassName} {
     border-radius: 12px;
+    border: 1px whitesmoke solid;
     font-weight: 600;
     color: ${({ theme }) => theme.text1};
   }
@@ -336,9 +338,7 @@ export default function Header() {
       </Modal>
       <HeaderRow>
         <Title href=".">
-          {/*<UniIcon>*/}
-          <LogoImage src={FoxLogo} alt="logo" />
-          {/*</UniIcon>*/}
+          {darkMode ? <LogoImage src={FoxLogo} alt="logo" /> : <LogoImage src={BlackFoxLogo} alt="logo" />}
         </Title>
         <HeaderLinks>
           <StyledNavLink id={`swap-nav-link`} to={'/swap'}>

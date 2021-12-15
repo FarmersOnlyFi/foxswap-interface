@@ -38,12 +38,17 @@ const Base = styled(RebassButton)<{
   }
 `
 
-export const MintButton = styled(Base)`
+export const ButtonMint = styled(Base)`
   padding: 10px;
-  border-radius: 10px;
-  background: transparent;
+  border-radius: 6px;
   border: 1px white solid;
-  font-size: 11px;
+  font-size: 15px;
+  background: radial-gradient(
+    76.02% 75.41% at 1.84% 0%,
+    ${({ theme }) => theme.customCardGradientStart} 0%,
+    ${({ theme }) => theme.customCardGradientEnd} 100%
+  );
+  width: 50%;
 `
 
 export const ButtonPrimary = styled(Base)`

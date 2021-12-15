@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import { AutoColumn } from '../Column'
-
 import uImage from '../../assets/images/big_unicorn.png'
 import xlUnicorn from '../../assets/images/xl_uni.png'
 import noise from '../../assets/images/noise.png'
@@ -18,10 +17,17 @@ export const TextBox = styled.div`
 
 export const DataCard = styled(AutoColumn)<{ disabled?: boolean }>`
   //background: radial-gradient(76.02% 75.41% at 1.84% 0%, #ff007a 0%, #2172e5 100%);
-  background: #232526;
-  background: -webkit-linear-gradient(to right, #414345, #232526);
-  background: linear-gradient(to right, #414345, #232526);
-  border-radius: 12px;
+  //background: #232526;
+  //background: -webkit-linear-gradient(to right, #414345, #232526);
+  //background: linear-gradient(to right, #414345, #232526);
+  background: radial-gradient(
+    76.02% 75.41% at 1.84% 0%,
+    ${({ theme }) => theme.customCardGradientStart} 0%,
+    ${({ theme }) => theme.customCardGradientEnd} 100%
+  );
+  background: transparent;
+  border: 3px gray solid;
+  border-radius: 6px;
   width: 100%;
   position: relative;
   overflow: hidden;

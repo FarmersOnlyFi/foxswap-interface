@@ -10,9 +10,8 @@ import { Text } from 'rebass'
 import { ChainId, Token } from '@foxswap/sdk'
 // import { MintButton } from '../../components/Button'
 // import { ArrowWrapper } from '../../components/swap/styleds'
-// import { ArrowDown, ArrowUp } from 'react-feather'
 import CurrencyLogo from '../../components/CurrencyLogo'
-import { ButtonPrimary } from '../../components/Button'
+import { ButtonMint } from '../../components/Button'
 
 // import {Field} from "../../state/swap/actions";
 
@@ -95,14 +94,16 @@ export default function Bond() {
                 $3,000,000
               </Text>
             </AutoColumn>
-            <ButtonPrimary>
-              Mint
-              {/*{showInput ? (*/}
-              {/*  <ArrowUp size={16} onClick={() => setShowInput(!showInput)} />*/}
-              {/*) : (*/}
-              {/*  <ArrowDown size={16} onClick={() => setShowInput(!showInput)} />*/}
-              {/*)}*/}
-            </ButtonPrimary>
+            <AutoRow justify="center">
+              <ButtonMint>
+                <span>Mint</span>
+                {/*{showInput ? (*/}
+                {/*  <ArrowUp size={16} onClick={() => setShowInput(!showInput)} />*/}
+                {/*) : (*/}
+                {/*  <ArrowDown size={16} onClick={() => setShowInput(!showInput)} />*/}
+                {/*)}*/}
+              </ButtonMint>
+            </AutoRow>
           </AutoRow>
           {/*{showInput && (*/}
           {/*  <DataCard style={{ background: 'transparent' }}>*/}
