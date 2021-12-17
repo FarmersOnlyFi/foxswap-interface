@@ -279,7 +279,7 @@
   },
   {
     "chainId": 1666700000,
-    "address": "0xE5d5768AE4f49878ABc290CcEbfB08BA2aD27aFD",
+    "address": "0xe2ffd56281D10c2aDC679A1A5a466F4cC57f7EA7",
     "symbol": "1ETH",
     "name": "Ether",
     "decimals": 18,
@@ -287,7 +287,7 @@
   },
   {
     "chainId": 1666700000,
-    "address": "0x8219b99016D9A156e2Ed04B0f6d2c1b4F866EF66",
+    "address": "0xDB5D410244e7a7302eBb051B99a82116BF0D6c84",
     "symbol": "1USDC",
     "name": "USD Coin",
     "decimals": 18,
@@ -295,7 +295,7 @@
   },
   {
     "chainId": 1666700000,
-    "address": "0x70DC166280753cEEC0AaA3307bC8707a23E774fE",
+    "address": "0x8f783a1DACADf6E9B887daf68aB07A0b9Bd8bA34",
     "symbol": "UST",
     "name": "Wrapped UST Token",
     "decimals": 18,
@@ -303,7 +303,7 @@
   },
   {
     "chainId": 1666700000,
-    "address": "0x7a2afac38517d512E55C0bCe3b6805c10a04D60F",
+    "address": "0x7466d7d0C21Fa05F32F5a0Fa27e12bdC06348Ce2",
     "symbol": "WONE",
     "name": "Wrapped ONE",
     "decimals": 18,
@@ -311,7 +311,7 @@
   },
   {
     "chainId": 1666700000,
-    "address": "0x08C6830Daf7A290b37371ACf7ef40e5D6A29733c",
+    "address": "0x106B7F900B6feF3cAeD9d76428067F6377489Fda",
     "symbol": "FOX",
     "name": "FarmersOnly Token",
     "decimals": 18,
