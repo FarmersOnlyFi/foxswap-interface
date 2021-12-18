@@ -52,7 +52,7 @@ export default function Bond() {
       <DataCard>
         <CardSection>
           <AutoRow gap="10px" justify="space-between">
-            <CurrencyLogo currency={currency} size={'24px'} />
+            <CurrencyLogo currency={currency} size={'50px'} />
             <AutoColumn gap="4px">
               <Text fontWeight={700} fontSize={11}>
                 Token

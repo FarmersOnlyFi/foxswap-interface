@@ -20,7 +20,7 @@ const GEMINI_LIST = 'https://www.gemini.com/uniswap/manifest.json'*/
 // const VENOMSWAP_DEFAULT_LIST = 'https://d1xrz6ki9z98vb.cloudfront.net/venomswap/lists/venomswap-default.tokenlist.json'
 // const VENOMSWAP_COMMUNITY_LIST = 'https://d1xrz6ki9z98vb.cloudfront.net/venomswap/lists/venomswap-community.tokenlist.json'
 const FOXSWAP_DEFUALT_LIST =
-  'https://raw.githubusercontent.com/FarmersOnlyFi/foxswap-interface/main/src/constants/tokenLists/fox.tokenlist.json'
+  'https://raw.githubusercontent.com/FarmersOnlyFi/default-token-list/main/src/tokens/harmony-mainnet.json'
 
 // lower index == higher priority for token import
 export const DEFAULT_LIST_OF_LISTS: string[] = [
