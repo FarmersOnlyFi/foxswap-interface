@@ -6,13 +6,8 @@ import { darken } from 'polished'
 import { useTranslation } from 'react-i18next'
 
 import styled from 'styled-components'
-
-// import ViperLogo from '../../assets/svg/foxswap/black.svg'
-// import ViperLogoDark from '../../assets/svg/foxswap/white.svg'
-// import CobraLogo from '../../assets/svg/cobraswap/black.svg'
-// import CobraLogoDark from '../../assets/svg/cobraswap/white.svg'
-import BlackFoxLogo from '../../assets/svg/foxswap/foxswap-logos_black.png'
-import FoxLogo from '../../assets/svg/foxswap/foxswap-logos_transparent.png'
+// import FoxLogoText from 'assets/svg/foxswap/foxswap-logo-txt.svg'
+import FoxLogo from 'assets/svg/foxswap/foxswap-icon.svg'
 import { useActiveWeb3React } from '../../hooks'
 import { useDarkModeManager } from '../../state/user/hooks'
 import { useETHBalances, useAggregateGovTokenBalance } from '../../state/wallet/hooks'
@@ -114,18 +109,17 @@ const HeaderRow = styled(RowFixed)`
 `
 
 const HeaderLinks = styled(Row)`
-  margin-left: 350px;
   ${({ theme }) => theme.mediaWidth.upToMedium`
     padding: 1rem 0 1rem 1rem;
     justify-content: flex-end;
 `};
+  margin-left: 50px;
 `
 
 const LogoImage = styled('img')`
-  width: 290px;
-  height: 275px;
-  position: absolute;
-  //margin-top: 200px;
+  width: 140px;
+  height: 110px;
+  padding: 10px;
 `
 
 const AccountElement = styled.div<{ active: boolean }>`
@@ -195,19 +189,19 @@ const BalanceText = styled(Text)`
   `};
 `
 
-const Title = styled.a`
-  display: flex;
-  align-items: center;
-  pointer-events: auto;
-  justify-self: flex-start;
-  margin-right: 12px;
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    justify-self: center;
-  `};
-  :hover {
-    cursor: pointer;
-  }
-`
+// const Title = styled.a`
+//   display: flex;
+//   align-items: center;
+//   pointer-events: auto;
+//   justify-self: flex-start;
+//   margin-right: 12px;
+//   ${({ theme }) => theme.mediaWidth.upToSmall`
+//     justify-self: center;
+//   `};
+//   :hover {
+//     cursor: pointer;
+//   }
+// `
 
 const activeClassName = 'ACTIVE'
 
@@ -216,60 +210,22 @@ const StyledNavLink = styled(NavLink).attrs({
 })`
   ${({ theme }) => theme.flexRowNoWrap}
   align-items: left;
-  border-radius: 2rem;
   outline: none;
   cursor: pointer;
   text-decoration: none;
   color: ${({ theme }) => theme.text2};
   font-size: 1rem;
   width: fit-content;
-  margin: 0 12px;
   font-weight: 500;
-  padding: 8px;
-
-  &.${activeClassName} {
-    border-radius: 12px;
-    border: 1px whitesmoke solid;
-    font-weight: 600;
-    color: ${({ theme }) => theme.text1};
-  }
-
-  :hover,
-  :focus {
-    color: ${({ theme }) => darken(0.1, theme.text1)};
+  padding: 5px;
+  margin-left: 15px;
+  border-radius: 15px;
+  &:hover,
+  &:focus {
+    ${({ theme }) => darken(0.05, theme.primary1)}
+    box-shadow: 0 0 0 1pt ${({ theme }) => darken(0.05, theme.primary1)};
   }
 `
-
-/*const StyledExternalLink = styled(ExternalLink).attrs({
-  activeClassName
-})<{ isActive?: boolean }>`
-  ${({ theme }) => theme.flexRowNoWrap}
-  align-items: left;
-  border-radius: 3rem;
-  outline: none;
-  cursor: pointer;
-  text-decoration: none;
-  color: ${({ theme }) => theme.text2};
-  font-size: 1rem;
-  width: fit-content;
-  margin: 0 12px;
-  font-weight: 500;
-
-  &.${activeClassName} {
-    border-radius: 12px;
-    font-weight: 600;
-    color: ${({ theme }) => theme.text1};
-  }
-
-  :hover,
-  :focus {
-    color: ${({ theme }) => darken(0.1, theme.text1)};
-  }
-
-  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-      display: none;
-`}
-`*/
 
 export const StyledMenuButton = styled.button`
   position: relative;
@@ -337,9 +293,8 @@ export default function Header() {
         <GovTokenBalanceContent setShowUniBalanceModal={setShowUniBalanceModal} />
       </Modal>
       <HeaderRow>
-        <Title href=".">
-          {darkMode ? <LogoImage src={FoxLogo} alt="logo" /> : <LogoImage src={BlackFoxLogo} alt="logo" />}
-        </Title>
+        <LogoImage src={FoxLogo} />
+        {/*{darkMode ? <LogoImage src={FoxLogo} alt="logo" /> : <LogoImage src={BlackFoxLogo} alt="logo" />}*/}
         <HeaderLinks>
           <StyledNavLink id={`swap-nav-link`} to={'/swap'}>
             {t('swap')}
@@ -360,7 +315,7 @@ export default function Header() {
           <StyledNavLink id={`swap-nav-link`} to={'/bond'}>
             {t('Bond')}
           </StyledNavLink>
-          <StyledNavLink id={`stake-nav-link`} to={`${pitSettings?.path}`}>
+          <StyledNavLink id={`bond-nav-link`} to={`${pitSettings?.path}`}>
             {pitSettings?.name}
           </StyledNavLink>
         </HeaderLinks>

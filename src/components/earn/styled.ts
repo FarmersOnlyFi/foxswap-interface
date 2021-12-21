@@ -19,12 +19,12 @@ export const DataCard = styled(AutoColumn)<{ disabled?: boolean }>`
   //background: radial-gradient(76.02% 75.41% at 1.84% 0%, #ff007a 0%, #bb86fc 100%);
   //background: #232526;
   //background: -webkit-linear-gradient(to right, #414345, #232526);
-  //background: linear-gradient(to right, #414345, #232526);
-  background: radial-gradient(
-    76.02% 75.41% at 1.84% 0%,
-    ${({ theme }) => theme.customCardGradientStart} 0%,
-    ${({ theme }) => theme.customCardGradientEnd} 100%
-  );
+  // //background: linear-gradient(to right, #414345, #232526);
+  // background: radial-gradient(
+  //   76.02% 75.41% at 1.84% 0%,
+  //   ${({ theme }) => theme.customCardGradientStart} 0%,
+  //   ${({ theme }) => theme.customCardGradientEnd} 100%
+  // );
   background: ${({ theme }) => theme.bg1};
   border-radius: 10px;
   width: 100%;

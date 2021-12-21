@@ -39,24 +39,13 @@ const Base = styled(RebassButton)<{
 `
 
 export const ButtonMint = styled(Base)`
-  //padding: 10px;
   border-radius: 8px;
   font-weight: 400;
-  height: 75%
-  //font-size: 15px;
-  
-  background: ${({ theme }) => theme.primary1}
-  //width: 50%;
-  &:focus {
-    box-shadow: 0 0 0 1pt ${({ theme }) => darken(0.05, theme.primary1)};
-    background-color: ${({ theme }) => darken(0.05, theme.primary1)};
-  }
-  &:hover {
-    background-color: ${({ theme }) => darken(0.05, theme.primary1)};
-  }
+  height: 50%;
+  background-color: ${({ theme }) => theme.primary1};
+  &:hover,
   &:active {
-    box-shadow: 0 0 0 1pt ${({ theme }) => darken(0.1, theme.primary1)};
-    background-color: ${({ theme }) => darken(0.1, theme.primary1)};
+    background-color: ${({ theme }) => darken(0.05, theme.primary1)};
   }
   &:disabled {
     background-color: ${({ theme, altDisabledStyle, disabled }) =>
