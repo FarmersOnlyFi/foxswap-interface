@@ -119,7 +119,7 @@ const HeaderLinks = styled(Row)`
 const LogoImage = styled('img')`
   width: 140px;
   height: 110px;
-  padding: 10px;
+  padding: 0.5rem;
 `
 
 const AccountElement = styled.div<{ active: boolean }>`
@@ -294,6 +294,7 @@ export default function Header() {
       </Modal>
       <HeaderRow>
         <LogoImage src={FoxLogo} />
+        {/*<LogoImage src={FoxLogoText} />*/}
         {/*{darkMode ? <LogoImage src={FoxLogo} alt="logo" /> : <LogoImage src={BlackFoxLogo} alt="logo" />}*/}
         <HeaderLinks>
           <StyledNavLink id={`swap-nav-link`} to={'/swap'}>
