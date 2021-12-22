@@ -89,7 +89,7 @@ const MenuItem = styled(ExternalLink)`
   }
 `
 
-const CODE_LINK = 'https://github.com/VenomProtocol'
+const CODE_LINK = 'https://github.com/FarmersOnlyFi'
 
 export default function Menu() {
   const { account } = useActiveWeb3React()
@@ -103,7 +103,6 @@ export default function Menu() {
   const openClaimModal = useToggleModal(ApplicationModal.ADDRESS_CLAIM)
 
   return (
-    // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/30451
     <StyledMenu ref={node as any}>
       <StyledMenuButton onClick={toggle}>
         <StyledMenuIcon />
@@ -111,15 +110,15 @@ export default function Menu() {
 
       {open && (
         <MenuFlyout>
-          <MenuItem id="link" href="https://info.viper.exchange">
+          <MenuItem id="link" href="https://app.farmersonly.fi">
             <PieChart size={14} />
             Analytics
           </MenuItem>
-          <MenuItem id="link" href="https://discord.viper.exchange">
+          <MenuItem id="link" href="https://discord.gg/tEDFEgHSJD">
             <MessageSquare size={14} />
             Discord
           </MenuItem>
-          <MenuItem id="link" href="https://t.me/VenomDAO">
+          <MenuItem id="link" href="https://t.me/farmersonlyfi">
             <Send size={14} />
             Telegram
           </MenuItem>

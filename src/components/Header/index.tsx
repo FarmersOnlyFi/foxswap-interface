@@ -1,4 +1,4 @@
-import { ChainId, TokenAmount } from '@foxswap/sdk'
+// import { TokenAmount } from '@foxswap/sdk'
 import React, { useState } from 'react'
 import { Text } from 'rebass'
 import { NavLink } from 'react-router-dom'
@@ -6,16 +6,15 @@ import { darken } from 'polished'
 import { useTranslation } from 'react-i18next'
 
 import styled from 'styled-components'
-// import FoxLogoText from 'assets/svg/foxswap/foxswap-logo-txt.svg'
-import FoxLogo from 'assets/svg/foxswap/foxswap-icon.svg'
+import FoxLogo from 'assets/svg/foxswap/foxswaplogo-iconwhite.svg'
+import BlackFoxLogo from 'assets/svg/foxswap/foxswaplogo-iconblack.svg'
 import { useActiveWeb3React } from '../../hooks'
 import { useDarkModeManager } from '../../state/user/hooks'
-import { useETHBalances, useAggregateGovTokenBalance } from '../../state/wallet/hooks'
+import { useETHBalances } from '../../state/wallet/hooks'
 import { CardNoise } from '../earn/styled'
-import { CountUp } from 'use-count-up'
-import { TYPE } from '../../theme'
+// import { CountUp } from 'use-count-up'
+import { ExternalLink, TYPE } from '../../theme'
 
-import { YellowCard } from '../Card'
 import { Moon, Sun } from 'react-feather'
 import Menu from '../Menu'
 
@@ -28,7 +27,7 @@ import { useUserHasSubmittedClaim } from '../../state/transactions/hooks'
 import { Dots } from '../swap/styleds'
 import Modal from '../Modal'
 import GovTokenBalanceContent from './GovTokenBalanceContent'
-import usePrevious from '../../hooks/usePrevious'
+// import usePrevious from '../../hooks/usePrevious'
 import { BASE_CURRENCY } from '../../connectors'
 import { PIT_SETTINGS } from '../../constants'
 import useGovernanceToken from '../../hooks/useGovernanceToken'
@@ -52,7 +51,9 @@ const HeaderFrame = styled.div`
     width: calc(100%);
     position: relative;
   `};
-
+  background: ${({ theme }) => theme.bg1};
+  border-radius: 12px;
+  margin: 15px;
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
         padding: 0.5rem 1rem;
   `}
@@ -113,13 +114,14 @@ const HeaderLinks = styled(Row)`
     padding: 1rem 0 1rem 1rem;
     justify-content: flex-end;
 `};
-  margin-left: 50px;
+  padding: 2rem;
 `
 
 const LogoImage = styled('img')`
-  width: 140px;
-  height: 110px;
-  padding: 0.5rem;
+  width: 125px;
+  height: 100px;
+  padding: 9px;
+  cursor: pointer;
 `
 
 const AccountElement = styled.div<{ active: boolean }>`
@@ -163,25 +165,12 @@ const UNIWrapper = styled.span`
     opacity: 0.9;
   }
 `
-
-const HideSmall = styled.span`
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    display: none;
-  `};
-`
-
-const NetworkCard = styled(YellowCard)`
-  border-radius: 12px;
-  padding: 8px 12px;
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    margin: 0;
-    margin-right: 0.5rem;
-    width: initial;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    flex-shrink: 1;
-  `};
-`
+//
+// const HideSmall = styled.span`
+//   ${({ theme }) => theme.mediaWidth.upToSmall`
+//     display: none;
+//   `};
+// `
 
 const BalanceText = styled(Text)`
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
@@ -222,8 +211,29 @@ const StyledNavLink = styled(NavLink).attrs({
   border-radius: 15px;
   &:hover,
   &:focus {
-    ${({ theme }) => darken(0.05, theme.primary1)}
-    box-shadow: 0 0 0 1pt ${({ theme }) => darken(0.05, theme.primary1)};
+    color: ${({ theme }) => darken(0.05, theme.primary1)}
+    // box-shadow: 0 0 0 1pt ${({ theme }) => darken(0.05, theme.primary1)};
+  }
+`
+
+const StyledRedirectLink = styled(ExternalLink)`
+  ${({ theme }) => theme.flexRowNoWrap}
+  align-items: left;
+  outline: none;
+  cursor: pointer;
+  text-decoration: none;
+  color: ${({ theme }) => theme.text2};
+  font-size: 1rem;
+  width: fit-content;
+  font-weight: 500;
+  padding: 5px;
+  margin-left: 15px;
+  border-radius: 15px;
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    color: ${({ theme }) => darken(0.05, theme.primary1)}
+      // box-shadow: 0 0 0 1pt ${({ theme }) => darken(0.05, theme.primary1)};
   }
 `
 
@@ -256,46 +266,36 @@ export const StyledMenuButton = styled.button`
   }
 `
 
-const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
-  [ChainId.HARMONY_TESTNET]: 'Harmony Testnet',
-  [ChainId.HARMONY_MAINNET]: 'Harmony'
-}
-
 export default function Header() {
   const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
-
-  const govToken = useGovernanceToken()
-  const pitSettings = chainId ? PIT_SETTINGS[chainId] : undefined
-
-  const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
-  // const [isDark] = useDarkModeManager()
-  const [darkMode, toggleDarkMode] = useDarkModeManager()
-
-  const toggleClaimModal = useToggleSelfClaimModal()
-
-  const availableClaim: boolean = useUserHasAvailableClaim(account)
-
   const { claimTxn } = useUserHasSubmittedClaim(account ?? undefined)
 
-  const aggregateBalance: TokenAmount | undefined = useAggregateGovTokenBalance()
-
+  const [darkMode, toggleDarkMode] = useDarkModeManager()
   const [showUniBalanceModal, setShowUniBalanceModal] = useState(false)
-  const showClaimPopup = useShowClaimPopup()
 
-  const countUpValue = aggregateBalance?.toFixed(0) ?? '0'
-  const countUpValuePrevious = usePrevious(countUpValue) ?? '0'
+  const govToken = useGovernanceToken()
+  const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
+  const pitSettings = chainId ? PIT_SETTINGS[chainId] : undefined
+  const toggleClaimModal = useToggleSelfClaimModal()
+  const availableClaim: boolean = useUserHasAvailableClaim(account)
+  // const aggregateBalance: TokenAmount | undefined = useAggregateGovTokenBalance()
+  const showClaimPopup = useShowClaimPopup()
+  // const countUpValue = aggregateBalance?.toFixed(0) ?? '0'
+  // const countUpValuePrevious = usePrevious(countUpValue) ?? '0'
 
   return (
     <HeaderFrame>
       <ClaimModal />
-      <Modal isOpen={showUniBalanceModal} onDismiss={() => setShowUniBalanceModal(false)}>
-        <GovTokenBalanceContent setShowUniBalanceModal={setShowUniBalanceModal} />
-      </Modal>
       <HeaderRow>
-        <LogoImage src={FoxLogo} />
-        {/*<LogoImage src={FoxLogoText} />*/}
-        {/*{darkMode ? <LogoImage src={FoxLogo} alt="logo" /> : <LogoImage src={BlackFoxLogo} alt="logo" />}*/}
+        <Modal isOpen={showUniBalanceModal} onDismiss={() => setShowUniBalanceModal(false)}>
+          <GovTokenBalanceContent setShowUniBalanceModal={setShowUniBalanceModal} />
+        </Modal>
+        {darkMode ? (
+          <LogoImage src={FoxLogo} onClick={() => setShowUniBalanceModal(true)} alt="logo" />
+        ) : (
+          <LogoImage src={BlackFoxLogo} onClick={() => setShowUniBalanceModal(true)} alt="logo" />
+        )}
         <HeaderLinks>
           <StyledNavLink id={`swap-nav-link`} to={'/swap'}>
             {t('swap')}
@@ -313,21 +313,17 @@ export default function Header() {
           >
             {t('pool')}
           </StyledNavLink>
-          <StyledNavLink id={`swap-nav-link`} to={'/bond'}>
+          <StyledNavLink id={`bond-nav-link`} to={'/bond'}>
             {t('Bond')}
           </StyledNavLink>
-          <StyledNavLink id={`bond-nav-link`} to={`${pitSettings?.path}`}>
+          <StyledRedirectLink href={`https://app.farmersonly.fi/vaults`}>{t('Vault')}</StyledRedirectLink>
+          <StyledNavLink id={`pit-nav-link`} to={`${pitSettings?.path}`}>
             {pitSettings?.name}
           </StyledNavLink>
         </HeaderLinks>
       </HeaderRow>
       <HeaderControls>
         <HeaderElement>
-          <HideSmall>
-            {chainId && NETWORK_LABELS[chainId] && (
-              <NetworkCard title={NETWORK_LABELS[chainId]}>{NETWORK_LABELS[chainId]}</NetworkCard>
-            )}
-          </HideSmall>
           {availableClaim && !showClaimPopup && (
             <UNIWrapper onClick={toggleClaimModal}>
               <UNIAmount active={!!account && !availableClaim} style={{ pointerEvents: 'auto' }}>
@@ -338,32 +334,6 @@ export default function Header() {
                     `Claim ${govToken?.symbol}`
                   )}
                 </TYPE.white>
-              </UNIAmount>
-              <CardNoise />
-            </UNIWrapper>
-          )}
-          {!availableClaim && aggregateBalance && (
-            <UNIWrapper onClick={() => setShowUniBalanceModal(true)}>
-              <UNIAmount active={!!account && !availableClaim} style={{ pointerEvents: 'auto' }}>
-                {account && (
-                  <HideSmall>
-                    <TYPE.white
-                      style={{
-                        paddingRight: '.4rem'
-                      }}
-                    >
-                      <CountUp
-                        key={countUpValue}
-                        isCounting
-                        start={parseFloat(countUpValuePrevious)}
-                        end={parseFloat(countUpValue)}
-                        thousandsSeparator={','}
-                        duration={1}
-                      />
-                    </TYPE.white>
-                  </HideSmall>
-                )}
-                {govToken?.symbol}
               </UNIAmount>
               <CardNoise />
             </UNIWrapper>

@@ -231,6 +231,7 @@ export function harmonyColors(darkMode: boolean): Colors {
     text5: darkMode ? '#494D5F' : '#EDEEF2',
 
     // backgrounds / greys
+
     bg1: darkMode ? '#212429' : '#FFFFFF',
     bg2: darkMode ? '#121212' : '#F7F8FA',
     bg3: darkMode ? '#40444F' : '#EDEEF2',

@@ -22,6 +22,8 @@ export const MinterButton = styled(ButtonMint)`
   border-radius: 12px;
   padding: 16px;
   margin: 5px;
+  font-size: 18px;
+  font-weight: 500;
 `
 
 export const MintCard = styled(DataCard)`
