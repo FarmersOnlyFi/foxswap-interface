@@ -1,42 +1,45 @@
 import styled from 'styled-components'
 import { AutoColumn } from '../../components/Column'
-import { DataCard, CardSection } from '../../components/earn/styled'
-import React from 'react'
-import { RowBetween, AutoRow } from '../../components/Row'
-// import CurrencyInputPanel from '../../components/CurrencyInputPanel'
+import React, { useState } from 'react'
+import BondingModal from '../../components/Bond/BondingModal'
+import { ChainId, Token, TokenAmount } from '@foxswap/sdk'
+import { useTokenBalance } from '../../state/wallet/hooks'
+import { useActiveWeb3React } from '../../hooks'
+import { CardSection, DataCard } from '../../components/earn/styled'
+import { AutoRow, RowBetween } from '../../components/Row'
 import { Text } from 'rebass'
-// import { ArrowWrapper } from '../../components/swap/styleds'
-// import { MintButton } from '../../components/Button'
-import { ChainId, Token } from '@foxswap/sdk'
-// import { MintButton } from '../../components/Button'
-// import { ArrowWrapper } from '../../components/swap/styleds'
-import CurrencyLogo from '../../components/CurrencyLogo'
 import { ButtonMint } from '../../components/Button'
-
-// import {Field} from "../../state/swap/actions";
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
   width: 100%;
 `
 
-export const FixedHeightRow = styled(RowBetween)`
-  height: 36px;
+export const MinterButton = styled(ButtonMint)`
+  height: 55%;
+  align-self: center;
+  width: 85px;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 5px;
+  font-size: 18px;
+  font-weight: 500;
 `
 
-// const StyledBottomCard = styled(DataCard)<{ dim: any }>`
-//   background: ${({ theme }) => theme.bg3};
-//   opacity: ${({ dim }) => (dim ? 0.4 : 1)};
-//   margin-top: -40px;
-//   padding: 0 1.25rem 1rem 1.25rem;
-//   padding-top: 32px;
-//   z-index: 1;
-// `
+export const MintCard = styled(DataCard)`
+  background: ${({ theme }) => theme.bg1};
+  border-radius: 10px;
+  padding: 17px;
+  box-shadow: ${({ theme }) => theme.bg1} 0 2px 8px 0;
+`
 
 export default function Bond() {
+  const { account } = useActiveWeb3React()
+
+  const [showBondingModal, setShowBondingModal] = useState(false)
   // const [showInput, setShowInput] = useState(false)
   // const [typedValue, setTypedValue] = useState('')
-  const currency = new Token(
+  const inputCurrency = new Token(
     ChainId.HARMONY_MAINNET,
     '0x0159ed2e06ddcd46a25e74eb8e159ce666b28687',
     18,
@@ -44,91 +47,68 @@ export default function Bond() {
     'FOX Token'
   )
 
-  // const onUserInput = useCallback((typedValue: string) => {
-  //   setTypedValue(typedValue)
-  // }, [])
+  const tokenBalance: TokenAmount | undefined = useTokenBalance(account ?? undefined, inputCurrency)
+
   return (
-    <PageWrapper>
-      <DataCard>
+    <PageWrapper gap="lg">
+      <>
+        <BondingModal
+          isOpen={showBondingModal}
+          onDismiss={() => setShowBondingModal(false)}
+          bondingToken={inputCurrency}
+          userLiquidityUnstaked={tokenBalance}
+        />
+      </>
+      <MintCard>
         <CardSection>
-          <AutoRow gap="10px" justify="space-between">
-            <CurrencyLogo currency={currency} size={'50px'} />
-            <AutoColumn gap="4px">
-              <Text fontWeight={700} fontSize={11}>
+          <AutoRow justify="space-between">
+            <AutoColumn>
+              <Text fontWeight={200} fontSize={11}>
                 Token
               </Text>
-              <Text fontWeight={300} fontSize={20}>
+              <Text fontWeight={300} fontSize={18}>
                 UST/WONE
               </Text>
             </AutoColumn>
             <AutoColumn>
-              <Text fontWeight={700} fontSize={11}>
+              <Text fontWeight={200} fontSize={11}>
                 Price
               </Text>
-              <Text fontWeight={300} fontSize={20}>
+              <Text fontWeight={300} fontSize={18}>
                 $19.21
               </Text>
               <RowBetween />
             </AutoColumn>
             <AutoColumn>
-              <Text fontWeight={700} fontSize={11} textAlign="left">
+              <Text fontWeight={200} fontSize={11} textAlign="left">
                 ROI
               </Text>
-              <Text fontWeight={300} fontSize={20}>
+              <Text fontWeight={300} fontSize={18}>
                 -4.78%
               </Text>
             </AutoColumn>
             <AutoColumn>
-              <Text fontWeight={700} fontSize={11} textAlign="left">
+              <Text fontWeight={200} fontSize={11} textAlign="left">
                 Duration
               </Text>
-              <Text fontWeight={300} fontSize={20}>
+              <Text fontWeight={300} fontSize={18}>
                 5 Days
               </Text>
             </AutoColumn>
             <AutoColumn>
-              <Text fontWeight={700} fontSize={11} textAlign="left">
+              <Text fontWeight={200} fontSize={11} textAlign="left">
                 Purchased
               </Text>
-              <Text fontWeight={300} fontSize={20}>
+              <Text fontWeight={300} fontSize={18}>
                 $3,000,000
               </Text>
             </AutoColumn>
-            <AutoRow justify="center">
-              <ButtonMint>
-                <span>Mint</span>
-                {/*{showInput ? (*/}
-                {/*  <ArrowUp size={16} onClick={() => setShowInput(!showInput)} />*/}
-                {/*) : (*/}
-                {/*  <ArrowDown size={16} onClick={() => setShowInput(!showInput)} />*/}
-                {/*)}*/}
-              </ButtonMint>
-            </AutoRow>
+            <AutoColumn>
+              <MinterButton onClick={() => setShowBondingModal(true)}>Bond</MinterButton>
+            </AutoColumn>
           </AutoRow>
-          {/*{showInput && (*/}
-          {/*  <DataCard style={{ background: 'transparent' }}>*/}
-          {/*    <AutoRow>*/}
-          {/*      <AutoColumn style={{ width: '70%', padding: '1.5rem', marginTop: '20px' }}>*/}
-          {/*        <CurrencyInputPanel*/}
-          {/*          value={typedValue}*/}
-          {/*          onUserInput={onUserInput}*/}
-          {/*          showMaxButton={false}*/}
-          {/*          currency={currency}*/}
-          {/*          label={''}*/}
-          {/*          disableCurrencySelect={true}*/}
-          {/*          id="bond-form"*/}
-          {/*        />*/}
-          {/*      </AutoColumn>*/}
-          {/*      <AutoColumn justify="flex-end">*/}
-          {/*        <MintButton onClick={() => console.log('hit')} disabled={false}>*/}
-          {/*          Mint*/}
-          {/*        </MintButton>*/}
-          {/*      </AutoColumn>*/}
-          {/*    </AutoRow>*/}
-          {/*  </DataCard>*/}
-          {/*)}*/}
         </CardSection>
-      </DataCard>
+      </MintCard>
     </PageWrapper>
   )
 }

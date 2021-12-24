@@ -15,7 +15,7 @@ import { TYPE, UniTokenAnimated } from '../../theme'
 import useBUSDPrice from '../../hooks/useBUSDPrice'
 import { AutoColumn } from '../Column'
 import { RowBetween } from '../Row'
-import { Break, CardBGImage, CardNoise, CardSection, DataCard } from '../earn/styled'
+import { Break, CardSection, DataCard } from '../earn/styled'
 import useGovernanceToken from '../../hooks/useGovernanceToken'
 import { GOVERNANCE_TOKEN_INTERFACE } from '../../constants/abis/governanceToken'
 import { MouseoverTooltip } from '../Tooltip'
@@ -27,11 +27,8 @@ const ContentWrapper = styled(AutoColumn)`
 
 const ModalUpper = styled(DataCard)`
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  background: radial-gradient(
-    76.02% 75.41% at 1.84% 0%,
-    ${({ theme }) => theme.tokenButtonGradientStart} 0%,
-    #000 100%
-  );
+  //background: radial-gradient(76.02% 75.41% at 1.84% 0%, //${({ theme }) => theme.bg1} 90%, #6200ee 10%);
+  background: radial-gradient(circle, rgba(66,0,159,1) 0%, rgba(33,36,41,1) 100%);
   padding: 0.5rem;
 `
 
@@ -67,8 +64,6 @@ export default function GovTokenBalanceContent({ setShowUniBalanceModal }: { set
   return (
     <ContentWrapper gap="lg">
       <ModalUpper>
-        <CardBGImage />
-        <CardNoise />
         <CardSection gap="md">
           <RowBetween>
             <TYPE.white color="white">Your {govToken?.symbol} Breakdown</TYPE.white>

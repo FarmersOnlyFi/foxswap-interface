@@ -9,7 +9,7 @@ import { ButtonPrimary } from '../Button'
 import { StakingInfo } from '../../state/stake/hooks'
 import { useColor } from '../../hooks/useColor'
 import { currencyId } from '../../utils/currencyId'
-import { Break, CardNoise, CardBGImage } from './styled'
+import { Break, CardNoise } from './styled'
 import { unwrappedToken } from '../../utils/wrappedCurrency'
 import useBUSDPrice from '../../hooks/useBUSDPrice'
 //import useUSDCPrice from '../../utils/useUSDCPrice'
@@ -95,7 +95,6 @@ export default function PoolCard({ stakingInfo, isArchived }: { stakingInfo: Sta
 
   return (
     <Wrapper showBackground={isStaking} bgColor={backgroundColor}>
-      <CardBGImage desaturate />
       <CardNoise />
 
       <TopSection>

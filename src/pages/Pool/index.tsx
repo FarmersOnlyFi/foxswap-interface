@@ -18,7 +18,7 @@ import { useActiveWeb3React } from '../../hooks'
 import { usePairs } from '../../data/Reserves'
 import { toV2LiquidityToken, useTrackedTokenPairs } from '../../state/user/hooks'
 import { Dots } from '../../components/swap/styleds'
-import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
+import { CardSection, DataCard } from '../../components/earn/styled'
 // import { useStakingInfo } from '../../state/stake/hooks'
 // import { BIG_INT_ZERO } from '../../constants'
 
@@ -32,11 +32,7 @@ const PageWrapper = styled(AutoColumn)`
 `
 
 const VoteCard = styled(DataCard)`
-  background: radial-gradient(
-    76.02% 75.41% at 1.84% 0%,
-    ${({ theme }) => theme.customCardGradientStart} 0%,
-    ${({ theme }) => theme.customCardGradientEnd} 100%
-  );
+  background: ${({ theme }) => theme.primary1};
   overflow: hidden;
 `
 
@@ -141,8 +137,6 @@ export default function Pool() {
       <PageWrapper>
         <SwapPoolTabs active={'pool'} />
         <VoteCard>
-          <CardBGImage />
-          <CardNoise />
           <CardSection>
             <AutoColumn gap="md">
               <RowBetween>
@@ -155,8 +149,6 @@ export default function Pool() {
               </RowBetween>
             </AutoColumn>
           </CardSection>
-          <CardBGImage />
-          <CardNoise />
         </VoteCard>
 
         <AutoColumn gap="lg" justify="center">
@@ -169,7 +161,7 @@ export default function Pool() {
               </HideSmall>
               <ButtonRow>
                 <ResponsiveButtonSecondary as={Link} padding="6px 8px" to={createPoolUrl}>
-                  Create a pair
+                  Create Pair
                 </ResponsiveButtonSecondary>
                 <ResponsiveButtonPrimary
                   id="join-pool-button"
@@ -223,7 +215,7 @@ export default function Pool() {
 
             <AutoColumn justify={'center'} gap="md">
               <Text textAlign="center" fontSize={14} style={{ padding: '.5rem 0 .5rem 0' }}>
-                {hasV1Liquidity ? 'Viperswap V1 liquidity found!' : "Don't see a pool you joined?"}{' '}
+                {hasV1Liquidity ? 'FoxSwap V1 liquidity found!' : "Don't see a pool you joined?"}{' '}
                 <StyledInternalLink id="import-pool-link" to={hasV1Liquidity ? '/migrate/v1' : '/find'}>
                   {hasV1Liquidity ? 'Migrate now.' : 'Import it.'}
                 </StyledInternalLink>

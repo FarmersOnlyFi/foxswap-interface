@@ -22,6 +22,8 @@ import { ExternalLink, LinkStyledButton, TYPE } from '../../theme'
 
 import useBlockchain from '../../hooks/useBlockchain'
 import getExplorerName from '../../utils/getExplorerName'
+import { YellowCard } from '../Card'
+import { ChainId } from '@foxswap/sdk'
 
 const HeaderRow = styled.div`
   ${({ theme }) => theme.flexRowNoWrap};
@@ -32,6 +34,11 @@ const HeaderRow = styled.div`
     padding: 1rem;
   `};
 `
+
+const NETWORK_LABELS: { [chainId in ChainId]?: string } = {
+  [ChainId.HARMONY_TESTNET]: 'Harmony Testnet',
+  [ChainId.HARMONY_MAINNET]: 'Harmony'
+}
 
 const UpperSection = styled.div`
   position: relative;
@@ -267,14 +274,32 @@ export default function AccountDetails({
   }, [dispatch, chainId])
 
   const explorerName = getExplorerName(blockchain)
-
+  const NetworkCard = styled(YellowCard)`
+    border-radius: 12px;
+    padding: 8px 12px;
+    background: ${({ theme }) => theme.primary1};
+    ${({ theme }) => theme.mediaWidth.upToSmall`
+      margin: 0;
+      margin-right: 0.5rem;
+      width: initial;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex-shrink: 1;
+    `};
+    width: 25%;
+    color: white;
+  `
   return (
     <>
       <UpperSection>
         <CloseIcon onClick={toggleWalletModal}>
           <CloseColor />
         </CloseIcon>
-        <HeaderRow>Account</HeaderRow>
+        <HeaderRow>
+          {chainId && NETWORK_LABELS[chainId] && (
+            <NetworkCard title={NETWORK_LABELS[chainId]}>{NETWORK_LABELS[chainId]}</NetworkCard>
+          )}
+        </HeaderRow>
         <AccountSection>
           <YourAccount>
             <InfoCard>

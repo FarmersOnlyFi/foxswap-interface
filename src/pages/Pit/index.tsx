@@ -8,7 +8,7 @@ import { useWalletModalToggle } from '../../state/application/hooks'
 import { TYPE } from '../../theme'
 
 import { RowBetween } from '../../components/Row'
-import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
+import { CardSection, DataCard } from '../../components/earn/styled'
 import { ButtonPrimary } from '../../components/Button'
 import StakingModal from '../../components/Pit/StakingModal'
 import ModifiedUnstakingModal from '../../components/Pit/ModifiedUnstakingModal'
@@ -84,11 +84,7 @@ const StyledBottomCard = styled(DataCard)<{ dim: any }>`
 `*/
 
 const CustomCard = styled(DataCard)`
-  background: radial-gradient(
-    76.02% 75.41% at 1.84% 0%,
-    ${({ theme }) => theme.customCardGradientStart} 0%,
-    ${({ theme }) => theme.customCardGradientEnd} 100%
-  );
+  background: ${({ theme }) => theme.primary1};
   overflow: hidden;
 `
 
@@ -168,8 +164,6 @@ export default function Pit({
         <BottomSection gap="lg" justify="center">
           <CustomCard>
             <CardSection>
-              <CardBGImage desaturate />
-              <CardNoise />
               <AutoColumn gap="md">
                 <RowBetween>
                   <TYPE.white fontWeight={600}>{pitSettings?.name} - DEX fee sharing</TYPE.white>
@@ -184,8 +178,6 @@ export default function Pit({
             </CardSection>
           </CustomCard>
           <StyledBottomCard dim={false}>
-            <CardBGImage desaturate />
-            <CardNoise />
             <AutoColumn gap="sm">
               <RowBetween>
                 <div>

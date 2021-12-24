@@ -39,16 +39,25 @@ const Base = styled(RebassButton)<{
 `
 
 export const ButtonMint = styled(Base)`
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px white solid;
-  font-size: 15px;
-  background: radial-gradient(
-    76.02% 75.41% at 1.84% 0%,
-    ${({ theme }) => theme.customCardGradientStart} 0%,
-    ${({ theme }) => theme.customCardGradientEnd} 100%
-  );
-  width: 50%;
+  border-radius: 8px;
+  font-weight: 400;
+  height: 50%;
+  background-color: ${({ theme }) => theme.primary1};
+  &:hover,
+  &:active {
+    background-color: ${({ theme }) => darken(0.05, theme.primary1)};
+  }
+  &:disabled {
+    background-color: ${({ theme, altDisabledStyle, disabled }) =>
+      altDisabledStyle ? (disabled ? theme.bg3 : theme.primary1) : theme.bg3};
+    color: ${({ theme, altDisabledStyle, disabled }) =>
+      altDisabledStyle ? (disabled ? theme.text3 : 'white') : theme.text3};
+    cursor: auto;
+    box-shadow: none;
+    border: 1px solid transparent;
+    outline: none;
+    opacity: ${({ altDisabledStyle }) => (altDisabledStyle ? '0.5' : '1')};
+  }
 `
 
 export const ButtonPrimary = styled(Base)`
@@ -178,7 +187,7 @@ export const ButtonUNIGradient = styled(ButtonPrimary)`
   height: 36px;
   font-weight: 500;
   background-color: ${({ theme }) => theme.bg3};
-  background: radial-gradient(174.47% 188.91% at 1.84% 0%, #ff007a 0%, #2172e5 100%), #edeef2;
+  background: radial-gradient(174.47% 188.91% at 1.84% 0%, #ff007a 0%, #bb86fc 100%), #edeef2;
   width: fit-content;
   position: relative;
   cursor: pointer;

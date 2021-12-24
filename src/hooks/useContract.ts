@@ -10,7 +10,15 @@ import { abi as MERKLE_DISTRIBUTOR_ABI } from '@uniswap/merkle-distributor/build
 import { ChainId, WETH } from '@foxswap/sdk'
 import { abi as IUniswapV2PairABI } from '@foxswap/core/build/IUniswapV2Pair.json'
 import { useMemo } from 'react'
-import { GOVERNANCE_ADDRESS, MERKLE_DISTRIBUTOR_ADDRESS, MASTER_BREEDER, PIT, PIT_BREEDER } from '../constants'
+import {
+  BONDING_ADDRESS,
+  GOVERNANCE_ADDRESS,
+  MASTER_BREEDER,
+  MERKLE_DISTRIBUTOR_ADDRESS,
+  PIT,
+  PIT_BREEDER,
+  SOCKS_TESTNET_ADDRESS
+} from '../constants'
 import {
   ARGENT_WALLET_DETECTOR_ABI,
   ARGENT_WALLET_DETECTOR_MAINNET_ADDRESS
@@ -141,11 +149,12 @@ export function useMasterBreederContract(withSignerIfPossible?: boolean): Contra
   return useContract(address, MASTER_BREEDER_ABI, withSignerIfPossible)
 }
 
+export function useBondingContract(withSignerIfPossible?: boolean): Contract | null {
+  const { chainId } = useActiveWeb3React()
+  return useContract(chainId === ChainId.HARMONY_TESTNET ? BONDING_ADDRESS : undefined, UNISOCKS_ABI, false)
+}
+
 export function useSocksController(): Contract | null {
   const { chainId } = useActiveWeb3React()
-  return useContract(
-    chainId === ChainId.HARMONY_TESTNET ? '0x65770b5283117639760beA3F867b69b3697a91dd' : undefined,
-    UNISOCKS_ABI,
-    false
-  )
+  return useContract(chainId === ChainId.HARMONY_TESTNET ? SOCKS_TESTNET_ADDRESS : undefined, UNISOCKS_ABI, false)
 }
