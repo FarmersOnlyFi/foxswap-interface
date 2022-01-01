@@ -23,11 +23,17 @@ import MigrateV1 from './MigrateV1'
 import MigrateV1Exchange from './MigrateV1/MigrateV1Exchange'
 import RemoveV1Exchange from './MigrateV1/RemoveV1Exchange'
 import Pool from './Pool'
+import Bond from './Bond'
 import PoolFinder from './PoolFinder'
 import RemoveLiquidity from './RemoveLiquidity'
 import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redirects'
 import Swap from './Swap'
-import { OpenClaimAddressModalAndRedirectToSwap, RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
+import {
+  OpenClaimAddressModalAndRedirectToSwap,
+  RedirectPathToSwapOnly,
+  RedirectToSwap
+  // RedirectToVaultPage
+} from './Swap/redirects'
 import Vote from './Vote'
 import VotePage from './Vote/VotePage'
 import { PIT_SETTINGS } from '../constants'
@@ -36,6 +42,7 @@ import usePlatformName from '../hooks/usePlatformName'
 
 import { Blockchain } from '@foxswap/sdk'
 import useBlockchain from '../hooks/useBlockchain'
+// import { ExternalLink } from '../theme'
 
 const AppWrapper = styled.div`
   display: flex;
@@ -109,6 +116,13 @@ export default function App() {
               <Route exact strict path="/send" component={RedirectPathToSwapOnly} />
               <Route exact strict path="/find" component={PoolFinder} />
               <Route exact strict path="/pool" component={Pool} />
+              <Route exact strict path="/bond" component={Bond} />
+              {/*<Route*/}
+              {/*  exact*/}
+              {/*  strict*/}
+              {/*  path="/vaults"*/}
+              {/*  component={() => <ExternalLink href={`https://app.farmersonly.fi`}>Vault</ExternalLink>}*/}
+              {/*/>*/}
               <Route exact strict path={pitSettings?.path} component={Pit} />
               {blockchain === Blockchain.ETHEREUM && <Route exact strict path="/vote" component={Vote} />}
               <Route exact strict path="/create" component={RedirectToAddLiquidity} />

@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { Redirect, RouteComponentProps } from 'react-router-dom'
 import { AppDispatch } from '../../state'
 import { ApplicationModal, setOpenModal } from '../../state/application/actions'
+import { ExternalLink } from '../../theme'
 
 // Redirects to swap but only replace the pathname
 export function RedirectPathToSwapOnly({ location }: RouteComponentProps) {
@@ -38,4 +39,8 @@ export function OpenClaimAddressModalAndRedirectToSwap(props: RouteComponentProp
     dispatch(setOpenModal(ApplicationModal.ADDRESS_CLAIM))
   }, [dispatch])
   return <RedirectPathToSwapOnly {...props} />
+}
+
+export function RedirectToVaultPage() {
+  return <ExternalLink href={`https://app.farmersonly.fi`} />
 }
