@@ -44,7 +44,7 @@ interface StakingModalProps {
 }
 
 export default function StakingModal({ isOpen, onDismiss, stakingToken, userLiquidityUnstaked }: StakingModalProps) {
-  const { chainId, library } = useActiveWeb3React()
+  const { chainId, library, account } = useActiveWeb3React()
 
   // track and parse user input
   const [typedValue, setTypedValue] = useState('')
@@ -76,10 +76,9 @@ export default function StakingModal({ isOpen, onDismiss, stakingToken, userLiqu
     if (pit && parsedAmount && deadline) {
       if (approval === ApprovalState.APPROVED) {
         const formattedAmount = `0x${parsedAmount.raw.toString(16)}`
-        const estimatedGas = await pit.estimateGas.enter(formattedAmount)
-
+        const estimatedGas = await pit.estimateGas.enter(formattedAmount, account)
         await pit
-          .enter(formattedAmount, {
+          .enter(formattedAmount, account, {
             gasLimit: calculateGasMargin(estimatedGas)
           })
           .then((response: TransactionResponse) => {

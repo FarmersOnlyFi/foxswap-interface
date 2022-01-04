@@ -1,5 +1,5 @@
 import { Interface } from '@ethersproject/abi'
-import { abi as GOVERNANCE_TOKEN_ABI } from '@venomswap/contracts/build/GovernanceToken.json'
+import GOVERNANCE_TOKEN_ABI from './gov-token.json'
 
 const GOVERNANCE_TOKEN_INTERFACE = new Interface(GOVERNANCE_TOKEN_ABI)
 
