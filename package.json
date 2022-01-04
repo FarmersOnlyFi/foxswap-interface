@@ -27,7 +27,6 @@
     "@types/react-window": "^1.8.2",
     "@types/rebass": "^4.0.5",
     "@types/styled-components": "=5.1.7",
-    "@types/testing-library__cypress": "^5.0.5",
     "@types/wcag-contrast": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "^2.31.0",
     "@typescript-eslint/parser": "^2.31.0",
@@ -46,7 +45,6 @@
     "cids": "^1.1.6",
     "copy-to-clipboard": "^3.2.0",
     "cross-env": "^7.0.2",
-    "cypress": "^4.11.0",
     "eslint": "^7.23.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",
@@ -105,7 +103,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "integration-test": "start-server-and-test 'serve build -l 3000' http://localhost:3000 'cypress run'",
     "lint": "eslint . --config ./.eslintrc.json --ext .js,.ts,.tsx",
     "lint:fix": "eslint . --config ./.eslintrc.json --ext .js,.ts,.tsx --fix"
   },
