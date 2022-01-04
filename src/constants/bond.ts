@@ -20,7 +20,7 @@ export const BONDS: {
       displayName: 'FOX-UST LP',
       bondToken: getPairTokensWithDefaults(ChainId.HARMONY_TESTNET, 'FOX/UST'),
       rewardToken: getTokenWithDefault(ChainId.HARMONY_TESTNET, 'FOX'),
-      bondAddress: '0xc26850686ce755FFb8690EA156E5A6cf03DcBDE1'
+      bondAddress: '0x42b769209eC38286b858Ae2d919Cd111b12975FE'
     }
   ]
 }
