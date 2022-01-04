@@ -8,314 +8,311 @@
   },
   "tags": {},
   "logoURI": "https://s3.us-west-2.amazonaws.com/farmersonly.fi/FOX-Logo.png",
-  "keywords": [
-    "foxswap",
-    "farmersonly"
-  ],
+  "keywords": ["foxswap", "farmersonly"],
   "tokens": [
-  {
-    "chainId": 1666600000,
-    "address": "0xEf977d2f931C1978Db5F6747666fa1eACB0d0339",
-    "symbol": "1DAI",
-    "name": "Dai Stablecoin",
-    "decimals": 18,
-    "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/1DAI.png"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0x6983D1E6DEf3690C4d616b13597A09e6193EA013",
-    "symbol": "1ETH",
-    "name": "Ether",
-    "decimals": 18,
-    "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/1ETH.png"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0x301259f392B551CA8c592C9f676FCD2f9A0A84C5",
-    "symbol": "1MATIC",
-    "name": "Matic Token",
-    "decimals": 18,
-    "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/1MATIC.png"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0x985458E523dB3d53125813eD68c274899e9DfAb4",
-    "symbol": "1USDC",
-    "name": "USD Coin",
-    "decimals": 6,
-    "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/1USDC.png"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0x3C2B8Be99c50593081EAA2A724F0B8285F5aba8f",
-    "symbol": "1USDT",
-    "name": "Tether USD",
-    "decimals": 6,
-    "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/1USDT.png"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0x3095c7557bCb296ccc6e363DE01b760bA031F2d9",
-    "symbol": "1WBTC",
-    "name": "Wrapped BTC",
-    "decimals": 8,
-    "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/1WBTC.png"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0x03732a1b4297eC285999402A9129CFaD62a65463",
-    "symbol": "anyBTC",
-    "name": "ANY Bitcoin",
-    "decimals": 8,
-    "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/anyBTC.png"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0xb1f6E61E1e113625593a22fa6aa94F8052bc39E0",
-    "symbol": "bscBNB",
-    "name": "Binance BNB",
-    "decimals": 18,
-    "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/bscBNB.png"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0x34224dCF981dA7488FdD01c7fdd64E74Cd55DcF7",
-    "symbol": "bscBTCB",
-    "name": "BTCB Token",
-    "decimals": 18,
-    "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/bscBTCB.png"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0x0aB43550A6915F9f67d0c454C2E90385E6497EaA",
-    "symbol": "bscBUSD",
-    "name": "BUSD Token",
-    "decimals": 18,
-    "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/bscBUSD.png"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0x1d374ED0700a0aD3cd4945D66a5B1e08e5db20A8",
-    "symbol": "bscDAI",
-    "name": "Dai Token",
-    "decimals": 18,
-    "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/bscDAI.png"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0x783EE3E955832a3D52CA4050c4C251731c156020",
-    "symbol": "bscETH",
-    "name": "Ethereum Token",
-    "decimals": 18,
-    "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/bscETH.png"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0x44cED87b9F1492Bf2DCf5c16004832569f7f6cBa",
-    "symbol": "bscUSDC",
-    "name": "USD Coin Token",
-    "decimals": 18,
-    "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/bscUSDC.png"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0x9A89d0e1b051640C6704Dde4dF881f73ADFEf39a",
-    "symbol": "bscUSDT",
-    "name": "Tether USD Token",
-    "decimals": 18,
-    "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/bscUSDT.png"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0xE176EBE47d621b984a73036B9DA5d834411ef734",
-    "symbol": "BUSD",
-    "name": "Binance USD",
-    "decimals": 18,
-    "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/BUSD.png"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0x2F459Dd7CBcC9D8323621f6Fb430Cd0555411E7B",
-    "symbol": "JENN",
-    "name": "TokenJenny",
-    "decimals": 18,
-    "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/JENN.png"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0x218532a12a389a4a92fC0C5Fb22901D1c19198aA",
-    "symbol": "LINK",
-    "name": "ChainLink Token",
-    "decimals": 18,
-    "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/LINK.png"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0x95CE547D730519A90dEF30d647F37D9E5359B6Ae",
-    "symbol": "LUNA",
-    "name": "Wrapped LUNA Token",
-    "decimals": 18,
-    "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/LUNA.png"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0x224e64ec1BDce3870a6a6c777eDd450454068FEC",
-    "symbol": "UST",
-    "name": "Wrapped UST Token",
-    "decimals": 18,
-    "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/UST.png"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0xcF664087a5bB0237a0BAd6742852ec6c8d69A27a",
-    "symbol": "WONE",
-    "name": "Wrapped ONE",
-    "decimals": 18,
-    "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/WONE.png"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0x0159ED2E06DDCD46a25E74eb8e159Ce666B28687",
-    "symbol": "FOX",
-    "name": "FarmersOnly Token",
-    "decimals": 18,
-    "logoURI": "https://s3.us-west-2.amazonaws.com/farmersonly.fi/FOX-Logo.png"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0xD74433B187Cf0ba998Ad9Be3486B929c76815215",
-    "symbol": "MIS",
-    "name": "Artemis Protocol",
-    "decimals": 18,
-    "logoURI": "https://i.imgur.com/pAmbhAU.png"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0x7ca9C1D0bb11F1b7C31ee5538D7a75aAF2d8E2FC",
-    "symbol": "COINKX",
-    "name": "PiggyBank Token",
-    "decimals": 18,
-    "logoURI": "https://app.farmersonly.fi/assets/images/tokens/coink.png"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0x53BA62dDD5a9A6B6d97C7a496D7832D13A9218c4",
-    "symbol": "rAVAX",
-    "name": "Avalanche Relay",
-    "decimals": 18,
-    "logoURI": "https://app.farmersonly.fi/assets/images/tokens/avax.png"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0xb12c13e66AdE1F72f71834f2FC5082Db8C091358",
-    "symbol": "AVAX",
-    "name": "Avalanche - Anyswap",
-    "decimals": 18,
-    "logoURI": "https://app.farmersonly.fi/assets/images/tokens/avax.png"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0xD647090c1cdcdbB72De411B1bA16f03d4A7bba02",
-    "symbol": "rFTM",
-    "name": "Fantom - Relay",
-    "decimals": 18,
-    "logoURI": "https://app.farmersonly.fi/assets/images/tokens/ftm.png"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0x735aBE48e8782948a37C7765ECb76b98CdE97B0F",
-    "symbol": "FTM",
-    "name": "Fantom - Anyswap",
-    "decimals": 18,
-    "logoURI": "https://app.farmersonly.fi/assets/images/tokens/ftm.png"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0xED0B4b0F0E2c17646682fc98ACe09feB99aF3adE",
-    "symbol": "RVRS",
-    "name": "Reverse Protocol",
-    "decimals": 18,
-    "logoURI": "https://app.farmersonly.fi/assets/images/tokens/rvrs.png"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0x72Cb10C6bfA5624dD07Ef608027E366bd690048F",
-    "symbol": "JEWEL",
-    "name": "DefiKingdoms",
-    "decimals": 18,
-    "logoURI": "https://app.farmersonly.fi/assets/images/tokens/jewel.png"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0xCf1709Ad76A79d5a60210F23e81cE2460542A836",
-    "symbol": "TRANQ",
-    "name": "Tranquil",
-    "decimals": 18,
-    "logoURI": "https://app.farmersonly.fi/assets/images/tokens/tranq.svg"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0x9b68BF4bF89c115c721105eaf6BD5164aFcc51E4",
-    "symbol": "XYA",
-    "name": "Freyala",
-    "decimals": 18,
-    "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/XYA.png"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0x340042552D19211795dbe55d84FA2E63bc49B890",
-    "symbol": "YANG",
-    "name": "Yang",
-    "decimals": 18,
-    "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/YANG.png"
-  },
-  {
-    "chainId": 1666600000,
-    "address": "0xE59AA7f9e91B4Cc6C25D3542CEcb851e0316138c",
-    "symbol": "YIN",
-    "name": "Yin",
-    "decimals": 18,
-    "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/YIN.png"
-  },
-  {
-    "chainId": 1666700000,
-    "address": "0xe2ffd56281D10c2aDC679A1A5a466F4cC57f7EA7",
-    "symbol": "1ETH",
-    "name": "Ether",
-    "decimals": 18,
-    "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/1ETH.png"
-  },
-  {
-    "chainId": 1666700000,
-    "address": "0xDB5D410244e7a7302eBb051B99a82116BF0D6c84",
-    "symbol": "1USDC",
-    "name": "USD Coin",
-    "decimals": 18,
-    "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/1USDC.png"
-  },
-  {
-    "chainId": 1666700000,
-    "address": "0x8f783a1DACADf6E9B887daf68aB07A0b9Bd8bA34",
-    "symbol": "UST",
-    "name": "Wrapped UST Token",
-    "decimals": 18,
-    "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/UST.png"
-  },
-  {
-    "chainId": 1666700000,
-    "address": "0x7466d7d0C21Fa05F32F5a0Fa27e12bdC06348Ce2",
-    "symbol": "WONE",
-    "name": "Wrapped ONE",
-    "decimals": 18,
-    "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/WONE.png"
-  },
-  {
-    "chainId": 1666700000,
-    "address": "0x106B7F900B6feF3cAeD9d76428067F6377489Fda",
-    "symbol": "FOX",
-    "name": "FarmersOnly Token",
-    "decimals": 18,
-    "logoURI": "https://s3.us-west-2.amazonaws.com/farmersonly.fi/FOX-Logo.png"
-  }
-]
+    {
+      "chainId": 1666600000,
+      "address": "0xEf977d2f931C1978Db5F6747666fa1eACB0d0339",
+      "symbol": "1DAI",
+      "name": "Dai Stablecoin",
+      "decimals": 18,
+      "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/1DAI.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0x6983D1E6DEf3690C4d616b13597A09e6193EA013",
+      "symbol": "1ETH",
+      "name": "Ether",
+      "decimals": 18,
+      "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/1ETH.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0x301259f392B551CA8c592C9f676FCD2f9A0A84C5",
+      "symbol": "1MATIC",
+      "name": "Matic Token",
+      "decimals": 18,
+      "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/1MATIC.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0x985458E523dB3d53125813eD68c274899e9DfAb4",
+      "symbol": "1USDC",
+      "name": "USD Coin",
+      "decimals": 6,
+      "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/1USDC.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0x3C2B8Be99c50593081EAA2A724F0B8285F5aba8f",
+      "symbol": "1USDT",
+      "name": "Tether USD",
+      "decimals": 6,
+      "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/1USDT.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0x3095c7557bCb296ccc6e363DE01b760bA031F2d9",
+      "symbol": "1WBTC",
+      "name": "Wrapped BTC",
+      "decimals": 8,
+      "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/1WBTC.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0x03732a1b4297eC285999402A9129CFaD62a65463",
+      "symbol": "anyBTC",
+      "name": "ANY Bitcoin",
+      "decimals": 8,
+      "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/anyBTC.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0xb1f6E61E1e113625593a22fa6aa94F8052bc39E0",
+      "symbol": "bscBNB",
+      "name": "Binance BNB",
+      "decimals": 18,
+      "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/bscBNB.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0x34224dCF981dA7488FdD01c7fdd64E74Cd55DcF7",
+      "symbol": "bscBTCB",
+      "name": "BTCB Token",
+      "decimals": 18,
+      "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/bscBTCB.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0x0aB43550A6915F9f67d0c454C2E90385E6497EaA",
+      "symbol": "bscBUSD",
+      "name": "BUSD Token",
+      "decimals": 18,
+      "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/bscBUSD.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0x1d374ED0700a0aD3cd4945D66a5B1e08e5db20A8",
+      "symbol": "bscDAI",
+      "name": "Dai Token",
+      "decimals": 18,
+      "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/bscDAI.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0x783EE3E955832a3D52CA4050c4C251731c156020",
+      "symbol": "bscETH",
+      "name": "Ethereum Token",
+      "decimals": 18,
+      "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/bscETH.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0x44cED87b9F1492Bf2DCf5c16004832569f7f6cBa",
+      "symbol": "bscUSDC",
+      "name": "USD Coin Token",
+      "decimals": 18,
+      "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/bscUSDC.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0x9A89d0e1b051640C6704Dde4dF881f73ADFEf39a",
+      "symbol": "bscUSDT",
+      "name": "Tether USD Token",
+      "decimals": 18,
+      "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/bscUSDT.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0xE176EBE47d621b984a73036B9DA5d834411ef734",
+      "symbol": "BUSD",
+      "name": "Binance USD",
+      "decimals": 18,
+      "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/BUSD.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0x2F459Dd7CBcC9D8323621f6Fb430Cd0555411E7B",
+      "symbol": "JENN",
+      "name": "TokenJenny",
+      "decimals": 18,
+      "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/JENN.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0x218532a12a389a4a92fC0C5Fb22901D1c19198aA",
+      "symbol": "LINK",
+      "name": "ChainLink Token",
+      "decimals": 18,
+      "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/LINK.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0x95CE547D730519A90dEF30d647F37D9E5359B6Ae",
+      "symbol": "LUNA",
+      "name": "Wrapped LUNA Token",
+      "decimals": 18,
+      "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/LUNA.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0x224e64ec1BDce3870a6a6c777eDd450454068FEC",
+      "symbol": "UST",
+      "name": "Wrapped UST Token",
+      "decimals": 18,
+      "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/UST.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0xcF664087a5bB0237a0BAd6742852ec6c8d69A27a",
+      "symbol": "WONE",
+      "name": "Wrapped ONE",
+      "decimals": 18,
+      "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/WONE.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0x0159ED2E06DDCD46a25E74eb8e159Ce666B28687",
+      "symbol": "FOX",
+      "name": "FarmersOnly Token",
+      "decimals": 18,
+      "logoURI": "https://s3.us-west-2.amazonaws.com/farmersonly.fi/FOX-Logo.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0xD74433B187Cf0ba998Ad9Be3486B929c76815215",
+      "symbol": "MIS",
+      "name": "Artemis Protocol",
+      "decimals": 18,
+      "logoURI": "https://i.imgur.com/pAmbhAU.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0x7ca9C1D0bb11F1b7C31ee5538D7a75aAF2d8E2FC",
+      "symbol": "COINKX",
+      "name": "PiggyBank Token",
+      "decimals": 18,
+      "logoURI": "https://app.farmersonly.fi/assets/images/tokens/coink.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0x53BA62dDD5a9A6B6d97C7a496D7832D13A9218c4",
+      "symbol": "rAVAX",
+      "name": "Avalanche Relay",
+      "decimals": 18,
+      "logoURI": "https://app.farmersonly.fi/assets/images/tokens/avax.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0xb12c13e66AdE1F72f71834f2FC5082Db8C091358",
+      "symbol": "AVAX",
+      "name": "Avalanche - Anyswap",
+      "decimals": 18,
+      "logoURI": "https://app.farmersonly.fi/assets/images/tokens/avax.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0xD647090c1cdcdbB72De411B1bA16f03d4A7bba02",
+      "symbol": "rFTM",
+      "name": "Fantom - Relay",
+      "decimals": 18,
+      "logoURI": "https://app.farmersonly.fi/assets/images/tokens/ftm.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0x735aBE48e8782948a37C7765ECb76b98CdE97B0F",
+      "symbol": "FTM",
+      "name": "Fantom - Anyswap",
+      "decimals": 18,
+      "logoURI": "https://app.farmersonly.fi/assets/images/tokens/ftm.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0xED0B4b0F0E2c17646682fc98ACe09feB99aF3adE",
+      "symbol": "RVRS",
+      "name": "Reverse Protocol",
+      "decimals": 18,
+      "logoURI": "https://app.farmersonly.fi/assets/images/tokens/rvrs.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0x72Cb10C6bfA5624dD07Ef608027E366bd690048F",
+      "symbol": "JEWEL",
+      "name": "DefiKingdoms",
+      "decimals": 18,
+      "logoURI": "https://app.farmersonly.fi/assets/images/tokens/jewel.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0xCf1709Ad76A79d5a60210F23e81cE2460542A836",
+      "symbol": "TRANQ",
+      "name": "Tranquil",
+      "decimals": 18,
+      "logoURI": "https://app.farmersonly.fi/assets/images/tokens/tranq.svg"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0x9b68BF4bF89c115c721105eaf6BD5164aFcc51E4",
+      "symbol": "XYA",
+      "name": "Freyala",
+      "decimals": 18,
+      "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/XYA.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0x340042552D19211795dbe55d84FA2E63bc49B890",
+      "symbol": "YANG",
+      "name": "Yang",
+      "decimals": 18,
+      "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/YANG.png"
+    },
+    {
+      "chainId": 1666600000,
+      "address": "0xE59AA7f9e91B4Cc6C25D3542CEcb851e0316138c",
+      "symbol": "YIN",
+      "name": "Yin",
+      "decimals": 18,
+      "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/YIN.png"
+    },
+    {
+      "chainId": 1666700000,
+      "address": "0xe2ffd56281D10c2aDC679A1A5a466F4cC57f7EA7",
+      "symbol": "1ETH",
+      "name": "Ether",
+      "decimals": 18,
+      "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/1ETH.png"
+    },
+    {
+      "chainId": 1666700000,
+      "address": "0xDB5D410244e7a7302eBb051B99a82116BF0D6c84",
+      "symbol": "1USDC",
+      "name": "USD Coin",
+      "decimals": 18,
+      "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/1USDC.png"
+    },
+    {
+      "chainId": 1666700000,
+      "address": "0x8f783a1DACADf6E9B887daf68aB07A0b9Bd8bA34",
+      "symbol": "UST",
+      "name": "Wrapped UST Token",
+      "decimals": 18,
+      "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/UST.png"
+    },
+    {
+      "chainId": 1666700000,
+      "address": "0x7466d7d0C21Fa05F32F5a0Fa27e12bdC06348Ce2",
+      "symbol": "WONE",
+      "name": "Wrapped ONE",
+      "decimals": 18,
+      "logoURI": "https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/WONE.png"
+    },
+    {
+      "chainId": 1666700000,
+      "address": "0x106B7F900B6feF3cAeD9d76428067F6377489Fda",
+      "symbol": "FOX",
+      "name": "FarmersOnly Token",
+      "decimals": 18,
+      "logoURI": "https://s3.us-west-2.amazonaws.com/farmersonly.fi/FOX-Logo.png"
+    }
+  ]
 }
