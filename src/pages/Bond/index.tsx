@@ -2,13 +2,16 @@ import styled from 'styled-components'
 import { AutoColumn } from '../../components/Column'
 import React, { useState } from 'react'
 import BondingModal from '../../components/Bond/BondingModal'
-import { ChainId, Token, TokenAmount } from '@foxswap/sdk'
+import { Token, TokenAmount, ChainId } from '@foxswap/sdk'
 import { useTokenBalance } from '../../state/wallet/hooks'
 import { useActiveWeb3React } from '../../hooks'
 import { CardSection, DataCard } from '../../components/earn/styled'
 import { AutoRow, RowBetween } from '../../components/Row'
 import { Text } from 'rebass'
 import { ButtonMint } from '../../components/Button'
+// import { BONDS } from '../../constants/bond'
+// import { useBondingContract } from '../../hooks/useContract'
+// import {PIT} from "../../constants";
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
@@ -39,8 +42,9 @@ export default function Bond() {
   const [showBondingModal, setShowBondingModal] = useState(false)
   // const [showInput, setShowInput] = useState(false)
   // const [typedValue, setTypedValue] = useState('')
+
   const inputCurrency = new Token(
-    ChainId.HARMONY_MAINNET,
+    ChainId.HARMONY_TESTNET,
     '0x0159ed2e06ddcd46a25e74eb8e159ce666b28687',
     18,
     'FOX',
@@ -48,6 +52,7 @@ export default function Bond() {
   )
 
   const tokenBalance: TokenAmount | undefined = useTokenBalance(account ?? undefined, inputCurrency)
+  // const data = useBondingContract()
 
   return (
     <PageWrapper gap="lg">
@@ -67,7 +72,7 @@ export default function Bond() {
                 Token
               </Text>
               <Text fontWeight={300} fontSize={18}>
-                UST/WONE
+                FOX/UST
               </Text>
             </AutoColumn>
             <AutoColumn>

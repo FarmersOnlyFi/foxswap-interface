@@ -35,6 +35,7 @@ import { V1_EXCHANGE_ABI, V1_FACTORY_ABI, V1_FACTORY_ADDRESSES } from '../consta
 import { getContract } from '../utils'
 import { useActiveWeb3React } from './index'
 import useGovernanceToken from './useGovernanceToken'
+import { LP_BOND_ABI } from '../constants/abis/lp-contract'
 
 // returns null on errors
 function useContract(address: string | undefined, ABI: any, withSignerIfPossible = true): Contract | null {
@@ -149,9 +150,9 @@ export function useMasterBreederContract(withSignerIfPossible?: boolean): Contra
   return useContract(address, MASTER_BREEDER_ABI, withSignerIfPossible)
 }
 
-export function useBondingContract(withSignerIfPossible?: boolean): Contract | null {
+export function useBondingContract(): Contract | null {
   const { chainId } = useActiveWeb3React()
-  return useContract(chainId === ChainId.HARMONY_TESTNET ? BONDING_ADDRESS : undefined, UNISOCKS_ABI, false)
+  return useContract(chainId === ChainId.HARMONY_TESTNET ? BONDING_ADDRESS : undefined, LP_BOND_ABI, false)
 }
 
 export function useSocksController(): Contract | null {
