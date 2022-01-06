@@ -1,5 +1,5 @@
-import foxTokenLogo from '../assets/svg/foxswap/foxswaplogo-iconwhite.svg'
+import FoxLogo from 'assets/svg/FOX-Logo.png'
 
 export default function getTokenLogo(): string {
-  return foxTokenLogo
+  return FoxLogo
 }

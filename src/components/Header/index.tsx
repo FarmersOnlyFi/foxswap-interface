@@ -7,8 +7,7 @@ import { darken } from 'polished'
 import { useTranslation } from 'react-i18next'
 
 import styled from 'styled-components'
-import FoxLogo from 'assets/svg/foxswap/foxswaplogo-iconwhite.svg'
-import BlackFoxLogo from 'assets/svg/foxswap/foxswaplogo-iconblack.svg'
+import FoxLogo from 'assets/svg/FOX-Logo.png'
 import { useActiveWeb3React } from '../../hooks'
 import { useDarkModeManager } from '../../state/user/hooks'
 import { useTokenBalance } from '../../state/wallet/hooks'
@@ -33,7 +32,7 @@ import { PIT_SETTINGS } from '../../constants'
 
 const HeaderFrame = styled.div`
   display: grid;
-  grid-template-columns: 1fr 120px;
+  grid-template-columns: 1fr 90px;
   align-items: center;
   justify-content: space-between;
   flex-direction: row;
@@ -50,7 +49,7 @@ const HeaderFrame = styled.div`
     position: relative;
   `};
   background: ${({ theme }) => theme.bg1};
-  border-radius: 12px;
+  border-radius: 6px;
   margin: 15px;
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
         padding: 0.5rem 1rem;
@@ -75,7 +74,7 @@ const HeaderControls = styled.div`
     left: 0px;
     width: 100%;
     z-index: 99;
-    height: 72px;
+    height: 50px;
     border-radius: 12px 12px 0 0;
     background-color: ${({ theme }) => theme.bg1};
   `};
@@ -116,9 +115,9 @@ const HeaderLinks = styled(Row)`
 `
 
 const LogoImage = styled('img')`
-  width: 125px;
-  height: 100px;
-  padding: 9px;
+  width: 60px;
+  height: 60px;
+  padding: 1px;
   cursor: pointer;
 `
 
@@ -293,7 +292,7 @@ export default function Header() {
         {darkMode ? (
           <LogoImage src={FoxLogo} onClick={() => setShowUniBalanceModal(true)} alt="logo" />
         ) : (
-          <LogoImage src={BlackFoxLogo} onClick={() => setShowUniBalanceModal(true)} alt="logo" />
+          <LogoImage src={FoxLogo} onClick={() => setShowUniBalanceModal(true)} alt="logo" />
         )}
         <HeaderLinks>
           <StyledNavLink id={`swap-nav-link`} to={'/swap'}>
@@ -313,7 +312,7 @@ export default function Header() {
             {t('pool')}
           </StyledNavLink>
           <StyledNavLink id={`pit-nav-link`} to={`${pitSettings?.path}`}>
-            {t('Stake')}
+            {pitSettings?.name}
           </StyledNavLink>
           <StyledNavLink id={`bond-nav-link`} to={'/bond'}>
             {t('Bond')}

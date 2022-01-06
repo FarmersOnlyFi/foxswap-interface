@@ -8,13 +8,13 @@ import getTokenWithDefault from '../utils/getTokenWithDefault'
 
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 export const ZERO_ONE_ADDRESS = '0x0000000000000000000000000000000000000001'
-export const BONDING_ADDRESS = '0x0000000000000000000000000000000000000001'
+export const BONDING_ADDRESS = '0x42b769209eC38286b858Ae2d919Cd111b12975FE'
 export const GOVERNANCE_ADDRESS = '0x5e4be8Bc9637f0EAA1A755019e06A68ce081D58F'
 export const TIMELOCK_ADDRESS = '0x1a9C8182C09F50C8318d769245beA52c32BE35BC'
 export const SOCKS_TESTNET_ADDRESS = '0x65770b5283117639760beA3F867b69b3697a91dd'
 
 export const ROUTER_ADDRESSES: { [chainId in ChainId]: string } = {
-  [ChainId.HARMONY_MAINNET]: '0x4A92aA1D58F1C9AB755Cb6cE1E8669344f39eA0D',
+  [ChainId.HARMONY_MAINNET]: '0x32253394e1C9E33C0dA3ddD54cDEff07E457A687',
   [ChainId.HARMONY_TESTNET]: '0x3b8D93D0CBEaeB3D00FeFC1FaCf1399333626DFF'
 }
 
@@ -41,14 +41,14 @@ export const MASTER_BREEDER: { [chainId in ChainId]: string } = {
 }
 
 export const PIT_BREEDER: { [chainId in ChainId]: string } = {
-  [ChainId.HARMONY_MAINNET]: '0x9D28bE93bC69e5E29072E54E48354ab1180c6B98',
+  [ChainId.HARMONY_MAINNET]: '0xb46B7A8160A114091b5E62C2Ee090B0997D99e5a',
   [ChainId.HARMONY_TESTNET]: '0x15e04418d328c39bA747690F6DaE9Bbf548CD358'
 }
 
 export const PIT: { [chainId in ChainId]: Token } = {
   [ChainId.HARMONY_MAINNET]: new Token(
     ChainId.HARMONY_MAINNET,
-    '0xb6514fE45a4A11Bfd6aD5d6F2eFF745a98207288',
+    '0x02f667745A77C376Db5b232846D4b2454e533699',
     18,
     'xFOX',
     'FoxDen'
@@ -63,8 +63,8 @@ export const PIT: { [chainId in ChainId]: Token } = {
 }
 
 export const PIT_SETTINGS: { [chainId in ChainId]: Record<string, string> } = {
-  [ChainId.HARMONY_MAINNET]: { name: 'Den', path: '/den' },
-  [ChainId.HARMONY_TESTNET]: { name: 'Den', path: '/den' }
+  [ChainId.HARMONY_MAINNET]: { name: 'Stake', path: '/stake' },
+  [ChainId.HARMONY_TESTNET]: { name: 'Stake', path: '/stake' }
 }
 
 export const WEB_INTERFACES: { [chainId in ChainId]: string[] } = {
