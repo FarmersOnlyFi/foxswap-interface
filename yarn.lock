@@ -1800,10 +1800,10 @@
     "@foxswap/core" "1.0.0"
     "@foxswap/lib" "1.0.0"
 
-"@foxswap/sdk-extra@^1.4.1":
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/@foxswap/sdk-extra/-/sdk-extra-1.4.1.tgz#61caf4921ae431b57606005c9e2369d8db1f980e"
-  integrity sha512-UYMD7D7nHbIFJ2rtGC/awqEFjrB/UUMAhvsr7+B5aejccRzOFXGKhvf4cgosyavw5/Srz17dHmslA2LDMisdHA==
+"@foxswap/sdk-extra@^1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@foxswap/sdk-extra/-/sdk-extra-1.4.2.tgz#cbb49cf8720be28d216d83a78d34c74cbb3bcc3a"
+  integrity sha512-sIMpJVnp414SYKCplYtzX5Tlqi4r6mWztgFYfdNXBaiW5myAKJdo23Wg3xbcHZyO8oEqzTmSbE9Cq71py8wiCA==
   dependencies:
     "@ethersproject/address" "^5.3.0"
     "@ethersproject/contracts" "^5.3.0"
@@ -1819,6 +1819,19 @@
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@foxswap/sdk/-/sdk-1.2.2.tgz#629b1aa911d754442382ef89c58e261cdea18866"
   integrity sha512-ndBYGN4oVt+T7aorIYGZWsR5cQFlxVKg5RTxjRaZHCgQe8FY0E25/jzZzJZs6LCcf5vAN+Km1VDcKPGV+KS8rw==
+  dependencies:
+    "@foxswap/core" "^1.0.1"
+    big.js "^5.2.2"
+    decimal.js-light "^2.5.0"
+    jsbi "^3.1.1"
+    tiny-invariant "^1.1.0"
+    tiny-warning "^1.0.3"
+    toformat "^2.0.0"
+
+"@foxswap/sdk@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@foxswap/sdk/-/sdk-1.2.3.tgz#0f03f67bdc08bb05705231ba3737d16bb3850b60"
+  integrity sha512-5Fk3yE7FXwiN/8sEwJ1eKc7Xqhac1B8Mk2/NUQLSW1AIsd1TxJH4uiQWOZaVUo0yUKZqZRubDHJWdXdysP/DGQ==
   dependencies:
     "@foxswap/core" "^1.0.1"
     big.js "^5.2.2"
