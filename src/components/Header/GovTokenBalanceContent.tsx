@@ -75,7 +75,7 @@ export default function GovTokenBalanceContent({ setShowUniBalanceModal }: { set
           <>
             <CardSection gap="sm">
               <AutoColumn gap="md" justify="center">
-                <UniTokenAnimated width="48px" src={getTokenLogo()} />{' '}
+                <UniTokenAnimated width="80px" src={getTokenLogo()} />{' '}
                 <TYPE.white fontSize={48} fontWeight={600} color="white">
                   {total?.toFixed(2, { groupSeparator: ',' })}
                 </TYPE.white>

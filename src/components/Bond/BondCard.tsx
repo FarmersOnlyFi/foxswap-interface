@@ -23,56 +23,66 @@ export const MintCard = styled(DataCard)`
 `
 
 export default function BondCard() {
+  const isActive = false
   return (
-    <MintCard>
-      <CardSection>
-        <AutoRow justify="space-between">
-          <AutoColumn>
-            <Text fontWeight={200} fontSize={11}>
-              Token
-            </Text>
-            <Text fontWeight={300} fontSize={18}>
-              UST/WONE
-            </Text>
-          </AutoColumn>
-          <AutoColumn>
-            <Text fontWeight={200} fontSize={11}>
-              Price
-            </Text>
-            <Text fontWeight={300} fontSize={18}>
-              $19.21
-            </Text>
-            <RowBetween />
-          </AutoColumn>
-          <AutoColumn>
-            <Text fontWeight={200} fontSize={11} textAlign="left">
-              ROI
-            </Text>
-            <Text fontWeight={300} fontSize={18}>
-              -4.78%
-            </Text>
-          </AutoColumn>
-          <AutoColumn>
-            <Text fontWeight={200} fontSize={11} textAlign="left">
-              Duration
-            </Text>
-            <Text fontWeight={300} fontSize={18}>
-              5 Days
-            </Text>
-          </AutoColumn>
-          <AutoColumn>
-            <Text fontWeight={200} fontSize={11} textAlign="left">
-              Purchased
-            </Text>
-            <Text fontWeight={300} fontSize={18}>
-              $3,000,000
-            </Text>
-          </AutoColumn>
-          <AutoColumn>
-            <MinterButton>Bond</MinterButton>
-          </AutoColumn>
-        </AutoRow>
-      </CardSection>
-    </MintCard>
+    <>
+      <MintCard>
+        <Text fontWeight={200} fontSize={11}>
+          Tokenssssss
+        </Text>
+      </MintCard>
+      {isActive && (
+        <MintCard>
+          <CardSection>
+            <AutoRow justify="space-between">
+              <AutoColumn>
+                <Text fontWeight={200} fontSize={11}>
+                  Token
+                </Text>
+                <Text fontWeight={300} fontSize={18}>
+                  UST/WONE
+                </Text>
+              </AutoColumn>
+              <AutoColumn>
+                <Text fontWeight={200} fontSize={11}>
+                  Prices
+                </Text>
+                <Text fontWeight={300} fontSize={18}>
+                  $19.212
+                </Text>
+                <RowBetween />
+              </AutoColumn>
+              <AutoColumn>
+                <Text fontWeight={200} fontSize={11} textAlign="left">
+                  ROI
+                </Text>
+                <Text fontWeight={300} fontSize={18}>
+                  -4.78%
+                </Text>
+              </AutoColumn>
+              <AutoColumn>
+                <Text fontWeight={200} fontSize={11} textAlign="left">
+                  Duration
+                </Text>
+                <Text fontWeight={300} fontSize={18}>
+                  5 Days
+                </Text>
+              </AutoColumn>
+              <AutoColumn>
+                <Text fontWeight={200} fontSize={11} textAlign="left">
+                  Purchasedddddd
+                </Text>
+                <Text fontWeight={300} fontSize={18}>
+                  $3,000,000
+                </Text>
+              </AutoColumn>
+              <AutoColumn>
+                <MinterButton>Bond</MinterButton>
+              </AutoColumn>
+            </AutoRow>
+          </CardSection>
+        </MintCard>
+      )}
+    </>
   )
 }

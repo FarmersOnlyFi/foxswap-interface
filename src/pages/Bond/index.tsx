@@ -53,6 +53,7 @@ export default function Bond() {
 
   const tokenBalance: TokenAmount | undefined = useTokenBalance(account ?? undefined, inputCurrency)
   // const data = useBondingContract()
+  const isActive = false
 
   return (
     <PageWrapper gap="lg">
@@ -64,56 +65,64 @@ export default function Bond() {
           userLiquidityUnstaked={tokenBalance}
         />
       </>
-      <MintCard>
-        <CardSection>
-          <AutoRow justify="space-between">
-            <AutoColumn>
-              <Text fontWeight={200} fontSize={11}>
-                Token
-              </Text>
-              <Text fontWeight={300} fontSize={18}>
-                FOX/UST
-              </Text>
-            </AutoColumn>
-            <AutoColumn>
-              <Text fontWeight={200} fontSize={11}>
-                Price
-              </Text>
-              <Text fontWeight={300} fontSize={18}>
-                $19.21
-              </Text>
-              <RowBetween />
-            </AutoColumn>
-            <AutoColumn>
-              <Text fontWeight={200} fontSize={11} textAlign="left">
-                ROI
-              </Text>
-              <Text fontWeight={300} fontSize={18}>
-                -4.78%
-              </Text>
-            </AutoColumn>
-            <AutoColumn>
-              <Text fontWeight={200} fontSize={11} textAlign="left">
-                Duration
-              </Text>
-              <Text fontWeight={300} fontSize={18}>
-                5 Days
-              </Text>
-            </AutoColumn>
-            <AutoColumn>
-              <Text fontWeight={200} fontSize={11} textAlign="left">
-                Purchased
-              </Text>
-              <Text fontWeight={300} fontSize={18}>
-                $3,000,000
-              </Text>
-            </AutoColumn>
-            <AutoColumn>
-              <MinterButton onClick={() => setShowBondingModal(true)}>Bond</MinterButton>
-            </AutoColumn>
-          </AutoRow>
-        </CardSection>
-      </MintCard>
+      {!isActive ? (
+        <MintCard>
+          <Text fontWeight={200} fontSize={33} textAlign={'center'}>
+            Coming Soon
+          </Text>
+        </MintCard>
+      ) : (
+        <MintCard>
+          <CardSection>
+            <AutoRow justify="space-between">
+              <AutoColumn>
+                <Text fontWeight={200} fontSize={11}>
+                  Token
+                </Text>
+                <Text fontWeight={300} fontSize={18}>
+                  FOX/UST
+                </Text>
+              </AutoColumn>
+              <AutoColumn>
+                <Text fontWeight={200} fontSize={11}>
+                  Price
+                </Text>
+                <Text fontWeight={300} fontSize={18}>
+                  $19.21
+                </Text>
+                <RowBetween />
+              </AutoColumn>
+              <AutoColumn>
+                <Text fontWeight={200} fontSize={11} textAlign="left">
+                  ROI
+                </Text>
+                <Text fontWeight={300} fontSize={18}>
+                  -4.78%
+                </Text>
+              </AutoColumn>
+              <AutoColumn>
+                <Text fontWeight={200} fontSize={11} textAlign="left">
+                  Duration
+                </Text>
+                <Text fontWeight={300} fontSize={18}>
+                  5 Dayss
+                </Text>
+              </AutoColumn>
+              <AutoColumn>
+                <Text fontWeight={200} fontSize={11} textAlign="left">
+                  Purchased
+                </Text>
+                <Text fontWeight={300} fontSize={18}>
+                  $3,000,000
+                </Text>
+              </AutoColumn>
+              <AutoColumn>
+                <MinterButton onClick={() => setShowBondingModal(true)}>Bond</MinterButton>
+              </AutoColumn>
+            </AutoRow>
+          </CardSection>
+        </MintCard>
+      )}
     </PageWrapper>
   )
 }

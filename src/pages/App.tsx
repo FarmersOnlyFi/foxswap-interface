@@ -116,6 +116,7 @@ export default function App() {
               <Route exact strict path="/send" component={RedirectPathToSwapOnly} />
               <Route exact strict path="/find" component={PoolFinder} />
               <Route exact strict path="/pool" component={Pool} />
+              <Route exact strict path={pitSettings?.path} component={Pit} />
               <Route exact strict path="/bond" component={Bond} />
               {/*<Route*/}
               {/*  exact*/}
@@ -123,7 +124,6 @@ export default function App() {
               {/*  path="/vaults"*/}
               {/*  component={() => <ExternalLink href={`https://app.farmersonly.fi`}>Vault</ExternalLink>}*/}
               {/*/>*/}
-              <Route exact strict path={pitSettings?.path} component={Pit} />
               {blockchain === Blockchain.ETHEREUM && <Route exact strict path="/vote" component={Vote} />}
               <Route exact strict path="/create" component={RedirectToAddLiquidity} />
               <Route exact path="/add" component={AddLiquidity} />
