@@ -1,6 +1,7 @@
-// import { TokenAmount } from '@foxswap/sdk'
+import { TokenAmount } from '@foxswap/sdk'
 import React, { useState } from 'react'
 import { Text } from 'rebass'
+import { Moon, Sun } from 'react-feather'
 import { NavLink } from 'react-router-dom'
 import { darken } from 'polished'
 import { useTranslation } from 'react-i18next'
@@ -9,12 +10,10 @@ import styled from 'styled-components'
 import FoxLogo from 'assets/svg/FOX-Logo.png'
 import { useActiveWeb3React } from '../../hooks'
 import { useDarkModeManager } from '../../state/user/hooks'
-import { useETHBalances } from '../../state/wallet/hooks'
+import { useTokenBalance } from '../../state/wallet/hooks'
+import useGovernanceToken from '../../hooks/useGovernanceToken'
 import { CardNoise } from '../earn/styled'
-// import { CountUp } from 'use-count-up'
 import { ExternalLink, TYPE } from '../../theme'
-
-import { Moon, Sun } from 'react-feather'
 import Menu from '../Menu'
 
 import Row, { RowFixed } from '../Row'
@@ -26,17 +25,16 @@ import { useUserHasSubmittedClaim } from '../../state/transactions/hooks'
 import { Dots } from '../swap/styleds'
 import Modal from '../Modal'
 import GovTokenBalanceContent from './GovTokenBalanceContent'
-// import usePrevious from '../../hooks/usePrevious'
-import { BASE_CURRENCY } from '../../connectors'
+
+import { GOVERNANCE_TOKEN_INTERFACE } from '../../constants/abis/governanceToken'
+// import { BASE_CURRENCY } from '../../connectors'
 import { PIT_SETTINGS } from '../../constants'
-import useGovernanceToken from '../../hooks/useGovernanceToken'
 
 const HeaderFrame = styled.div`
   display: grid;
   grid-template-columns: 1fr 90px;
   align-items: center;
   justify-content: space-between;
-  align-items: center;
   flex-direction: row;
   width: 100%;
   top: 0;
@@ -241,10 +239,6 @@ export const StyledMenuButton = styled.button`
   width: 100%;
   height: 100%;
   border: none;
-  background-color: transparent;
-  margin: 0;
-  padding: 0;
-  height: 35px;
   background-color: ${({ theme }) => theme.bg3};
   margin-left: 8px;
   padding: 0.15rem 0.5rem;
@@ -274,7 +268,12 @@ export default function Header() {
   const [showUniBalanceModal, setShowUniBalanceModal] = useState(false)
 
   const govToken = useGovernanceToken()
-  const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
+  const userFoxBalance: TokenAmount | undefined = useTokenBalance(
+    account ?? undefined,
+    govToken,
+    'balanceOf',
+    GOVERNANCE_TOKEN_INTERFACE
+  )
   const pitSettings = chainId ? PIT_SETTINGS[chainId] : undefined
   const toggleClaimModal = useToggleSelfClaimModal()
   const availableClaim: boolean = useUserHasAvailableClaim(account)
@@ -338,9 +337,9 @@ export default function Header() {
             </UNIWrapper>
           )}
           <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
-            {account && userEthBalance ? (
+            {account && userFoxBalance ? (
               <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
-                {userEthBalance?.toSignificant(4)} {BASE_CURRENCY.symbol}
+                {userFoxBalance?.toSignificant(4)} {govToken?.symbol}
               </BalanceText>
             ) : null}
             <Web3Status />
