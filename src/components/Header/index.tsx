@@ -317,7 +317,8 @@ export default function Header() {
           <StyledNavLink id={`bond-nav-link`} to={'/bond'}>
             {t('Bond')}
           </StyledNavLink>
-          <StyledRedirectLink href={`https://app.farmersonly.fi/vaults`}>{t('Vault')}</StyledRedirectLink>
+          <StyledRedirectLink href={`https://app.farmersonly.fi/vaults`}>{t('Vaults')}</StyledRedirectLink>
+          <StyledRedirectLink href={`https://app.farmersonly.fi/zap`}>{t('Zapper')}</StyledRedirectLink>
         </HeaderLinks>
       </HeaderRow>
       <HeaderControls>
