@@ -1,6 +1,5 @@
 import React from 'react'
-import { JSBI } from '@foxswap/sdk'
-import { BLOCKCHAIN_SETTINGS } from '@foxswap/sdk-extra'
+import { JSBI, BLOCKCHAIN_SETTINGS } from '@foxswap/sdk'
 import { AutoColumn } from '../../components/Column'
 import styled from 'styled-components'
 import { STAKING_REWARDS_INFO } from '../../constants/staking'

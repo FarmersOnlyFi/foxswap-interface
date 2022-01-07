@@ -1,5 +1,4 @@
-import { ChainId, Token, WETH } from '@foxswap/sdk'
-import { TOKENS } from '@foxswap/sdk-extra'
+import { ChainId, Token, WETH, TOKENS } from '@foxswap/sdk'
 
 export default function getTokenWithDefault(chainId: ChainId | undefined, symbol: string): Token | undefined {
   if (chainId === undefined) return undefined

@@ -1414,7 +1414,7 @@
     "@ethersproject/logger" "^5.5.0"
     "@ethersproject/properties" "^5.5.0"
 
-"@ethersproject/address@5.5.0", "@ethersproject/address@^5.3.0", "@ethersproject/address@^5.5.0":
+"@ethersproject/address@5.5.0", "@ethersproject/address@^5.5.0":
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/@ethersproject/address/-/address-5.5.0.tgz#bcc6f576a553f21f3dd7ba17248f81b473c9c78f"
   integrity sha512-l4Nj0eWlTUh6ro5IbPTgbpT4wRbdH5l8CQf7icF7sb/SI3Nhd9Y9HzhonTSTi6CefI0necIw7LJqQPopPLZyWw==
@@ -1463,7 +1463,7 @@
   dependencies:
     "@ethersproject/bignumber" "^5.5.0"
 
-"@ethersproject/contracts@5.5.0", "@ethersproject/contracts@^5.3.0":
+"@ethersproject/contracts@5.5.0":
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/@ethersproject/contracts/-/contracts-5.5.0.tgz#b735260d4bd61283a670a82d5275e2a38892c197"
   integrity sha512-2viY7NzyvJkh+Ug17v7g3/IJC8HqZBDcOjYARZLdzRxrfGlRgmYgl6xPRKVbEzy1dWKw/iv7chDcS83pg6cLxg==
@@ -1574,7 +1574,7 @@
   dependencies:
     "@ethersproject/logger" "^5.5.0"
 
-"@ethersproject/providers@5.5.0", "@ethersproject/providers@^5.3.0":
+"@ethersproject/providers@5.5.0":
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/@ethersproject/providers/-/providers-5.5.0.tgz#bc2876a8fe5e0053ed9828b1f3767ae46e43758b"
   integrity sha512-xqMbDnS/FPy+J/9mBLKddzyLLAQFjrVff5g00efqxPzcAwXiR+SiCGVy6eJ5iAIirBOATjx7QLhDNPGV+AEQsw==
@@ -1636,7 +1636,7 @@
     elliptic "6.5.4"
     hash.js "1.1.7"
 
-"@ethersproject/solidity@5.5.0", "@ethersproject/solidity@^5.3.0":
+"@ethersproject/solidity@5.5.0":
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/@ethersproject/solidity/-/solidity-5.5.0.tgz#2662eb3e5da471b85a20531e420054278362f93f"
   integrity sha512-9NgZs9LhGMj6aCtHXhtmFQ4AN4sth5HuFXVvAQtzmm0jpSCNOTGtrHZJAeYTh7MBjRR8brylWZxBZR9zDStXbw==
@@ -1724,11 +1724,6 @@
     "@ethersproject/properties" "^5.5.0"
     "@ethersproject/strings" "^5.5.0"
 
-"@foxswap/community-token-list@^2.3.2":
-  version "2.3.4"
-  resolved "https://registry.yarnpkg.com/@foxswap/community-token-list/-/community-token-list-2.3.4.tgz#d4c9a9cda2e0460f8f48406378ade9da61e9cdf0"
-  integrity sha512-x9FLGGi0c09DA7UJD37mcN7ySdxmq6214XRq9jAAvKhVWKHHPHI+yaDtfcLh5VNiNxLoh7tbmHr7V+LNyp3gGg==
-
 "@foxswap/core@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@foxswap/core/-/core-1.0.0.tgz#4002ddfecd4dd9e3cbe04f2e404a088c12ea7641"
@@ -1757,43 +1752,17 @@
     "@foxswap/core" "1.0.0"
     "@foxswap/lib" "1.0.0"
 
-"@foxswap/sdk-extra@^1.4.2":
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/@foxswap/sdk-extra/-/sdk-extra-1.4.2.tgz#cbb49cf8720be28d216d83a78d34c74cbb3bcc3a"
-  integrity sha512-sIMpJVnp414SYKCplYtzX5Tlqi4r6mWztgFYfdNXBaiW5myAKJdo23Wg3xbcHZyO8oEqzTmSbE9Cq71py8wiCA==
+"@foxswap/sdk@^1.2.4":
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/@foxswap/sdk/-/sdk-1.2.4.tgz#261dc10e203672809b0a61ba950a94b538b5b4b2"
+  integrity sha512-hb+JhxEWL3dF52ttMNUY+Qv4PtCwHg8kruC2eUBJsFKlxskP2r7WmWwLx6ETazU87ZJaXHaJoz8yrwXaYhU0xg==
   dependencies:
-    "@ethersproject/address" "^5.3.0"
-    "@ethersproject/contracts" "^5.3.0"
-    "@ethersproject/providers" "^5.3.0"
-    "@ethersproject/solidity" "^5.3.0"
-    "@foxswap/community-token-list" "^2.3.2"
+    "@foxswap/core" "^1.0.1"
     "@foxswap/default-token-list" "^2.1.4"
-    "@foxswap/sdk" "^1.2.2"
-    "@types/lodash.random" "^3.2.6"
+    big.js "^5.2.2"
+    decimal.js-light "^2.5.0"
+    jsbi "^3.1.1"
     lodash.random "^3.2.0"
-
-"@foxswap/sdk@^1.2.2":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@foxswap/sdk/-/sdk-1.2.2.tgz#629b1aa911d754442382ef89c58e261cdea18866"
-  integrity sha512-ndBYGN4oVt+T7aorIYGZWsR5cQFlxVKg5RTxjRaZHCgQe8FY0E25/jzZzJZs6LCcf5vAN+Km1VDcKPGV+KS8rw==
-  dependencies:
-    "@foxswap/core" "^1.0.1"
-    big.js "^5.2.2"
-    decimal.js-light "^2.5.0"
-    jsbi "^3.1.1"
-    tiny-invariant "^1.1.0"
-    tiny-warning "^1.0.3"
-    toformat "^2.0.0"
-
-"@foxswap/sdk@^1.2.3":
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/@foxswap/sdk/-/sdk-1.2.3.tgz#0f03f67bdc08bb05705231ba3737d16bb3850b60"
-  integrity sha512-5Fk3yE7FXwiN/8sEwJ1eKc7Xqhac1B8Mk2/NUQLSW1AIsd1TxJH4uiQWOZaVUo0yUKZqZRubDHJWdXdysP/DGQ==
-  dependencies:
-    "@foxswap/core" "^1.0.1"
-    big.js "^5.2.2"
-    decimal.js-light "^2.5.0"
-    jsbi "^3.1.1"
     tiny-invariant "^1.1.0"
     tiny-warning "^1.0.3"
     toformat "^2.0.0"
@@ -2822,13 +2791,6 @@
   version "4.5.6"
   resolved "https://registry.yarnpkg.com/@types/lodash.flatmap/-/lodash.flatmap-4.5.6.tgz#5f1ea80cebe403f0fbfcc1b5ad75cd09dd8b5785"
   integrity sha512-ELNrUL9q+MB7AACaHivWIsKDFDgYhHE3/svXhqvDJgONtn2c467Cy87nEb7CEDvfaGCPv91lPaW596I8s5oiNQ==
-  dependencies:
-    "@types/lodash" "*"
-
-"@types/lodash.random@^3.2.6":
-  version "3.2.6"
-  resolved "https://registry.yarnpkg.com/@types/lodash.random/-/lodash.random-3.2.6.tgz#64b08abad168dca39c778ed40cce75b2f9e168eb"
-  integrity sha512-RRr0pKm+3USvG/HTkuRKA8v2EqXu19VXC09j4VL2UQec8Yx8Fn6wYTPGjYdmX4UFd23ykS7SLFkiULS/rv8kTA==
   dependencies:
     "@types/lodash" "*"
 
