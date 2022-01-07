@@ -74,10 +74,6 @@ export default function GovTokenBalanceContent({ setShowUniBalanceModal }: { set
   if (govStaked instanceof TokenAmount) {
     total = govTokenBalance?.add(govStaked)
   }
-  console.log('xGovTokenRatio', xGovTokenRatio?.toSignificant(6))
-  console.log('xGovTokenBalance', xGovTokenBalance?.toSignificant(6))
-  console.log('govStaked', govStaked?.toSignificant(6))
-  console.log('total', total?.toSignificant(6))
 
   return (
     <ContentWrapper gap="lg">
