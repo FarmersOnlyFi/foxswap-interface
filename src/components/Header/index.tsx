@@ -7,7 +7,7 @@ import { darken } from 'polished'
 import { useTranslation } from 'react-i18next'
 
 import styled from 'styled-components'
-import FoxLogo from 'assets/svg/FOX-Logo.png'
+import FoxLogo from 'assets/svg/foxswap/foxswap-circle_02.svg'
 import { useActiveWeb3React } from '../../hooks'
 import { useDarkModeManager } from '../../state/user/hooks'
 import { useTokenBalance } from '../../state/wallet/hooks'

@@ -3,7 +3,7 @@ import { abi as GOVERNANCE_ABI } from '@uniswap/governance/build/GovernorAlpha.j
 import { abi as UNI_ABI } from '@uniswap/governance/build/Uni.json'
 import { abi as GOVERNANCE_TOKEN_ABI } from '@venomswap/contracts/build/GovernanceToken.json'
 import { abi as STAKING_REWARDS_ABI } from '@uniswap/liquidity-staker/build/StakingRewards.json'
-import { abi as MASTER_BREEDER_ABI } from '@venomswap/contracts/build/MasterBreeder.json'
+import MASTER_BREEDER_ABI from 'constants/abis/masterchef.json'
 import PIT_ABI from 'constants/abis/gov-token.json'
 import { abi as PIT_BREEDER_ABI } from '@venomswap/contracts/build/PitBreeder.json'
 import { abi as MERKLE_DISTRIBUTOR_ABI } from '@uniswap/merkle-distributor/build/MerkleDistributor.json'

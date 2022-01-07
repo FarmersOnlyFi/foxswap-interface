@@ -17,8 +17,8 @@ export default function usePitRatio(): Fraction | undefined {
   const pitGovBalance = useSingleCallResult(pitContract, 'balanceOfThis')?.result?.[0]
 
   return useMemo(() => {
-    return pitGovBalance && pitTotalSupply
+    return pitGovBalance && pitTotalSupply && pitGovBalance > 0
       ? new Fraction(pitGovBalance)?.divide(pitTotalSupply?.raw.toString())
-      : undefined
+      : new Fraction(BigInt(1))
   }, [govToken, pit, pitTotalSupply, pitGovTokenBalance])
 }

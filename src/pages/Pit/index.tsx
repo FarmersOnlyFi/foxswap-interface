@@ -27,9 +27,11 @@ import { PIT_INTERFACE } from '../../constants/abis/pit'
 import useGovernanceToken from 'hooks/useGovernanceToken'
 // import useTotalCombinedTVL from '../../hooks/useTotalCombinedTVL'
 import usePitRatio from '../../hooks/usePitRatio'
-// import { useStakingInfo } from '../../state/stake/hooks'
-// import useFilterStakingInfos from '../../hooks/useFilterStakingInfos'
-// import CombinedTVL from '../../components/CombinedTVL'
+import useXFoxApy from '../../hooks/usexFoxApy'
+import { useSingleCallResult } from '../../state/multicall/hooks'
+import { usePitContract } from '../../hooks/useContract'
+import useWithdrawalFeeTimer from '../../hooks/useWithdrawalFeeTimer'
+import WithdrawFeeTimer from '../../components/Pit/WithdrawFeeTimer'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
@@ -112,15 +114,25 @@ export default function Pit({
     'balanceOf',
     GOVERNANCE_TOKEN_INTERFACE
   )
-
+  const withdrawalFeePeriod = '7200' // 2 hours
   const pit = chainId ? PIT[chainId] : undefined
+  const pitContract = usePitContract()
   const pitSettings = chainId ? PIT_SETTINGS[chainId] : undefined
+  const userInfo = useSingleCallResult(pitContract, 'userInfo', [account ? account : 0])
   const pitBalance: TokenAmount | undefined = useTokenBalance(account ?? undefined, pit, 'balanceOf', PIT_INTERFACE)
   const govTokenPitTokenRatio = usePitRatio()
+  const apy = useXFoxApy()
   const adjustedPitBalance = govTokenPitTokenRatio ? pitBalance?.multiply(govTokenPitTokenRatio) : undefined
 
   const userLiquidityStaked = pitBalance
   const userLiquidityUnstaked = govTokenBalance
+  const lastDepositedTime = userInfo.result?.lastDepositedTime
+
+  const { secondsRemaining, hasUnstakingFee } = useWithdrawalFeeTimer(
+    parseInt(lastDepositedTime, 10),
+    parseInt(withdrawalFeePeriod, 10)
+  )
+  const shouldShowTimer = account && lastDepositedTime && hasUnstakingFee
 
   // toggle for staking modal and unstaking modal
   const [showStakingModal, setShowStakingModal] = useState(false)
@@ -166,11 +178,32 @@ export default function Pit({
             <CardSection>
               <AutoColumn gap="md">
                 <RowBetween>
-                  <TYPE.white fontWeight={600}>{pitSettings?.name} - DEX fee sharing</TYPE.white>
+                  <TYPE.white fontWeight={600}>
+                    {pitSettings?.name}: DEX fee sharing + Auto-compounding Vault
+                  </TYPE.white>
                 </RowBetween>
                 <RowBetween style={{ alignItems: 'baseline' }}>
-                  <TYPE.white fontSize={14}>
-                    Stake your {govToken?.symbol} tokens and earn 1/3rd of the generated trading fees.
+                  <DataRow style={{ marginBottom: '0rem' }}>
+                    <TYPE.white fontSize={25}>APY Daily</TYPE.white>
+                    <TYPE.white fontSize={25}>APY Yearly</TYPE.white>
+                  </DataRow>
+                </RowBetween>
+                <RowBetween>
+                  <DataRow style={{ marginBottom: '0rem' }}>
+                    <TYPE.white fontSize={20}>{apy.apyDay?.toFixed(3)}%</TYPE.white>
+                    <TYPE.white fontSize={20}>{apy.apy?.toPrecision(4)}%</TYPE.white>
+                  </DataRow>
+                </RowBetween>
+
+                <RowBetween>
+                  <DataRow style={{ marginBottom: '0rem' }}>
+                    <TYPE.white fontSize={15}>0.2% unstaking fee until:</TYPE.white>
+                    <WithdrawFeeTimer secondsRemaining={secondsRemaining} />
+                  </DataRow>
+                </RowBetween>
+                <RowBetween>
+                  <TYPE.white fontSize={10}>
+                    **TODO use `shouldShowTimer` = {String(shouldShowTimer)}. Currently Displaying fee for debugging
                   </TYPE.white>
                 </RowBetween>
                 <br />
@@ -218,7 +251,7 @@ export default function Pit({
         {account && (!adjustedPitBalance || adjustedPitBalance?.equalTo('0')) && (
           <TYPE.main>
             You have {govTokenBalance?.toFixed(2, { groupSeparator: ',' })} {govToken?.symbol} tokens available to
-            deposit to the {pitSettings?.name}.
+            Stake.
           </TYPE.main>
         )}
 
@@ -249,9 +282,9 @@ export default function Pit({
               after you withdraw your x{govToken?.symbol} tokens from the pool.
               <br />
               <br />
-              {pitSettings?.name} does not have any withdrawal fees.
+              xFOX has a 0.2% unstaking fee if withdrawn within 2h
               <br />
-              Tokens are also 100% unlocked when they are claimed.
+              All fees are distributed to xFOX holders
             </TYPE.main>
           </AutoColumn>
         </BlueCard>
