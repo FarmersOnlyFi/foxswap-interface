@@ -10,7 +10,6 @@ import styled from 'styled-components'
 import DarkLogo from 'assets/svg/foxswap/foxswaplogo-iconwhite.svg'
 import DarkIcon from 'assets/svg/foxswap/foxswap-circle_05.svg'
 import LightLogo from 'assets/svg/foxswap/foxswap-circle_02.svg'
-// import OldLogo from 'assets/svg/FOX-Logo.png'
 import { useActiveWeb3React } from '../../hooks'
 import { useDarkModeManager } from '../../state/user/hooks'
 import { useTokenBalance, useETHBalances } from '../../state/wallet/hooks'
@@ -338,7 +337,8 @@ export default function Header() {
           <StyledNavLink id={`bond-nav-link`} to={'/bond'}>
             {t('Bond')}
           </StyledNavLink>
-          <StyledRedirectLink href={`https://app.farmersonly.fi/vaults`}>{t('Vault')}</StyledRedirectLink>
+          <StyledRedirectLink href={`https://app.farmersonly.fi/vaults`}>{t('Vaults')}</StyledRedirectLink>
+          <StyledRedirectLink href={`https://app.farmersonly.fi/zap`}>{t('Zapper')}</StyledRedirectLink>
         </HeaderLinks>
       </HeaderRow>
       <HeaderControls>
