@@ -5,16 +5,17 @@ import { Moon, Sun } from 'react-feather'
 import { NavLink } from 'react-router-dom'
 import { darken } from 'polished'
 import { useTranslation } from 'react-i18next'
-
+import { MouseoverTooltip } from '../Tooltip'
 import styled from 'styled-components'
 import DarkLogo from 'assets/svg/foxswap/foxswaplogo-iconwhite.svg'
-import DarkIcon from 'assets/svg/foxswap/foxswap-circle_06.svg'
-import LightLogo from 'assets/svg/foxswap/foxswap-circle_01.svg'
+import DarkIcon from 'assets/svg/foxswap/foxswap-circle_05.svg'
+import LightLogo from 'assets/svg/foxswap/foxswap-circle_02.svg'
+// import OldLogo from 'assets/svg/FOX-Logo.png'
 import { useActiveWeb3React } from '../../hooks'
 import { useDarkModeManager } from '../../state/user/hooks'
 import { useTokenBalance } from '../../state/wallet/hooks'
 import useGovernanceToken from '../../hooks/useGovernanceToken'
-// import usePitToken from '../../hooks/usePitToken'
+import usePitToken from '../../hooks/usePitToken'
 import { CardNoise } from '../earn/styled'
 import { ExternalLink, TYPE } from '../../theme'
 import Menu from '../Menu'
@@ -30,7 +31,7 @@ import GovTokenBalanceContent from './GovTokenBalanceContent'
 import { GOVERNANCE_TOKEN_INTERFACE } from '../../constants/abis/governanceToken'
 // import { BASE_CURRENCY } from '../../connectors'
 import { PIT_SETTINGS } from '../../constants'
-// import useAddTokenToMetamask from '../../hooks/useAddTokenToMetamask'
+import useAddTokenToMetamask from '../../hooks/useAddTokenToMetamask'
 
 const HeaderFrame = styled.div`
   display: grid;
@@ -41,8 +42,9 @@ const HeaderFrame = styled.div`
   width: 100%;
   position: relative;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 0.5rem;
+  padding: 0 1rem 0 1rem;
   z-index: 2;
+  text-align: center;
   ${({ theme }) => theme.mediaWidth.upToMedium`
     grid-template-columns: 1fr;
     padding: 0 1rem;
@@ -51,7 +53,7 @@ const HeaderFrame = styled.div`
   `};
   background: ${({ theme }) => theme.bg1};
   border-radius: 12px;
-  margin: 15px;
+  margin: 30px;
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
         padding: 0.5rem 1rem;
   `}
@@ -118,15 +120,21 @@ const HeaderLinks = styled(Row)`
 const LogoImage = styled('img')`
   width: 85px;
   height: 85px;
-  padding: 3px;
+  padding: 0.6rem;
   cursor: pointer;
 `
 
 const LogoIcon = styled('img')`
   width: 40px;
   height: 40px;
-  margin: 5px;
+  margin: 8px;
   cursor: pointer;
+  box-shadow: 0 0 2px ${({ theme }) => theme.bg1};
+  transition: box-shadow 0.3s ease-in-out;
+  border-radius: 50%;
+  &:hover {
+    box-shadow: 0 0 10px ${({ theme }) => darken(0.05, theme.primary1)};
+  }
 `
 
 const AccountElement = styled.div<{ active: boolean }>`
@@ -209,6 +217,10 @@ const StyledNavLink = styled(NavLink).attrs({
   }
 `
 
+const TokenSelectionWrapper = styled.div`
+  padding: 0.75rem;
+`
+
 const StyledRedirectLink = styled(ExternalLink)`
   ${({ theme }) => theme.flexRowNoWrap}
   align-items: left;
@@ -273,8 +285,9 @@ export default function Header() {
   const [showUniBalanceModal, setShowUniBalanceModal] = useState(false)
 
   const govToken = useGovernanceToken()
-  // const pitToken = usePitToken()
-  // const { addToken, success } = useAddTokenToMetamask(govToken)
+  const pitToken = usePitToken()
+  const addGov = useAddTokenToMetamask(govToken)
+  const addPit = useAddTokenToMetamask(pitToken)
   const userFoxBalance: TokenAmount | undefined = useTokenBalance(
     account ?? undefined,
     govToken,
@@ -328,13 +341,17 @@ export default function Header() {
         </HeaderLinks>
       </HeaderRow>
       <HeaderControls>
-        <HeaderElementWrap>
-          <LogoIcon src={DarkIcon} onClick={() => setShowUniBalanceModal(true)} alt="logo" />
-        </HeaderElementWrap>
-        <HeaderElementWrap>
-          <LogoIcon src={LightLogo} onClick={() => setShowUniBalanceModal(true)} alt="logo" />
-        </HeaderElementWrap>
         <HeaderElement>
+          <TokenSelectionWrapper>
+            <HeaderElementWrap>
+              <MouseoverTooltip text={'Add FOX to MetaMask'}>
+                <LogoIcon src={DarkIcon} onClick={addGov.addToken} alt="logo" />
+              </MouseoverTooltip>
+              <MouseoverTooltip text={'Add xFOX to MetaMask'}>
+                <LogoIcon src={LightLogo} onClick={addPit.addToken} alt="logo" />
+              </MouseoverTooltip>
+            </HeaderElementWrap>
+          </TokenSelectionWrapper>
           {availableClaim && !showClaimPopup && (
             <UNIWrapper onClick={toggleClaimModal}>
               <UNIAmount active={!!account && !availableClaim} style={{ pointerEvents: 'auto' }}>
