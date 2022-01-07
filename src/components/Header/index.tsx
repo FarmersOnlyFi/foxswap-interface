@@ -7,15 +7,17 @@ import { darken } from 'polished'
 import { useTranslation } from 'react-i18next'
 
 import styled from 'styled-components'
-import FoxLogo from 'assets/svg/FOX-Logo.png'
+import DarkLogo from 'assets/svg/foxswap/foxswaplogo-iconwhite.svg'
+import DarkIcon from 'assets/svg/foxswap/foxswap-circle_06.svg'
+import LightLogo from 'assets/svg/foxswap/foxswap-circle_01.svg'
 import { useActiveWeb3React } from '../../hooks'
 import { useDarkModeManager } from '../../state/user/hooks'
 import { useTokenBalance } from '../../state/wallet/hooks'
 import useGovernanceToken from '../../hooks/useGovernanceToken'
+// import usePitToken from '../../hooks/usePitToken'
 import { CardNoise } from '../earn/styled'
 import { ExternalLink, TYPE } from '../../theme'
 import Menu from '../Menu'
-
 import Row, { RowFixed } from '../Row'
 import Web3Status from '../Web3Status'
 import ClaimModal from '../claim/ClaimModal'
@@ -25,22 +27,21 @@ import { useUserHasSubmittedClaim } from '../../state/transactions/hooks'
 import { Dots } from '../swap/styleds'
 import Modal from '../Modal'
 import GovTokenBalanceContent from './GovTokenBalanceContent'
-
 import { GOVERNANCE_TOKEN_INTERFACE } from '../../constants/abis/governanceToken'
 // import { BASE_CURRENCY } from '../../connectors'
 import { PIT_SETTINGS } from '../../constants'
+// import useAddTokenToMetamask from '../../hooks/useAddTokenToMetamask'
 
 const HeaderFrame = styled.div`
   display: grid;
-  grid-template-columns: 1fr 90px;
+  grid-template-columns: 1fr 120px;
   align-items: center;
   justify-content: space-between;
   flex-direction: row;
   width: 100%;
-  top: 0;
   position: relative;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 1rem;
+  padding: 0.5rem;
   z-index: 2;
   ${({ theme }) => theme.mediaWidth.upToMedium`
     grid-template-columns: 1fr;
@@ -49,7 +50,7 @@ const HeaderFrame = styled.div`
     position: relative;
   `};
   background: ${({ theme }) => theme.bg1};
-  border-radius: 6px;
+  border-radius: 12px;
   margin: 15px;
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
         padding: 0.5rem 1rem;
@@ -74,7 +75,7 @@ const HeaderControls = styled.div`
     left: 0px;
     width: 100%;
     z-index: 99;
-    height: 50px;
+    height: 72px;
     border-radius: 12px 12px 0 0;
     background-color: ${({ theme }) => theme.bg1};
   `};
@@ -111,13 +112,20 @@ const HeaderLinks = styled(Row)`
     padding: 1rem 0 1rem 1rem;
     justify-content: flex-end;
 `};
-  padding: 2rem;
+  padding: 1rem;
 `
 
 const LogoImage = styled('img')`
-  width: 60px;
-  height: 60px;
-  padding: 1px;
+  width: 85px;
+  height: 85px;
+  padding: 3px;
+  cursor: pointer;
+`
+
+const LogoIcon = styled('img')`
+  width: 40px;
+  height: 40px;
+  margin: 5px;
   cursor: pointer;
 `
 
@@ -162,32 +170,12 @@ const UNIWrapper = styled.span`
     opacity: 0.9;
   }
 `
-//
-// const HideSmall = styled.span`
-//   ${({ theme }) => theme.mediaWidth.upToSmall`
-//     display: none;
-//   `};
-// `
 
 const BalanceText = styled(Text)`
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
     display: none;
   `};
 `
-
-// const Title = styled.a`
-//   display: flex;
-//   align-items: center;
-//   pointer-events: auto;
-//   justify-self: flex-start;
-//   margin-right: 12px;
-//   ${({ theme }) => theme.mediaWidth.upToSmall`
-//     justify-self: center;
-//   `};
-//   :hover {
-//     cursor: pointer;
-//   }
-// `
 
 const activeClassName = 'ACTIVE'
 
@@ -202,14 +190,22 @@ const StyledNavLink = styled(NavLink).attrs({
   color: ${({ theme }) => theme.text2};
   font-size: 1rem;
   width: fit-content;
-  font-weight: 500;
-  padding: 5px;
-  margin-left: 15px;
+  font-weight: 600;
+  padding: 1rem;
+  margin-left: 20px;
   border-radius: 15px;
-  &:hover,
-  &:focus {
-    color: ${({ theme }) => darken(0.05, theme.primary1)}
+  &:hover {
+    color: ${({ theme }) => theme.primary1}
     // box-shadow: 0 0 0 1pt ${({ theme }) => darken(0.05, theme.primary1)};
+  }
+
+  &:focus {
+    color: ${({ theme }) => darken(0.1, theme.primary1)}
+  }
+  
+  &:active {
+    color: ${({ theme }) => darken(0.1, theme.primary1)}
+    transform: translateY(0.1rem)
   }
 `
 
@@ -222,15 +218,24 @@ const StyledRedirectLink = styled(ExternalLink)`
   color: ${({ theme }) => theme.text2};
   font-size: 1rem;
   width: fit-content;
-  font-weight: 500;
-  padding: 5px;
-  margin-left: 15px;
+  font-weight: 600;
+  padding: 1rem;
+  margin-left: 20px;
   border-radius: 15px;
-  &:hover,
-  &:focus {
+  &:hover {
+    color: ${({ theme }) => theme.primary1}
     text-decoration: none;
-    color: ${({ theme }) => darken(0.05, theme.primary1)}
-      // box-shadow: 0 0 0 1pt ${({ theme }) => darken(0.05, theme.primary1)};
+  }
+
+  &:focus {
+    color: ${({ theme }) => darken(0.1, theme.primary1)}
+    text-decoration: none;
+  }
+
+  &:active {
+    color: ${({ theme }) => darken(0.1, theme.primary1)}
+    transform: translateY(0.1rem);
+    text-decoration: none;
   }
 `
 
@@ -268,6 +273,8 @@ export default function Header() {
   const [showUniBalanceModal, setShowUniBalanceModal] = useState(false)
 
   const govToken = useGovernanceToken()
+  // const pitToken = usePitToken()
+  // const { addToken, success } = useAddTokenToMetamask(govToken)
   const userFoxBalance: TokenAmount | undefined = useTokenBalance(
     account ?? undefined,
     govToken,
@@ -290,9 +297,9 @@ export default function Header() {
           <GovTokenBalanceContent setShowUniBalanceModal={setShowUniBalanceModal} />
         </Modal>
         {darkMode ? (
-          <LogoImage src={FoxLogo} onClick={() => setShowUniBalanceModal(true)} alt="logo" />
+          <LogoImage src={DarkLogo} onClick={() => setShowUniBalanceModal(true)} alt="logo" />
         ) : (
-          <LogoImage src={FoxLogo} onClick={() => setShowUniBalanceModal(true)} alt="logo" />
+          <LogoImage src={LightLogo} onClick={() => setShowUniBalanceModal(true)} alt="logo" />
         )}
         <HeaderLinks>
           <StyledNavLink id={`swap-nav-link`} to={'/swap'}>
@@ -321,6 +328,12 @@ export default function Header() {
         </HeaderLinks>
       </HeaderRow>
       <HeaderControls>
+        <HeaderElementWrap>
+          <LogoIcon src={DarkIcon} onClick={() => setShowUniBalanceModal(true)} alt="logo" />
+        </HeaderElementWrap>
+        <HeaderElementWrap>
+          <LogoIcon src={LightLogo} onClick={() => setShowUniBalanceModal(true)} alt="logo" />
+        </HeaderElementWrap>
         <HeaderElement>
           {availableClaim && !showClaimPopup && (
             <UNIWrapper onClick={toggleClaimModal}>
