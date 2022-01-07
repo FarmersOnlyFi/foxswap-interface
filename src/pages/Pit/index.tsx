@@ -195,6 +195,14 @@ export default function Pit({
                   </DataRow>
                 </RowBetween>
 
+                {shouldShowTimer && (
+                  <RowBetween>
+                    <DataRow style={{ marginBottom: '0rem' }}>
+                      <TYPE.white fontSize={15}>0.2% unstaking fee until:</TYPE.white>
+                      <WithdrawFeeTimer secondsRemaining={secondsRemaining} />
+                    </DataRow>
+                  </RowBetween>
+                )}
                 <RowBetween>
                   <DataRow style={{ marginBottom: '0rem' }}>
                     <TYPE.white fontSize={15}>0.2% unstaking fee until:</TYPE.white>
@@ -203,7 +211,7 @@ export default function Pit({
                 </RowBetween>
                 <RowBetween>
                   <TYPE.white fontSize={10}>
-                    **TODO use `shouldShowTimer` = {String(shouldShowTimer)}. Currently Displaying fee for debugging
+                    **TODO Remove timer if no deposits. Currently Displaying fee for debugging
                   </TYPE.white>
                 </RowBetween>
                 <br />
