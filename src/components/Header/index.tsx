@@ -13,7 +13,7 @@ import LightLogo from 'assets/svg/foxswap/foxswap-circle_02.svg'
 // import OldLogo from 'assets/svg/FOX-Logo.png'
 import { useActiveWeb3React } from '../../hooks'
 import { useDarkModeManager } from '../../state/user/hooks'
-import { useTokenBalance } from '../../state/wallet/hooks'
+import { useTokenBalance, useETHBalances } from '../../state/wallet/hooks'
 import useGovernanceToken from '../../hooks/useGovernanceToken'
 import usePitToken from '../../hooks/usePitToken'
 import { CardNoise } from '../earn/styled'
@@ -288,6 +288,7 @@ export default function Header() {
   const pitToken = usePitToken()
   const addGov = useAddTokenToMetamask(govToken)
   const addPit = useAddTokenToMetamask(pitToken)
+  const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
   const userFoxBalance: TokenAmount | undefined = useTokenBalance(
     account ?? undefined,
     govToken,
@@ -367,9 +368,9 @@ export default function Header() {
             </UNIWrapper>
           )}
           <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
-            {account && userFoxBalance ? (
+            {account && userFoxBalance && userEthBalance ? (
               <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
-                {userFoxBalance?.toSignificant(4)} {govToken?.symbol}
+                {userFoxBalance?.toSignificant(4)} {govToken?.symbol} | {userEthBalance?.toSignificant(4)} ONE
               </BalanceText>
             ) : null}
             <Web3Status />
