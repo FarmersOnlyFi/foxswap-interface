@@ -53,7 +53,7 @@ export default function useBUSDPrice(currency?: Currency): Price | undefined {
       ethPairETHAmount && busdEthPair ? busdEthPair.priceOf(WETH[chainId]).quote(ethPairETHAmount).raw : JSBI.BigInt(0)
 
     // all other tokens
-    // first try the usdc pair
+    // first try the usd pair
     if (
       usd &&
       busdPairState === PairState.EXISTS &&

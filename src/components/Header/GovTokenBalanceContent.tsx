@@ -9,7 +9,7 @@ import { useActiveWeb3React } from '../../hooks'
 //import { useMerkleDistributorContract } from '../../hooks/useContract'
 //import useCurrentBlockTimestamp from '../../hooks/useCurrentBlockTimestamp'
 // import { useTotalLockedGovTokensEarned, useTotalUnlockedGovTokensEarned } from '../../state/stake/hooks'
-import { useAggregateGovTokenBalance, useTokenBalance } from '../../state/wallet/hooks'
+import { useTokenBalance } from '../../state/wallet/hooks'
 import { TYPE, UniTokenAnimated } from '../../theme'
 //import { computeUniCirculation } from '../../utils/computeUniCirculation'
 import useBUSDPrice from '../../hooks/useBUSDPrice'
@@ -20,6 +20,8 @@ import useGovernanceToken from '../../hooks/useGovernanceToken'
 import { GOVERNANCE_TOKEN_INTERFACE } from '../../constants/abis/governanceToken'
 import { MouseoverTooltip } from '../Tooltip'
 import useBlockchain from '../../hooks/useBlockchain'
+import usePitRatio from '../../hooks/usePitRatio'
+import usePitToken from '../../hooks/usePitToken'
 
 const ContentWrapper = styled(AutoColumn)`
   width: 100%;
@@ -48,11 +50,18 @@ const StyledClose = styled(X)`
 export default function GovTokenBalanceContent({ setShowUniBalanceModal }: { setShowUniBalanceModal: any }) {
   const { account } = useActiveWeb3React()
   const govToken = useGovernanceToken()
+  const xgovToken = usePitToken()
   const blockchain = useBlockchain()
-  const total = useAggregateGovTokenBalance()
   const govTokenBalance: TokenAmount | undefined = useTokenBalance(
     account ?? undefined,
     govToken,
+    'balanceOf',
+    GOVERNANCE_TOKEN_INTERFACE
+  )
+  const xGovTokenRatio = usePitRatio()
+  const xGovTokenBalance: TokenAmount | undefined = useTokenBalance(
+    account ?? undefined,
+    xgovToken,
     'balanceOf',
     GOVERNANCE_TOKEN_INTERFACE
   )
@@ -60,6 +69,15 @@ export default function GovTokenBalanceContent({ setShowUniBalanceModal }: { set
   const govTokenPrice = useBUSDPrice(govToken)
   const circulatingMarketCap = govTokenPrice ? totalSupply?.multiply(govTokenPrice.raw) : undefined
   const totalMarketCap = govTokenPrice ? totalSupply?.multiply(govTokenPrice.raw) : undefined
+  const govStaked = xGovTokenRatio ? xGovTokenBalance?.multiply(xGovTokenRatio) : xGovTokenBalance
+  let total = govTokenBalance
+  if (govStaked instanceof TokenAmount) {
+    total = govTokenBalance?.add(govStaked)
+  }
+  console.log('xGovTokenRatio', xGovTokenRatio?.toSignificant(6))
+  console.log('xGovTokenBalance', xGovTokenBalance?.toSignificant(6))
+  console.log('govStaked', govStaked?.toSignificant(6))
+  console.log('total', total?.toSignificant(6))
 
   return (
     <ContentWrapper gap="lg">
@@ -77,12 +95,20 @@ export default function GovTokenBalanceContent({ setShowUniBalanceModal }: { set
               <AutoColumn gap="md" justify="center">
                 <UniTokenAnimated width="80px" src={getTokenLogo()} />{' '}
                 <TYPE.white fontSize={48} fontWeight={600} color="white">
-                  {total?.toFixed(2, { groupSeparator: ',' })}
+                  <MouseoverTooltip
+                    text={
+                      govTokenPrice && total
+                        ? `USD: $${total.multiply(govTokenPrice?.raw).toSignificant(6, { groupSeparator: ',' })}`
+                        : ''
+                    }
+                  >
+                    {total?.toFixed(2, { groupSeparator: ',' })}
+                  </MouseoverTooltip>
                 </TYPE.white>
               </AutoColumn>
               <AutoColumn gap="md">
                 <RowBetween>
-                  <TYPE.white color="white">Balance:</TYPE.white>
+                  <TYPE.white color="white">FOX Balance:</TYPE.white>
                   <TYPE.white color="white">
                     <MouseoverTooltip
                       text={
@@ -94,6 +120,24 @@ export default function GovTokenBalanceContent({ setShowUniBalanceModal }: { set
                       }
                     >
                       {govTokenBalance?.toFixed(2, { groupSeparator: ',' })}
+                    </MouseoverTooltip>
+                  </TYPE.white>
+                </RowBetween>
+
+                <RowBetween>
+                  <TYPE.white color="white">xFOX Balance:</TYPE.white>
+                  <TYPE.white color="white">
+                    <MouseoverTooltip
+                      text={
+                        govTokenPrice && xGovTokenBalance && xGovTokenRatio
+                          ? `USD: $${xGovTokenBalance
+                              .multiply(govTokenPrice?.raw)
+                              .multiply(xGovTokenRatio)
+                              .toSignificant(6, { groupSeparator: ',' })}`
+                          : ''
+                      }
+                    >
+                      {xGovTokenBalance?.toFixed(2, { groupSeparator: ',' })}
                     </MouseoverTooltip>
                   </TYPE.white>
                 </RowBetween>
@@ -119,12 +163,6 @@ export default function GovTokenBalanceContent({ setShowUniBalanceModal }: { set
                   <TYPE.white color="white">{govToken?.symbol} price:</TYPE.white>
                   <TYPE.white color="white">${govTokenPrice?.toFixed(4) ?? '-'}</TYPE.white>
                 </RowBetween>
-                {circulatingMarketCap && (
-                  <RowBetween>
-                    <TYPE.white color="white">{govToken?.symbol} circ. market cap:</TYPE.white>
-                    <TYPE.white color="white">${circulatingMarketCap?.toFixed(0, { groupSeparator: ',' })}</TYPE.white>
-                  </RowBetween>
-                )}
                 {totalMarketCap && (
                   <RowBetween>
                     <TYPE.white color="white">{govToken?.symbol} total market cap:</TYPE.white>
