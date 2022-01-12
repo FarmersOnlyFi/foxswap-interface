@@ -1,7 +1,6 @@
 {
   "name": "@foxswap/interface",
   "description": "FoxSwap Interface",
-  "homepage": ".",
   "private": false,
   "devDependencies": {
     "@ethersproject/experimental": "^5.1.2",
