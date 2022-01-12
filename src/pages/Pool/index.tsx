@@ -11,7 +11,7 @@ import { StyledInternalLink, TYPE, HideSmall } from '../../theme'
 import { Text } from 'rebass'
 import Card from '../../components/Card'
 import { RowBetween, RowFixed } from '../../components/Row'
-import { ButtonPrimary, ButtonSecondary } from '../../components/Button'
+import { ButtonPrimary } from '../../components/Button'
 import { AutoColumn } from '../../components/Column'
 
 import { useActiveWeb3React } from '../../hooks'
@@ -27,12 +27,12 @@ import { CardSection, DataCard } from '../../components/earn/styled'
 import baseCurrencies from '../../utils/baseCurrencies'
 
 const PageWrapper = styled(AutoColumn)`
-  max-width: 640px;
+  max-width: 720px;
   width: 100%;
 `
 
 const VoteCard = styled(DataCard)`
-  background: ${({ theme }) => theme.primary1};
+  background: linear-gradient(60deg, #bb86fc 0%, #6200ee 100%);
   overflow: hidden;
 `
 
@@ -56,17 +56,19 @@ const ButtonRow = styled(RowFixed)`
 
 const ResponsiveButtonPrimary = styled(ButtonPrimary)`
   width: fit-content;
+  border-radius: 8px;
+  background: linear-gradient(60deg, #bb86fc 0%, #6200ee 100%);
   ${({ theme }) => theme.mediaWidth.upToSmall`
     width: 48%;
   `};
 `
 
-const ResponsiveButtonSecondary = styled(ButtonSecondary)`
-  width: fit-content;
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    width: 48%;
-  `};
-`
+// const ResponsiveButtonSecondary = styled(ButtonSecondary)`
+//   width: fit-content;
+//   ${({ theme }) => theme.mediaWidth.upToSmall`
+//     width: 48%;
+//   `};
+// `
 
 const EmptyProposals = styled.div`
   border: 1px solid ${({ theme }) => theme.text4};
@@ -160,9 +162,9 @@ export default function Pool() {
                 </TYPE.mediumHeader>
               </HideSmall>
               <ButtonRow>
-                <ResponsiveButtonSecondary as={Link} padding="6px 8px" to={createPoolUrl}>
+                <ResponsiveButtonPrimary as={Link} padding="6px 8px" to={createPoolUrl}>
                   Create Pair
-                </ResponsiveButtonSecondary>
+                </ResponsiveButtonPrimary>
                 <ResponsiveButtonPrimary
                   id="join-pool-button"
                   as={Link}

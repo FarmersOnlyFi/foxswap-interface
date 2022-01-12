@@ -8,8 +8,9 @@ import { useTranslation } from 'react-i18next'
 import { MouseoverTooltip } from '../Tooltip'
 import styled from 'styled-components'
 import DarkLogo from 'assets/svg/foxswap/foxswaplogo-iconwhite.svg'
+import LightLogo from 'assets/svg/foxswap/foxswaplogo-iconblack.svg'
 import DarkIcon from 'assets/svg/foxswap/foxswap-circle_05.svg'
-import LightLogo from 'assets/svg/foxswap/foxswap-circle_02.svg'
+import LightIcon from 'assets/svg/foxswap/foxswap-circle_02.svg'
 import { useActiveWeb3React } from '../../hooks'
 import { useDarkModeManager } from '../../state/user/hooks'
 import { useTokenBalance, useETHBalances } from '../../state/wallet/hooks'
@@ -31,6 +32,8 @@ import { GOVERNANCE_TOKEN_INTERFACE } from '../../constants/abis/governanceToken
 // import { BASE_CURRENCY } from '../../connectors'
 import { PIT_SETTINGS } from '../../constants'
 import useAddTokenToMetamask from '../../hooks/useAddTokenToMetamask'
+import usePitRatio from '../../hooks/usePitRatio'
+import useBUSDPrice from '../../hooks/useBUSDPrice'
 
 const HeaderFrame = styled.div`
   display: grid;
@@ -113,7 +116,7 @@ const HeaderLinks = styled(Row)`
     padding: 1rem 0 1rem 1rem;
     justify-content: flex-end;
 `};
-  padding: 1rem;
+  padding: 0.68rem;
 `
 
 const LogoImage = styled('img')`
@@ -197,8 +200,7 @@ const StyledNavLink = styled(NavLink).attrs({
   color: ${({ theme }) => theme.text2};
   font-size: 1rem;
   width: fit-content;
-  font-weight: 600;
-  padding: 1rem;
+  padding: .65rem;
   margin-left: 20px;
   border-radius: 15px;
   &:hover {
@@ -229,10 +231,10 @@ const StyledRedirectLink = styled(ExternalLink)`
   color: ${({ theme }) => theme.text2};
   font-size: 1rem;
   width: fit-content;
-  font-weight: 600;
-  padding: 1rem;
+  padding: .65rem;
   margin-left: 20px;
   border-radius: 15px;
+  font-weight: normal;
   &:hover {
     color: ${({ theme }) => theme.primary1}
     text-decoration: none;
@@ -285,6 +287,8 @@ export default function Header() {
 
   const govToken = useGovernanceToken()
   const pitToken = usePitToken()
+  const pitRatio = usePitRatio()
+  const govTokenPrice = useBUSDPrice(govToken)
   const addGov = useAddTokenToMetamask(govToken)
   const addPit = useAddTokenToMetamask(pitToken)
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
@@ -297,15 +301,12 @@ export default function Header() {
   const pitSettings = chainId ? PIT_SETTINGS[chainId] : undefined
   const toggleClaimModal = useToggleSelfClaimModal()
   const availableClaim: boolean = useUserHasAvailableClaim(account)
-  // const aggregateBalance: TokenAmount | undefined = useAggregateGovTokenBalance()
   const showClaimPopup = useShowClaimPopup()
-  // const countUpValue = aggregateBalance?.toFixed(0) ?? '0'
-  // const countUpValuePrevious = usePrevious(countUpValue) ?? '0'
 
   return (
     <HeaderFrame>
       <ClaimModal />
-      <HeaderRow>
+      <HeaderRow gap={'lg'}>
         <Modal isOpen={showUniBalanceModal} onDismiss={() => setShowUniBalanceModal(false)}>
           <GovTokenBalanceContent setShowUniBalanceModal={setShowUniBalanceModal} />
         </Modal>
@@ -345,11 +346,11 @@ export default function Header() {
         <HeaderElement>
           <TokenSelectionWrapper>
             <HeaderElementWrap>
-              <MouseoverTooltip text={'Add FOX to MetaMask'}>
+              <MouseoverTooltip text={`Add FOX ($${govTokenPrice?.toFixed(2)}) to MetaMask`}>
                 <LogoIcon src={DarkIcon} onClick={addGov.addToken} alt="logo" />
               </MouseoverTooltip>
-              <MouseoverTooltip text={'Add xFOX to MetaMask'}>
-                <LogoIcon src={LightLogo} onClick={addPit.addToken} alt="logo" />
+              <MouseoverTooltip text={`Add xFOX to MetaMask. (1 FOX = ${pitRatio?.toSignificant(4)} xFOX)`}>
+                <LogoIcon src={LightIcon} onClick={addPit.addToken} alt="logo" />
               </MouseoverTooltip>
             </HeaderElementWrap>
           </TokenSelectionWrapper>

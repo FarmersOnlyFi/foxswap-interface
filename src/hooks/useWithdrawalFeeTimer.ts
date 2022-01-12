@@ -1,17 +1,19 @@
 import { useEffect, useState } from 'react'
 
 const useWithdrawalFeeTimer = (lastDepositedTime: number, withdrawalFeePeriod = 259200) => {
-  const [secondsRemaining, setSecondsRemaining] = useState(null)
+  const [secondsRemaining, setSecondsRemaining] = useState<any>(null)
   const [hasUnstakingFee, setHasUnstakingFee] = useState(false)
   const [currentSeconds, setCurrentSeconds] = useState(Math.floor(Date.now() / 1000))
 
   useEffect(() => {
+    console.log('hit')
+    if (!secondsRemaining || lastDepositedTime == 0) {
+      return
+    }
     const feeEndTime = lastDepositedTime + withdrawalFeePeriod
     const secondsRemainingCalc = feeEndTime - currentSeconds
     const doesUnstakingFeeApply = secondsRemainingCalc > 0
     if (doesUnstakingFeeApply) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
       setSecondsRemaining(secondsRemainingCalc)
       setHasUnstakingFee(true)
     }

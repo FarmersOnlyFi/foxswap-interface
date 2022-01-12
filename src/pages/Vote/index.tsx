@@ -26,7 +26,7 @@ import useGovernanceToken from '../../hooks/useGovernanceToken'
 const PageWrapper = styled(AutoColumn)``
 
 const TopSection = styled(AutoColumn)`
-  max-width: 640px;
+  max-width: 720px;
   width: 100%;
 `
 

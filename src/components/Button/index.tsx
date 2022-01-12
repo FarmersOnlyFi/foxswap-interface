@@ -61,7 +61,8 @@ export const ButtonMint = styled(Base)`
 `
 
 export const ButtonPrimary = styled(Base)`
-  background-color: ${({ theme }) => theme.primary1};
+  background: linear-gradient(60deg, #bb86fc 0%, #6200ee 100%);
+  border: 1px solid #bb86fc;
   color: white;
   &:focus {
     box-shadow: 0 0 0 1pt ${({ theme }) => darken(0.05, theme.primary1)};
@@ -81,7 +82,6 @@ export const ButtonPrimary = styled(Base)`
       altDisabledStyle ? (disabled ? theme.text3 : 'white') : theme.text3};
     cursor: auto;
     box-shadow: none;
-    border: 1px solid transparent;
     outline: none;
     opacity: ${({ altDisabledStyle }) => (altDisabledStyle ? '0.5' : '1')};
   }

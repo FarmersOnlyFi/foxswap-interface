@@ -35,7 +35,7 @@ const ProposalInfo = styled(AutoColumn)`
   border-radius: 12px;
   padding: 1.5rem;
   position: relative;
-  max-width: 640px;
+  max-width: 720px;
   width: 100%;
 `
 const ArrowWrapper = styled(StyledInternalLink)`
@@ -85,7 +85,7 @@ const Progress = styled.div<{ status: 'for' | 'against'; percentageString?: stri
 `
 
 const MarkDownWrapper = styled.div`
-  max-width: 640px;
+  max-width: 720px;
   overflow: hidden;
 `
 
