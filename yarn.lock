@@ -1734,10 +1734,15 @@
   resolved "https://registry.yarnpkg.com/@foxswap/core/-/core-1.0.1.tgz#8e8dbb567bf50154d5158183afa7eb78ad7efa85"
   integrity sha512-UWpJJsOc0sAkRtViggJ/ACLCAGgVbgJ1TsXdJsHdM0NOZ8LQB4bhzKNPb8+x/rAIOFSRQA10hyWu+ZZtSP/QfQ==
 
-"@foxswap/default-token-list@^2.1.4", "@foxswap/default-token-list@^2.1.6":
+"@foxswap/default-token-list@^2.1.4":
   version "2.1.6"
   resolved "https://registry.yarnpkg.com/@foxswap/default-token-list/-/default-token-list-2.1.6.tgz#05dfaf81668c886180626172c46cfc8f134851df"
   integrity sha512-AUzbUztyjfKJddZaLFCwSYSQYfoNOpyDyDDqKj726POQOmoKFUUj3N0WTaCPLLQiMTZ6GtFkpp9Xe7WVOOxoLQ==
+
+"@foxswap/default-token-list@^2.1.7":
+  version "2.1.7"
+  resolved "https://registry.yarnpkg.com/@foxswap/default-token-list/-/default-token-list-2.1.7.tgz#38719232fae08d9c2aedc82b0885938e100bb83e"
+  integrity sha512-EIERuHtuSHcAirEi2oBKssvaUBF4UmC8ELa/1ap0n6B89hpZIDWl7rBNXk9pVfv6wFDOOr+1ak43jQnY0In0+A==
 
 "@foxswap/lib@1.0.0":
   version "1.0.0"
