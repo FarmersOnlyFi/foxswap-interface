@@ -64,16 +64,16 @@ export const ButtonPrimary = styled(Base)`
   background: linear-gradient(60deg, #bb86fc 0%, #6200ee 100%);
   border: 1px solid #bb86fc;
   color: white;
+  transition: all 0.2s ease-in-out;
   &:focus {
-    box-shadow: 0 0 0 1pt ${({ theme }) => darken(0.05, theme.primary1)};
-    background-color: ${({ theme }) => darken(0.05, theme.primary1)};
+    background-color: ${({ theme }) => theme.secondary3};
   }
   &:hover {
-    background-color: ${({ theme }) => darken(0.05, theme.primary1)};
+    background-color: ${({ theme }) => theme.secondary3};
+    transition: all 0.2s ease-in-out;
   }
   &:active {
-    box-shadow: 0 0 0 1pt ${({ theme }) => darken(0.1, theme.primary1)};
-    background-color: ${({ theme }) => darken(0.1, theme.primary1)};
+    background-color: ${({ theme }) => theme.secondary3};
   }
   &:disabled {
     background-color: ${({ theme, altDisabledStyle, disabled }) =>
