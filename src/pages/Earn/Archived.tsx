@@ -19,7 +19,7 @@ import { OutlineCard } from '../../components/Card'
 import useFilterStakingInfos from '../../hooks/useFilterStakingInfos'
 
 const PageWrapper = styled(AutoColumn)`
-  max-width: 640px;
+  max-width: 720px;
   width: 100%;
 `
 

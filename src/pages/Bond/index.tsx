@@ -14,7 +14,7 @@ import { ButtonMint } from '../../components/Button'
 // import {PIT} from "../../constants";
 
 const PageWrapper = styled(AutoColumn)`
-  max-width: 640px;
+  max-width: 720px;
   width: 100%;
 `
 

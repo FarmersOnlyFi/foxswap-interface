@@ -2,13 +2,12 @@ import React, { useCallback, useState } from 'react'
 import { TokenAmount } from '@foxswap/sdk'
 import { AutoColumn } from '../../components/Column'
 import styled from 'styled-components'
-
 import { RouteComponentProps } from 'react-router-dom'
 import { useWalletModalToggle } from '../../state/application/hooks'
 import { TYPE } from '../../theme'
 
-import { RowBetween } from '../../components/Row'
-import { CardSection, DataCard } from '../../components/earn/styled'
+import { AutoRow, RowBetween } from '../../components/Row'
+import { DataCard, CardSection } from '../../components/earn/styled'
 import { ButtonPrimary } from '../../components/Button'
 import StakingModal from '../../components/Pit/StakingModal'
 import ModifiedUnstakingModal from '../../components/Pit/ModifiedUnstakingModal'
@@ -16,23 +15,23 @@ import ClaimModal from '../../components/Pit/ClaimModal'
 import { useTokenBalance } from '../../state/wallet/hooks'
 import { useActiveWeb3React } from '../../hooks'
 import { CountUp } from 'use-count-up'
-
-import { BlueCard } from '../../components/Card'
-
 import usePrevious from '../../hooks/usePrevious'
-
 import { PIT, PIT_SETTINGS } from '../../constants'
 import { GOVERNANCE_TOKEN_INTERFACE } from '../../constants/abis/governanceToken'
 import { PIT_INTERFACE } from '../../constants/abis/pit'
 import useGovernanceToken from 'hooks/useGovernanceToken'
 // import useTotalCombinedTVL from '../../hooks/useTotalCombinedTVL'
 import usePitRatio from '../../hooks/usePitRatio'
-// import { useStakingInfo } from '../../state/stake/hooks'
-// import useFilterStakingInfos from '../../hooks/useFilterStakingInfos'
-// import CombinedTVL from '../../components/CombinedTVL'
+import useXFoxApy from '../../hooks/usexFoxApy'
+import { useSingleCallResult } from '../../state/multicall/hooks'
+import { usePitContract } from '../../hooks/useContract'
+import useWithdrawalFeeTimer from '../../hooks/useWithdrawalFeeTimer'
+import WithdrawFeeTimer from '../../components/Pit/WithdrawFeeTimer'
+import { Text } from 'rebass'
+import { MouseoverTooltip } from '../../components/Tooltip'
 
 const PageWrapper = styled(AutoColumn)`
-  max-width: 640px;
+  max-width: 720px;
   width: 100%;
 `
 
@@ -41,26 +40,11 @@ const TopSection = styled(AutoColumn)`
   width: 100%;
 `
 
-/*const PositionInfo = styled(AutoColumn)<{ dim: any }>`
-  position: relative;
-  max-width: 640px;
-  width: 100%;
-  opacity: ${({ dim }) => (dim ? 0.6 : 1)};
-`*/
-
 const BottomSection = styled(AutoColumn)`
   border-radius: 12px;
   width: 100%;
   position: relative;
 `
-
-/*const StyledDataCard = styled(DataCard)<{ bgColor?: any; showBackground?: any }>`
-  background: radial-gradient(76.02% 75.41% at 1.84% 0%, #1e1a31 0%, #3d51a5 100%);
-  z-index: 2;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  background: ${({ theme, bgColor, showBackground }) =>
-    `radial-gradient(91.85% 100% at 1.84% 0%, ${bgColor} 0%,  ${showBackground ? theme.black : theme.bg5} 100%) `};
-`*/
 
 const StyledBottomCard = styled(DataCard)<{ dim: any }>`
   background: ${({ theme }) => theme.bg3};
@@ -84,8 +68,19 @@ const StyledBottomCard = styled(DataCard)<{ dim: any }>`
 `*/
 
 const CustomCard = styled(DataCard)`
-  background: ${({ theme }) => theme.primary1};
+  background: linear-gradient(60deg, #bb86fc 0%, #6200ee 100%);
   overflow: hidden;
+  padding: 0.5rem;
+  margin-bottom: 25px;
+`
+
+const DurationText = styled(Text)`
+  color: green;
+  background-color: lightgreen;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 15px;
+  width: 75%;
 `
 
 const DataRow = styled(RowBetween)`
@@ -112,15 +107,23 @@ export default function Pit({
     'balanceOf',
     GOVERNANCE_TOKEN_INTERFACE
   )
-
+  const withdrawalFeePeriod = '7200' // 2 hours
   const pit = chainId ? PIT[chainId] : undefined
+  const pitContract = usePitContract()
   const pitSettings = chainId ? PIT_SETTINGS[chainId] : undefined
   const pitBalance: TokenAmount | undefined = useTokenBalance(account ?? undefined, pit, 'balanceOf', PIT_INTERFACE)
+  const pitGovBalance = useSingleCallResult(pitContract, 'balanceOfThis')?.result?.[0]
+  const userInfo = useSingleCallResult(pitContract, 'userInfo', [account ? account : 0])
   const govTokenPitTokenRatio = usePitRatio()
+  const apy = useXFoxApy()
   const adjustedPitBalance = govTokenPitTokenRatio ? pitBalance?.multiply(govTokenPitTokenRatio) : undefined
 
   const userLiquidityStaked = pitBalance
   const userLiquidityUnstaked = govTokenBalance
+  const lastDepositedTime = userInfo.result?.lastDepositedTime
+
+  const { secondsRemaining } = useWithdrawalFeeTimer(parseInt(lastDepositedTime, 10), parseInt(withdrawalFeePeriod, 10))
+  // const shouldShowTimer = account && lastDepositedTime && hasUnstakingFee
 
   // toggle for staking modal and unstaking modal
   const [showStakingModal, setShowStakingModal] = useState(false)
@@ -163,36 +166,79 @@ export default function Pit({
       <TopSection gap="lg" justify="center">
         <BottomSection gap="lg" justify="center">
           <CustomCard>
-            <CardSection>
-              <AutoColumn gap="md">
-                <RowBetween>
-                  <TYPE.white fontWeight={600}>{pitSettings?.name} - DEX fee sharing</TYPE.white>
-                </RowBetween>
-                <RowBetween style={{ alignItems: 'baseline' }}>
-                  <TYPE.white fontSize={14}>
-                    Stake your {govToken?.symbol} tokens and earn 1/3rd of the generated trading fees.
-                  </TYPE.white>
-                </RowBetween>
-                <br />
-              </AutoColumn>
+            <CardSection gap="md">
+              <AutoRow>
+                <Text>DEX Fee Sharing Vault</Text>
+              </AutoRow>
+              <AutoRow justify="space-between">
+                <AutoColumn>
+                  <Text fontWeight={200} fontSize={11}>
+                    TVL
+                  </Text>
+                  <Text fontWeight={300} fontSize={18}>
+                    ${parseInt(pitGovBalance)}
+                  </Text>
+                </AutoColumn>
+                <AutoColumn>
+                  <Text fontWeight={200} fontSize={11}>
+                    Ratio
+                  </Text>
+                  <Text fontWeight={300} fontSize={18}>
+                    {govTokenPitTokenRatio ? `1:${govTokenPitTokenRatio.toSignificant(4)}` : '1:1'}
+                  </Text>
+                </AutoColumn>
+                <AutoColumn>
+                  <Text fontWeight={200} fontSize={11}>
+                    Daily
+                  </Text>
+                  <Text fontWeight={300} fontSize={18}>
+                    {apy.apyDay?.toFixed(3)}%
+                  </Text>
+                </AutoColumn>
+                <AutoColumn>
+                  <Text fontWeight={200} fontSize={11}>
+                    Yearly
+                  </Text>
+                  <Text fontWeight={300} fontSize={18}>
+                    {apy.apy?.toPrecision(4)}%
+                  </Text>
+                  <RowBetween />
+                </AutoColumn>
+                <AutoColumn>
+                  <MouseoverTooltip
+                    text={
+                      'xFOX has a 0.2% unstaking fee if withdrawn within 2h. All fees are distributed to xFOX holders.'
+                    }
+                  >
+                    <Text fontWeight={200} fontSize={11}>
+                      Withdrawal Fee Duration
+                    </Text>
+                  </MouseoverTooltip>
+                  {secondsRemaining ? (
+                    <WithdrawFeeTimer secondsRemaining={secondsRemaining} />
+                  ) : (
+                    <DurationText>Unlocked</DurationText>
+                  )}
+                  <RowBetween />
+                </AutoColumn>
+              </AutoRow>
             </CardSection>
           </CustomCard>
           <StyledBottomCard dim={false}>
             <AutoColumn gap="sm">
               <RowBetween>
                 <div>
-                  <TYPE.black>
-                    Your x{govToken?.symbol} Balance
-                    {govTokenPitTokenRatio && (
-                      <TYPE.italic display="inline" marginLeft="0.25em">
-                        (1 x{govToken?.symbol} = {govTokenPitTokenRatio.toSignificant(4)} {govToken?.symbol})
-                      </TYPE.italic>
-                    )}
-                  </TYPE.black>
+                  <TYPE.black>x{govToken?.symbol} Balance</TYPE.black>
+                  {account && (!adjustedPitBalance || adjustedPitBalance?.equalTo('0')) && (
+                    <TYPE.italic>
+                      You have {govTokenBalance?.toFixed(2, { groupSeparator: ',' })} {govToken?.symbol} tokens
+                      available to Stake.
+                    </TYPE.italic>
+                  )}
                 </div>
               </RowBetween>
               <RowBetween style={{ alignItems: 'baseline' }}>
-                <TYPE.largeHeader fontSize={36} fontWeight={600}>
+                <TYPE.largeHeader fontSize={36}>
                   <CountUp
                     key={countUpAmount}
                     isCounting
@@ -215,13 +261,6 @@ export default function Pit({
           </TYPE.main>
         )}
 
-        {account && (!adjustedPitBalance || adjustedPitBalance?.equalTo('0')) && (
-          <TYPE.main>
-            You have {govTokenBalance?.toFixed(2, { groupSeparator: ',' })} {govToken?.symbol} tokens available to
-            deposit to the {pitSettings?.name}.
-          </TYPE.main>
-        )}
-
         {account && (
           <DataRow style={{ marginBottom: '0rem' }}>
             <ButtonPrimary padding="8px" borderRadius="8px" width="160px" onClick={handleDepositClick}>
@@ -237,24 +276,6 @@ export default function Pit({
             </ButtonPrimary>
           </DataRow>
         )}
-
-        <BlueCard>
-          <AutoColumn gap="10px">
-            <TYPE.main style={{ textAlign: 'center' }} fontSize={14}>
-              <span role="img" aria-label="wizard-icon" style={{ marginRight: '8px' }}>
-                💡
-              </span>
-              <b>Important:</b> Your {govToken?.symbol} rewards will only be visible
-              <br />
-              after you withdraw your x{govToken?.symbol} tokens from the pool.
-              <br />
-              <br />
-              {pitSettings?.name} does not have any withdrawal fees.
-              <br />
-              Tokens are also 100% unlocked when they are claimed.
-            </TYPE.main>
-          </AutoColumn>
-        </BlueCard>
       </TopSection>
     </PageWrapper>
   )

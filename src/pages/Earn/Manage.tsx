@@ -31,13 +31,13 @@ import { BIG_INT_ZERO } from '../../constants'
 import useGovernanceToken from '../../hooks/useGovernanceToken'
 
 const PageWrapper = styled(AutoColumn)`
-  max-width: 640px;
+  max-width: 720px;
   width: 100%;
 `
 
 const PositionInfo = styled(AutoColumn)<{ dim: any }>`
   position: relative;
-  max-width: 640px;
+  max-width: 720px;
   width: 100%;
   opacity: ${({ dim }) => (dim ? 0.6 : 1)};
 `
