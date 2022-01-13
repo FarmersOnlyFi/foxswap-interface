@@ -6,28 +6,26 @@
 
 An open source interface for Uniswap -- a protocol for decentralized exchange of Ethereum tokens.
 
-- Website: [uniswap.org](https://uniswap.org/)
-- Interface: [app.uniswap.org](https://app.uniswap.org)
-- Docs: [uniswap.org/docs/](https://uniswap.org/docs/)
-- Twitter: [@UniswapProtocol](https://twitter.com/UniswapProtocol)
-- Reddit: [/r/Uniswap](https://www.reddit.com/r/Uniswap/)
-- Email: [contact@uniswap.org](mailto:contact@uniswap.org)
-- Discord: [Uniswap](https://discord.gg/FCfyBSbCU5)
-- Whitepaper: [Link](https://hackmd.io/C-DvwDSfSxuh-Gd4WKE_ig)
+- Swap: [foxswap.one](https://foxswap.one)
+- Main: [app.farmersonly.fi](https://app.farmersonly.fi)
+- Docs: [docs.farmersonly.fi](https://docs.farmersonly.fi)
+- Twitter: [@FarmersOnlyFi](https://twitter.com/FarmersOnlyFi)
+- Reddit: [/r/farmersonlyfi](https://www.reddit.com/r/farmersonlyfi)
+- Email: [peechz@farmersonly.fi](mailto:peechz@farmersonly.fi)
+- Discord: [FarmersOnlyFi](https://discord.gg/9dB8NjRR9V)
+- Whitepaper: [Link](https://docs.farmersonly.fi)
 
 ## Accessing the FoxSwap Interface
 
 To access the FoxSwap Interface, use an IPFS gateway link from the
-[latest release](https://github.com/Uniswap/uniswap-interface/releases/latest), 
-or visit [app.uniswap.org](https://app.uniswap.org).
+[latest release](https://github.com/FarmersOnlyFi/foxswap-interface/releases/latest), 
+or visit [foxswap.one](https://app.farmersonly.fi).
 
 ## Listing a token
 
 Please see the
-[@foxswap/default-token-list](https://github.com/uniswap/default-token-list) 
+[@foxswap/default-token-list](https://github.com/FarmersOnlyFi/default-token-list) 
 repository.
-
-## Development
 
 ### Install Dependencies
 
@@ -56,6 +54,6 @@ The interface will not work on other networks.
 
 ## Contributions
 
-**Please open all pull requests against the `master` branch.** 
+**Please open all pull requests against the `main` branch.** 
 CI checks will run against all PRs.
 
