@@ -229,6 +229,12 @@ export default function Pit({
               <RowBetween>
                 <div>
                   <TYPE.black>x{govToken?.symbol} Balance</TYPE.black>
+                  {account && (!adjustedPitBalance || adjustedPitBalance?.equalTo('0')) && (
+                    <TYPE.italic>
+                      You have {govTokenBalance?.toFixed(2, { groupSeparator: ',' })} {govToken?.symbol} tokens
+                      available to Stake.
+                    </TYPE.italic>
+                  )}
                 </div>
               </RowBetween>
               <RowBetween style={{ alignItems: 'baseline' }}>
@@ -252,13 +258,6 @@ export default function Pit({
           <TYPE.main>
             You have {adjustedPitBalance?.toFixed(2, { groupSeparator: ',' })} {govToken?.symbol} tokens staked in
             the&nbsp;{pitSettings?.name}.
-          </TYPE.main>
-        )}
-
-        {account && (!adjustedPitBalance || adjustedPitBalance?.equalTo('0')) && (
-          <TYPE.main>
-            You have {govTokenBalance?.toFixed(2, { groupSeparator: ',' })} {govToken?.symbol} tokens available to
-            Stake.
           </TYPE.main>
         )}
 

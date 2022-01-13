@@ -78,8 +78,7 @@ export const ButtonPrimary = styled(Base)`
   &:disabled {
     background-color: ${({ theme, altDisabledStyle, disabled }) =>
       altDisabledStyle ? (disabled ? theme.bg3 : theme.primary1) : theme.bg3};
-    color: ${({ theme, altDisabledStyle, disabled }) =>
-      altDisabledStyle ? (disabled ? theme.text3 : 'white') : theme.text3};
+    color: lightgray;
     cursor: auto;
     box-shadow: none;
     outline: none;

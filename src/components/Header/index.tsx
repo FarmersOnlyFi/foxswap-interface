@@ -47,7 +47,7 @@ const HeaderFrame = styled.div`
   padding: 0 1rem 0 1rem;
   z-index: 2;
   text-align: center;
-  ${({ theme }) => theme.mediaWidth.upToMedium`
+  ${({ theme }) => theme.mediaWidth.upToLarge`
     grid-template-columns: 1fr;
     padding: 0 1rem;
     width: calc(100%);
@@ -67,7 +67,7 @@ const HeaderControls = styled.div`
   align-items: center;
   justify-self: flex-end;
 
-  ${({ theme }) => theme.mediaWidth.upToMedium`
+  ${({ theme }) => theme.mediaWidth.upToLarge`
     flex-direction: row;
     justify-content: space-between;
     justify-self: center;
@@ -80,7 +80,7 @@ const HeaderControls = styled.div`
     width: 100%;
     z-index: 99;
     height: 72px;
-    border-radius: 12px 12px 0 0;
+    border-radius: 12px;
     background-color: ${({ theme }) => theme.bg1};
   `};
 `
@@ -94,7 +94,7 @@ const HeaderElement = styled.div`
     margin-left: 8px;
   }
 
-  ${({ theme }) => theme.mediaWidth.upToMedium`
+  ${({ theme }) => theme.mediaWidth.upToLarge`
    flex-direction: row-reverse;
     align-items: center;
   `};
@@ -106,13 +106,13 @@ const HeaderElementWrap = styled.div`
 `
 
 const HeaderRow = styled(RowFixed)`
-  ${({ theme }) => theme.mediaWidth.upToMedium`
+  ${({ theme }) => theme.mediaWidth.upToLarge`
    width: 100%;
   `};
 `
 
 const HeaderLinks = styled(Row)`
-  ${({ theme }) => theme.mediaWidth.upToMedium`
+  ${({ theme }) => theme.mediaWidth.upToLarge`
     padding: 1rem 0 1rem 1rem;
     justify-content: flex-end;
 `};
@@ -120,9 +120,9 @@ const HeaderLinks = styled(Row)`
 `
 
 const LogoImage = styled('img')`
-  width: 85px;
-  height: 85px;
-  padding: 0.6rem;
+  width: 100px;
+  height: 100px;
+  padding: 0.75rem;
   cursor: pointer;
 `
 
