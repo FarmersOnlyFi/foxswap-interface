@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import { RouteComponentProps } from 'react-router-dom'
 import { useWalletModalToggle } from '../../state/application/hooks'
 import { TYPE } from '../../theme'
-
 import { AutoRow, RowBetween } from '../../components/Row'
 import { DataCard, CardSection } from '../../components/earn/styled'
 import { ButtonPrimary } from '../../components/Button'
@@ -16,7 +15,7 @@ import { useTokenBalance } from '../../state/wallet/hooks'
 import { useActiveWeb3React } from '../../hooks'
 import { CountUp } from 'use-count-up'
 import usePrevious from '../../hooks/usePrevious'
-import { PIT, PIT_SETTINGS } from '../../constants'
+import { PIT, PIT_SETTINGS, ZERO_ADDRESS } from '../../constants'
 import { GOVERNANCE_TOKEN_INTERFACE } from '../../constants/abis/governanceToken'
 import { PIT_INTERFACE } from '../../constants/abis/pit'
 import useGovernanceToken from 'hooks/useGovernanceToken'
@@ -104,7 +103,7 @@ export default function Pit({
   const pitSettings = chainId ? PIT_SETTINGS[chainId] : undefined
   const pitBalance: TokenAmount | undefined = useTokenBalance(account ?? undefined, pit, 'balanceOf', PIT_INTERFACE)
   const pitTokenBalance = useSingleCallResult(pitContract, 'balanceOfThis')?.result?.[0]
-  const userInfo = useSingleCallResult(pitContract, 'userInfo', [account ? account : 0])
+  const userInfo = useSingleCallResult(pitContract, 'userInfo', [account ? account : ZERO_ADDRESS])
   const govTokenPitTokenRatio = usePitRatio()
   const apy = useXFoxApy()
 

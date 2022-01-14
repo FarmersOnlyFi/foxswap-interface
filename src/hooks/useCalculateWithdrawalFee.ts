@@ -4,6 +4,7 @@ import { useBlockNumber } from '../state/application/hooks'
 import { BigNumber } from '@ethersproject/bignumber'
 import { Fraction, JSBI } from '@foxswap/sdk'
 import { Contract } from '@ethersproject/contracts'
+import { ZERO_ADDRESS } from "../constants";
 
 function calculateFee(devFeeStage: BigNumber, divisor: number, multiply = '100'): Fraction | undefined {
   return devFeeStage && !devFeeStage.isZero()
@@ -34,7 +35,7 @@ export default function useCalculateWithdrawalFee(
   const currentBlock = useBlockNumber()
   const masterBreeder = useMasterBreederContract()
 
-  const userInfo = useSingleCallResult(masterBreeder, 'userInfo', [pid, account ? account : ''])?.result
+  const userInfo = useSingleCallResult(masterBreeder, 'userInfo', [pid, account ? account : ZERO_ADDRESS])?.result
 
   const defaultStageIndexes = [0, 1, 2, 3, 4, 5, 6, 7]
   const blockDeltaStartStages = useStages(masterBreeder, 'blockDeltaStartStage', defaultStageIndexes)
