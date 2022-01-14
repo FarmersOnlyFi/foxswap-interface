@@ -173,7 +173,7 @@ export default function Pit({
                     Ratio
                   </Text>
                   <Text fontWeight={300} fontSize={18}>
-                    {govTokenPitTokenRatio ? `1:${govTokenPitTokenRatio.toSignificant(4)}` : '1:1'}
+                    {govTokenPitTokenRatio ? govTokenPitTokenRatio.toFixed(5) : '1.00000'}
                   </Text>
                 </AutoColumn>
                 <AutoColumn>
