@@ -70,10 +70,7 @@ export default function GovTokenBalanceContent({ setShowUniBalanceModal }: { set
   const circulatingMarketCap = govTokenPrice ? totalSupply?.multiply(govTokenPrice.raw) : undefined
   const totalMarketCap = govTokenPrice ? totalSupply?.multiply(govTokenPrice.raw) : undefined
   const govStaked = xGovTokenRatio ? xGovTokenBalance?.multiply(xGovTokenRatio) : xGovTokenBalance
-  let total = govTokenBalance
-  if (govStaked instanceof TokenAmount) {
-    total = govTokenBalance?.add(govStaked)
-  }
+  const total = govStaked ? govStaked?.add(govTokenBalance ? govTokenBalance : '0') : govTokenBalance
 
   return (
     <ContentWrapper gap="lg">
