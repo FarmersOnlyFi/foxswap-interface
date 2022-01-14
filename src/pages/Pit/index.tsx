@@ -20,7 +20,6 @@ import { PIT, PIT_SETTINGS } from '../../constants'
 import { GOVERNANCE_TOKEN_INTERFACE } from '../../constants/abis/governanceToken'
 import { PIT_INTERFACE } from '../../constants/abis/pit'
 import useGovernanceToken from 'hooks/useGovernanceToken'
-// import useTotalCombinedTVL from '../../hooks/useTotalCombinedTVL'
 import usePitRatio from '../../hooks/usePitRatio'
 import useXFoxApy from '../../hooks/usexFoxApy'
 import { useSingleCallResult } from '../../state/multicall/hooks'
@@ -29,6 +28,7 @@ import useWithdrawalFeeTimer from '../../hooks/useWithdrawalFeeTimer'
 import WithdrawFeeTimer from '../../components/Pit/WithdrawFeeTimer'
 import { Text } from 'rebass'
 import { MouseoverTooltip } from '../../components/Tooltip'
+import useBUSDPrice from '../../hooks/useBUSDPrice'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 720px;
@@ -54,18 +54,6 @@ const StyledBottomCard = styled(DataCard)<{ dim: any }>`
   padding-top: 32px;
   z-index: 1;
 `
-
-/*const PoolData = styled(DataCard)`
-  background: none;
-  border: 1px solid ${({ theme }) => theme.bg4};
-  padding: 1rem;
-  z-index: 1;
-`*/
-
-/*const VoteCard = styled(DataCard)`
-  background: radial-gradient(76.02% 75.41% at 1.84% 0%, #27ae60 0%, #000000 100%);
-  overflow: hidden;
-`*/
 
 const CustomCard = styled(DataCard)`
   background: linear-gradient(60deg, #bb86fc 0%, #6200ee 100%);
@@ -107,25 +95,27 @@ export default function Pit({
     'balanceOf',
     GOVERNANCE_TOKEN_INTERFACE
   )
+  const govTokenPrice = useBUSDPrice(govToken)
+
+  const big18 = 1000000000000000000
   const withdrawalFeePeriod = '7200' // 2 hours
   const pit = chainId ? PIT[chainId] : undefined
   const pitContract = usePitContract()
   const pitSettings = chainId ? PIT_SETTINGS[chainId] : undefined
   const pitBalance: TokenAmount | undefined = useTokenBalance(account ?? undefined, pit, 'balanceOf', PIT_INTERFACE)
-  const pitGovBalance = useSingleCallResult(pitContract, 'balanceOfThis')?.result?.[0]
+  const pitTokenBalance = useSingleCallResult(pitContract, 'balanceOfThis')?.result?.[0]
   const userInfo = useSingleCallResult(pitContract, 'userInfo', [account ? account : 0])
   const govTokenPitTokenRatio = usePitRatio()
   const apy = useXFoxApy()
-  const adjustedPitBalance = govTokenPitTokenRatio ? pitBalance?.multiply(govTokenPitTokenRatio) : undefined
 
+  const adjustedPitBalance = govTokenPitTokenRatio ? pitBalance?.multiply(govTokenPitTokenRatio) : undefined
+  const pitTVL = (parseFloat(pitTokenBalance) * (govTokenPrice ? parseFloat(govTokenPrice?.raw.toFixed(3)) : 1)) / big18
   const userLiquidityStaked = pitBalance
   const userLiquidityUnstaked = govTokenBalance
   const lastDepositedTime = userInfo.result?.lastDepositedTime
 
   const { secondsRemaining } = useWithdrawalFeeTimer(parseInt(lastDepositedTime, 10), parseInt(withdrawalFeePeriod, 10))
-  // const shouldShowTimer = account && lastDepositedTime && hasUnstakingFee
 
-  // toggle for staking modal and unstaking modal
   const [showStakingModal, setShowStakingModal] = useState(false)
   const [showUnstakingModal, setShowUnstakingModal] = useState(false)
   const [showClaimModal, setShowClaimModal] = useState(false)
@@ -176,7 +166,7 @@ export default function Pit({
                     TVL
                   </Text>
                   <Text fontWeight={300} fontSize={18}>
-                    ${parseInt(pitGovBalance)}
+                    ${pitTVL.toFixed(2)}
                   </Text>
                 </AutoColumn>
                 <AutoColumn>

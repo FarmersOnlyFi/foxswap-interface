@@ -6,8 +6,7 @@ const useWithdrawalFeeTimer = (lastDepositedTime: number, withdrawalFeePeriod = 
   const [currentSeconds, setCurrentSeconds] = useState(Math.floor(Date.now() / 1000))
 
   useEffect(() => {
-    console.log('hit')
-    if (!secondsRemaining || lastDepositedTime == 0) {
+    if (!secondsRemaining && !lastDepositedTime) {
       return
     }
     const feeEndTime = lastDepositedTime + withdrawalFeePeriod
