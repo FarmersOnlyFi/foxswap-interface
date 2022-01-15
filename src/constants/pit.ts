@@ -3,23 +3,24 @@ import getPairTokensWithDefaults from '../utils/getPairTokensWithDefaults'
 
 export const PIT_POOLS: {
   [chainId in ChainId]?: {
-    pid: number
+    pid?: number
     tokens: [Token, Token]
   }[]
 } = {
   [ChainId.HARMONY_MAINNET]: [
-    {
-      pid: 0,
-      tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/WONE')
-    },
-    {
-      pid: 1,
-      tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/USDC')
-    },
-    {
-      pid: 2,
-      tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'UST/ONE')
-    }
+    { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/WONE') },
+    { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/1USDC') },
+    { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/STONE') },
+    { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, '1ETH/WONE') },
+    { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, '1USDC/WONE') },
+    { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'UST/WONE') },
+    { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/MIS') },
+    { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/JEWEL') },
+    { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/RVRS') },
+    { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/RAVAX') },
+    { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/TRANQ') },
+    { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/COINKX') },
+    { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/XYA') }
   ],
   [ChainId.HARMONY_TESTNET]: [
     {
