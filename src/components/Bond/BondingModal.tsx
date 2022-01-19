@@ -46,12 +46,19 @@ const ModalWrapper = styled(DataCard)`
 
 interface BondingModalProps {
   isOpen: boolean
+  bondTokenName: string
   onDismiss: () => void
   bondingToken: Token
   userLiquidityUnstaked: TokenAmount | undefined
 }
 
-export default function BondingModal({ isOpen, onDismiss, bondingToken, userLiquidityUnstaked }: BondingModalProps) {
+export default function BondingModal({
+  isOpen,
+  bondTokenName,
+  onDismiss,
+  bondingToken,
+  userLiquidityUnstaked
+}: BondingModalProps) {
   const { chainId, library } = useActiveWeb3React()
 
   // track and parse user input
@@ -92,7 +99,7 @@ export default function BondingModal({ isOpen, onDismiss, bondingToken, userLiqu
           })
           .then((response: TransactionResponse) => {
             addTransaction(response, {
-              summary: `Bond ${bondToken?.symbol}`
+              summary: `Bond ${bondTokenName}`
             })
             setHash(response.hash)
           })
@@ -136,7 +143,7 @@ export default function BondingModal({ isOpen, onDismiss, bondingToken, userLiqu
         {!attempting && !hash && !failed && (
           <ContentWrapper gap="lg">
             <RowBetween>
-              <TYPE.mediumHeader>Bond</TYPE.mediumHeader>
+              <TYPE.mediumHeader>Bond {bondTokenName}</TYPE.mediumHeader>
               <CloseIcon onClick={wrappedOnDismiss} />
             </RowBetween>
 
@@ -214,7 +221,7 @@ export default function BondingModal({ isOpen, onDismiss, bondingToken, userLiqu
                 <Text>5 Days</Text>
               </RowBetween>
               <RowBetween>
-                <Text>Minim</Text>
+                <Text>Min</Text>
                 <Text>0 LP</Text>
               </RowBetween>
             </DataCard>

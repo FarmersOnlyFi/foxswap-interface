@@ -16,8 +16,12 @@ import calculateWethAdjustedTotalStakedAmount from '../../utils/calculateWethAdj
 import calculateApr from '../../utils/calculateApr'
 import validStakingInfo from '../../utils/validStakingInfo'
 import determineBaseToken from '../../utils/determineBaseToken'
+import { BONDS } from '../../constants/bond'
+import lpBondAbi from 'constants/abis/custom-bond.json'
+import { toV2LiquidityToken } from '../user/hooks'
 
 const PAIR_INTERFACE = new Interface(IUniswapV2PairABI)
+const LP_BOND_ABI = new Interface(lpBondAbi)
 
 export const STAKING_GENESIS = 6502000
 
@@ -68,6 +72,56 @@ export interface StakingInfo {
   // if pool is active
   active: boolean
 }
+
+export interface BondTerms {
+  controlVariable: number // scaling variable for price
+  vestingTerm: number // in seconds
+  minimumPrice: number // vs principal value
+  maxPayout: number // in thousandths of a %. i.e. 500 = 0.5%
+  maxDebt: number // payout token decimal debt ratio, max % total supply created as debt
+}
+
+export interface UserBondInfo {
+  payout: number // payout token remaining to be paid
+  vesting: number // Seconds left to vest
+  lastTime: number // Last Interaction
+  truePricePaid: number // Price paid (principal tokens per payout token) in ten-millionths - 4000000 = 0.4
+}
+
+export interface BondInfo {
+  name: string
+  isLpBond: boolean
+  isWethBond: boolean
+  displayName: string
+  bondToken: [Token, Token] // | Token
+  rewardToken: Token | undefined
+  bondAddress: string
+  price: Fraction | undefined
+  roi: Fraction | undefined
+  bondDiscount: Fraction | undefined
+  debtRatio: Fraction | undefined
+  maxPayout: TokenAmount | undefined
+  userBondPendingPayout: TokenAmount | undefined
+  userBondTokenAmount: TokenAmount | undefined
+  userBondVesting: number | undefined
+  terms?: BondTerms
+  userInfo?: UserBondInfo
+  isActive: boolean
+}
+
+// const DefaultBondTerms = {
+//   controlVariable: 0, // scaling variable for price
+//   vestingTerm: 0, // in seconds
+//   minimumPrice: 0, // vs principal value
+//   maxPayout: 0, // in thousandths of a %. i.e. 500 = 0.5%
+//   maxDebt: 0 // payout token decimal debt ratio, max % total supply created as debt
+// }
+// const DefaultUserBondInfo = {
+//   payout: 0, // payout token remaining to be paid
+//   vesting: 0, // Seconds left to vest
+//   lastTime: 0, // Last Interaction
+//   truePricePaid: 0 // Price paid (principal tokens per payout token) in ten-millionths - 4000000 = 0.4
+// }
 
 // gets the staking info from the network for the active chain id
 export function useStakingInfo(active: boolean | undefined = undefined, pairToFilterBy?: Pair | null): StakingInfo[] {
@@ -374,4 +428,139 @@ export function useDerivedUnstakeInfo(
     parsedAmount,
     error
   }
+}
+
+// gets the staking info from the network for the active chain id
+export function useBondInfo(): BondInfo[] {
+  const { chainId, account } = useActiveWeb3React()
+  const bondInfos = chainId ? BONDS[chainId] : []
+
+  // TODO - get tokens from bondInfos.rewardToken
+  const govToken = useGovernanceToken()
+  const govTokenPrice = useBUSDPrice(govToken)
+
+  const accountMapping = useMemo(() => bondInfos?.map(() => (account ? account : undefined)), [bondInfos, account])
+  const bondAddressses = useMemo(() => (bondInfos ? bondInfos.map(b => b.bondAddress) : []), [bondInfos])
+  const lpTokenAddresses = useMemo(
+    () => (bondInfos ? bondInfos.map(b => toV2LiquidityToken(b.bondToken)?.address) : []),
+    [bondInfos]
+  )
+
+  // Bond info
+  const bondPrices = useMultipleContractSingleData(bondAddressses, LP_BOND_ABI, 'trueBondPrice')
+  const maxPayouts = useMultipleContractSingleData(bondAddressses, LP_BOND_ABI, 'maxPayout')
+  const termsList = useMultipleContractSingleData(bondAddressses, LP_BOND_ABI, 'terms')
+  const debtRatios = useMultipleContractSingleData(bondAddressses, LP_BOND_ABI, 'debtRatio')
+  const totalBondedAmounts = useMultipleContractSingleData(bondAddressses, LP_BOND_ABI, 'totalPrincipalBonded')
+  const tokenAvailableAmounts = useMultipleContractSingleData(bondAddressses, LP_BOND_ABI, 'tokenAvailableToPay')
+
+  // LP Token calls
+  const lpTokenTotalSupplies = useMultipleContractSingleData(lpTokenAddresses, PAIR_INTERFACE, 'totalSupply')
+  const lpTokenReserves = useMultipleContractSingleData(lpTokenAddresses, PAIR_INTERFACE, 'getReserves')
+
+  // User calls
+  const userInfos = useMultipleContractSingleData(bondAddressses, LP_BOND_ABI, 'bondInfo', accountMapping)
+  const pendingRewards = useMultipleContractSingleData(bondAddressses, LP_BOND_ABI, 'pendingPayoutFor', accountMapping)
+  const lpTokenBalances = useMultipleContractSingleData(lpTokenAddresses, PAIR_INTERFACE, 'balanceOf', [
+    account ? account : undefined
+  ])
+
+  return useMemo(() => {
+    if (!chainId || !govToken || !bondInfos) return []
+
+    return bondInfos.reduce<BondInfo[]>((memo, bondInfo, index) => {
+      const tokens = bondInfo.bondToken
+      const bondPrice = bondPrices[index]
+      const maxPayout = maxPayouts[index]
+      const terms = termsList[index]
+      const debtRatio = debtRatios[index]
+      const totalBondedAmount = totalBondedAmounts[index]
+      const tokenAvailableAmount = tokenAvailableAmounts[index]
+
+      const userInfo = userInfos[index]
+      const pendingReward = pendingRewards[index]
+      const lpTokenTotalSupply = lpTokenTotalSupplies[index]
+      const lpTokenReserve = lpTokenReserves[index]
+      const lpTokenBalance = lpTokenBalances[index]
+
+      console.log('terms', terms?.result)
+      console.log('userInfo', userInfo?.result)
+
+      const calculatedPendingRewards = JSBI.BigInt(pendingReward?.result?.[0] ?? 0)
+
+      const dummyPair = new Pair(new TokenAmount(tokens[0], '0'), new TokenAmount(tokens[1], '0'))
+      const walletAmount = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(lpTokenBalance?.result?.[0] ?? 0))
+      const maxPayoutCalculated = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(maxPayout?.result?.[0] ?? 0))
+      const totalBondedAmountCalculated = new TokenAmount(
+        dummyPair.liquidityToken,
+        JSBI.BigInt(totalBondedAmount?.result?.[0] ?? 0)
+      )
+      const debtRatioCalculated = new Fraction(debtRatio?.result?.raw ?? 0)
+
+      const totalLpTokenSupply = new TokenAmount(
+        dummyPair.liquidityToken,
+        JSBI.BigInt(lpTokenTotalSupply.result?.[0] ?? 0)
+      )
+      const bondPriceCalculated = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(bondPrice.result?.[0] ?? 0))
+      const roiCalculated = govTokenPrice
+        ? new Fraction(JSBI.BigInt(govTokenPrice.raw), bondPriceCalculated.raw)
+        : new Fraction(JSBI.BigInt(0))
+      const bondDiscount = govTokenPrice
+        ? new Fraction(JSBI.BigInt(1)).subtract(new Fraction(bondPriceCalculated.raw).divide(govTokenPrice.raw))
+        : new Fraction(JSBI.BigInt(0))
+      const totalPendingRewardAmount = new TokenAmount(govToken, calculatedPendingRewards)
+      const tokenAvailableAmountCalculated = new TokenAmount(
+        govToken,
+        JSBI.BigInt(tokenAvailableAmount?.result?.[0] ?? 0)
+      )
+
+      // TODO - get lp token price per token
+      console.log('lpTokenReserve', lpTokenReserve)
+      console.log('totalLpTokenSupply', totalLpTokenSupply)
+      // const baseToken = determineBaseToken(tokensWithPrices, tokens)
+      // const totalStakedAmountWETH = calculateWethAdjustedTotalStakedAmount(
+      //   chainId,
+      //   baseToken,
+      //   tokensWithPrices,
+      //   tokens,
+      //   totalLpTokenSupply,
+      //   totalStakedAmount,
+      //   lpTokenReserve?.result
+      // )
+
+      const bondingInfo = {
+        ...bondInfo,
+        price: bondPriceCalculated,
+        roi: roiCalculated,
+        bondDiscount: bondDiscount,
+        debtRatio: debtRatioCalculated,
+        maxPayout: maxPayoutCalculated,
+        userBondPendingPayout: totalPendingRewardAmount,
+        userBondVesting: 0,
+        // terms: terms?.result ?? DefaultBondTerms,
+        // userInfo: userInfo?.result ?? DefaultUserBondInfo,
+        userBondTokenAmount: walletAmount,
+        totalBondedAmount: totalBondedAmountCalculated,
+        tokenAvailableAmount: tokenAvailableAmountCalculated,
+        isActive: true
+      }
+
+      memo.push(bondingInfo)
+      return memo
+    }, [])
+  }, [
+    chainId,
+    govToken,
+    bondPrices,
+    maxPayouts,
+    termsList,
+    debtRatios,
+    totalBondedAmounts,
+    tokenAvailableAmounts,
+    userInfos,
+    pendingRewards,
+    lpTokenTotalSupplies,
+    lpTokenReserves,
+    lpTokenBalances
+  ])
 }
