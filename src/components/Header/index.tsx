@@ -348,7 +348,7 @@ export default function Header() {
               <MouseoverTooltip text={`Add FOX ($${govTokenPrice?.toFixed(2)}) to MetaMask`}>
                 <LogoIcon src={DarkIcon} onClick={addGov.addToken} alt="logo" />
               </MouseoverTooltip>
-              <MouseoverTooltip text={`Add xFOX to MetaMask. (1 FOX = ${pitRatio?.toSignificant(4)} xFOX)`}>
+              <MouseoverTooltip text={`Add xFOX to MetaMask. (1 FOX = ${pitRatio?.toFixed(5)} xFOX)`}>
                 <LogoIcon src={LightIcon} onClick={addPit.addToken} alt="logo" />
               </MouseoverTooltip>
             </HeaderElementWrap>

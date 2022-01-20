@@ -7,7 +7,7 @@
     "patch": 0
   },
   "tags": {},
-  "logoURI": "https://s3.us-west-2.amazonaws.com/farmersonly.fi/FOX-Logo.png",
+  "logoURI": "https://s3.us-west-2.amazonaws.com/farmersonly.fi/FoxSwapLogos/foxswap-circle_05.svg",
   "keywords": ["foxswap", "farmersonly"],
   "tokens": [
     {
@@ -176,7 +176,7 @@
       "symbol": "FOX",
       "name": "FarmersOnly Token",
       "decimals": 18,
-      "logoURI": "https://s3.us-west-2.amazonaws.com/farmersonly.fi/FOX-Logo.png"
+      "logoURI": "https://s3.us-west-2.amazonaws.com/farmersonly.fi/FoxSwapLogos/foxswap-circle_05.svg"
     },
     {
       "chainId": 1666600000,
@@ -312,7 +312,7 @@
       "symbol": "FOX",
       "name": "FarmersOnly Token",
       "decimals": 18,
-      "logoURI": "https://s3.us-west-2.amazonaws.com/farmersonly.fi/FOX-Logo.png"
+      "logoURI": "https://s3.us-west-2.amazonaws.com/farmersonly.fi/FoxSwapLogos/foxswap-circle_05.svg"
     }
   ]
 }
