@@ -16,6 +16,7 @@ import { darken } from 'polished'
 // import { ZERO_ADDRESS } from '../../constants'
 // import {wrappedCurrency} from "../../utils/wrappedCurrency";
 import { useBondInfo } from '../../state/stake/hooks'
+import WithdrawFeeTimer from '../../components/Pit/WithdrawFeeTimer'
 // import { useBondingContract } from '../../hooks/useContract'
 
 const PageWrapper = styled(AutoColumn)`
@@ -65,19 +66,12 @@ export default function Bond() {
   const bond = bonds[0]
   console.log('bond data:', bonds)
 
-  // const data = useBondingContract()
   const isActive = true
 
   return (
     <PageWrapper gap="lg">
       <>
-        <BondingModal
-          isOpen={showBondingModal}
-          bondTokenName={'FOX/UST'}
-          onDismiss={() => setShowBondingModal(false)}
-          bondingToken={bond.userBondTokenAmount.token}
-          userLiquidityUnstaked={bond.userBondTokenAmount}
-        />
+        <BondingModal isOpen={showBondingModal} bond={bond} onDismiss={() => setShowBondingModal(false)} />
       </>
       {!isActive ? (
         <MintCard>
@@ -101,7 +95,7 @@ export default function Bond() {
                     Bond
                   </Text>
                   <Text fontWeight={300} fontSize={18}>
-                    FOX/UST
+                    {bond.displayName}
                   </Text>
                 </AutoColumn>
                 <AutoColumn>
@@ -109,7 +103,7 @@ export default function Bond() {
                     Price
                   </Text>
                   <Text fontWeight={300} fontSize={18}>
-                    $19.21
+                    ${bond.price?.toSignificant(4)}
                   </Text>
                   <RowBetween />
                 </AutoColumn>
@@ -118,7 +112,7 @@ export default function Bond() {
                     ROI
                   </Text>
                   <Text fontWeight={300} fontSize={18}>
-                    -4.78%
+                    {bond.roi?.toSignificant(4)}%
                   </Text>
                 </AutoColumn>
                 <AutoColumn>
@@ -134,11 +128,44 @@ export default function Bond() {
                     Purchased
                   </Text>
                   <Text fontWeight={300} fontSize={18}>
-                    $3,000,000
+                    ${bond.totalBondedAmount?.toSignificant(4)}
                   </Text>
                 </AutoColumn>
                 <AutoColumn>
                   <MinterButton onClick={() => setShowBondingModal(true)}>Bond</MinterButton>
+                </AutoColumn>
+              </AutoRow>
+              <AutoRow justify="space-between">
+                <AutoColumn>
+                  <Text fontWeight={200} fontSize={11}>
+                    Pending Rewards
+                  </Text>
+                  <Text fontWeight={300} fontSize={18}>
+                    {bond.userInfo.payout?.toSignificant(4)} FOX
+                  </Text>
+                </AutoColumn>
+                <AutoColumn>
+                  <Text fontWeight={200} fontSize={11}>
+                    Claimable Rewards
+                  </Text>
+                  <Text fontWeight={300} fontSize={18}>
+                    {bond.userBondPendingPayout?.toSignificant(4)} FOX
+                  </Text>
+                  <RowBetween />
+                </AutoColumn>
+                <AutoColumn>
+                  <Text fontWeight={200} fontSize={11} textAlign="left">
+                    Time until fully vested
+                  </Text>
+                  <WithdrawFeeTimer secondsRemaining={bond.userBondMaturationSecondsRemaining} />
+                </AutoColumn>
+                <AutoColumn>
+                  <Text fontWeight={200} fontSize={11}>
+                    TODO - Claim button
+                  </Text>
+                  <Text fontWeight={200} fontSize={11}>
+                    TODO - Claim+AutoStake button
+                  </Text>
                 </AutoColumn>
               </AutoRow>
             </CardSection>
