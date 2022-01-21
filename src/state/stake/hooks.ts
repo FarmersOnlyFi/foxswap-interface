@@ -18,14 +18,26 @@ import validStakingInfo from '../../utils/validStakingInfo'
 import determineBaseToken from '../../utils/determineBaseToken'
 import { BONDS } from '../../constants/bond'
 import lpBondAbi from 'constants/abis/custom-bond.json'
-import { toV2LiquidityToken } from '../user/hooks'
+import useWeth from '../../hooks/useWeth'
+// import { toV2LiquidityToken } from '../user/hooks'
 
 const PAIR_INTERFACE = new Interface(IUniswapV2PairABI)
 const LP_BOND_ABI = new Interface(lpBondAbi)
 
+const GWEI_DENOM = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(7))
 export const STAKING_GENESIS = 6502000
 
 export const REWARDS_DURATION_DAYS = 60
+
+function isStable(token: Token): boolean {
+  const STABLES = ['UST', '1USDC', 'BUSD', 'USDT', 'USDC']
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  if (STABLES.includes(<string>token?.symbol?.toUpperCase())) {
+    return true
+  }
+  return false
+}
+
 export interface StakingInfo {
   // the pool id (pid) of the pool
   pid: number
@@ -101,27 +113,28 @@ export interface BondInfo {
   bondDiscount: Fraction | undefined
   debtRatio: Fraction | undefined
   maxPayout: TokenAmount | undefined
+  userBondTokenAmount: TokenAmount
   userBondPendingPayout: TokenAmount | undefined
-  userBondTokenAmount: TokenAmount | undefined
+  tokenAvailableAmount: TokenAmount | undefined
   userBondVesting: number | undefined
   terms?: BondTerms
   userInfo?: UserBondInfo
   isActive: boolean
 }
 
-// const DefaultBondTerms = {
-//   controlVariable: 0, // scaling variable for price
-//   vestingTerm: 0, // in seconds
-//   minimumPrice: 0, // vs principal value
-//   maxPayout: 0, // in thousandths of a %. i.e. 500 = 0.5%
-//   maxDebt: 0 // payout token decimal debt ratio, max % total supply created as debt
-// }
-// const DefaultUserBondInfo = {
-//   payout: 0, // payout token remaining to be paid
-//   vesting: 0, // Seconds left to vest
-//   lastTime: 0, // Last Interaction
-//   truePricePaid: 0 // Price paid (principal tokens per payout token) in ten-millionths - 4000000 = 0.4
-// }
+const DefaultBondTerms = {
+  controlVariable: 0, // scaling variable for price
+  vestingTerm: 0, // in seconds
+  minimumPrice: 0, // vs principal value
+  maxPayout: 0, // in thousandths of a %. i.e. 500 = 0.5%
+  maxDebt: 0 // payout token decimal debt ratio, max % total supply created as debt
+}
+const DefaultUserBondInfo = {
+  payout: 0, // payout token remaining to be paid
+  vesting: 0, // Seconds left to vest
+  lastTime: 0, // Last Interaction
+  truePricePaid: 0 // Price paid (principal tokens per payout token) in ten-millionths - 4000000 = 0.4
+}
 
 // gets the staking info from the network for the active chain id
 export function useStakingInfo(active: boolean | undefined = undefined, pairToFilterBy?: Pair | null): StakingInfo[] {
@@ -438,13 +451,17 @@ export function useBondInfo(): BondInfo[] {
   // TODO - get tokens from bondInfos.rewardToken
   const govToken = useGovernanceToken()
   const govTokenPrice = useBUSDPrice(govToken)
+  const weth = useWeth()
+  const wethBusdPrice = useBUSDPrice(weth)
 
   const accountMapping = useMemo(() => bondInfos?.map(() => (account ? account : undefined)), [bondInfos, account])
   const bondAddressses = useMemo(() => (bondInfos ? bondInfos.map(b => b.bondAddress) : []), [bondInfos])
-  const lpTokenAddresses = useMemo(
-    () => (bondInfos ? bondInfos.map(b => toV2LiquidityToken(b.bondToken)?.address) : []),
-    [bondInfos]
-  )
+  // const lpTokenAddresses = useMemo(
+  //   () => (bondInfos ? bondInfos.map(b => toV2LiquidityToken(b.bondToken)?.address) : []),
+  //   [bondInfos]
+  // )
+  // For testnet
+  const lpTokenAddresses = ['0xDaF8199DDA3442040f347E29Ac256e2B0e560b3C']
 
   // Bond info
   const bondPrices = useMultipleContractSingleData(bondAddressses, LP_BOND_ABI, 'trueBondPrice')
@@ -464,6 +481,7 @@ export function useBondInfo(): BondInfo[] {
   const lpTokenBalances = useMultipleContractSingleData(lpTokenAddresses, PAIR_INTERFACE, 'balanceOf', [
     account ? account : undefined
   ])
+  console.log('lpTokenAddresses', lpTokenAddresses)
 
   return useMemo(() => {
     if (!chainId || !govToken || !bondInfos) return []
@@ -472,19 +490,16 @@ export function useBondInfo(): BondInfo[] {
       const tokens = bondInfo.bondToken
       const bondPrice = bondPrices[index]
       const maxPayout = maxPayouts[index]
-      const terms = termsList[index]
+      const termsCall = termsList[index]
       const debtRatio = debtRatios[index]
       const totalBondedAmount = totalBondedAmounts[index]
       const tokenAvailableAmount = tokenAvailableAmounts[index]
 
-      const userInfo = userInfos[index]
+      const userInfoCall = userInfos[index]
       const pendingReward = pendingRewards[index]
       const lpTokenTotalSupply = lpTokenTotalSupplies[index]
       const lpTokenReserve = lpTokenReserves[index]
       const lpTokenBalance = lpTokenBalances[index]
-
-      console.log('terms', terms?.result)
-      console.log('userInfo', userInfo?.result)
 
       const calculatedPendingRewards = JSBI.BigInt(pendingReward?.result?.[0] ?? 0)
 
@@ -497,16 +512,35 @@ export function useBondInfo(): BondInfo[] {
       )
       const debtRatioCalculated = new Fraction(debtRatio?.result?.raw ?? 0)
 
-      const totalLpTokenSupply = new TokenAmount(
-        dummyPair.liquidityToken,
-        JSBI.BigInt(lpTokenTotalSupply.result?.[0] ?? 0)
-      )
-      const bondPriceCalculated = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(bondPrice.result?.[0] ?? 0))
-      const roiCalculated = govTokenPrice
-        ? new Fraction(JSBI.BigInt(govTokenPrice.raw), bondPriceCalculated.raw)
-        : new Fraction(JSBI.BigInt(0))
+      const bondPriceRaw = new Fraction(JSBI.BigInt(bondPrice.result?.[0] ?? 0), GWEI_DENOM)
+
+      // TODO - get lp token price per token
+      console.log('dummyPair', dummyPair)
+      console.log('lpTokenReserve', lpTokenReserve?.result)
+      console.log('bondPriceRaw', bondPriceRaw.toFixed(4))
+      // Logic for bond price
+      // Need to do bondPriceCalculated * valueOf1LPToken
+      // Then if bond.isWethBond, multiply that by price of WETH (WONE)
+      let stableIdx = isStable(tokens[0]) ? 0 : 1
+      let mult = new Fraction(JSBI.BigInt(1))
+      if (bondInfo.isWethBond) {
+        stableIdx = Boolean(tokens[0] && tokens[0].symbol === 'WONE') ? 0 : 1
+        mult = wethBusdPrice ? wethBusdPrice.raw : mult
+      }
+
+      const valOfOneLpToken = new Fraction(
+        JSBI.BigInt(lpTokenTotalSupply.result?.[0] ?? 0),
+        JSBI.BigInt(lpTokenReserve?.result?.[stableIdx] ?? 1)
+      ).multiply(mult)
+
+      const bondPriceCalculated = valOfOneLpToken.multiply(bondPriceRaw)
+
+      console.log('valOfOneLpToken', valOfOneLpToken.toFixed(5))
+      console.log('bondPriceCalculated', bondPriceCalculated.toFixed(5))
+
+      const roiCalculated = govTokenPrice ? bondPriceCalculated.multiply(govTokenPrice) : new Fraction(JSBI.BigInt(0))
       const bondDiscount = govTokenPrice
-        ? new Fraction(JSBI.BigInt(1)).subtract(new Fraction(bondPriceCalculated.raw).divide(govTokenPrice.raw))
+        ? new Fraction(JSBI.BigInt(1)).subtract(bondPriceCalculated.divide(govTokenPrice.raw))
         : new Fraction(JSBI.BigInt(0))
       const totalPendingRewardAmount = new TokenAmount(govToken, calculatedPendingRewards)
       const tokenAvailableAmountCalculated = new TokenAmount(
@@ -514,19 +548,24 @@ export function useBondInfo(): BondInfo[] {
         JSBI.BigInt(tokenAvailableAmount?.result?.[0] ?? 0)
       )
 
-      // TODO - get lp token price per token
-      console.log('lpTokenReserve', lpTokenReserve)
-      console.log('totalLpTokenSupply', totalLpTokenSupply)
-      // const baseToken = determineBaseToken(tokensWithPrices, tokens)
-      // const totalStakedAmountWETH = calculateWethAdjustedTotalStakedAmount(
-      //   chainId,
-      //   baseToken,
-      //   tokensWithPrices,
-      //   tokens,
-      //   totalLpTokenSupply,
-      //   totalStakedAmount,
-      //   lpTokenReserve?.result
-      // )
+      const terms: BondTerms = termsCall.result
+        ? {
+            controlVariable: Number(termsCall.result.controlVariable),
+            vestingTerm: Number(termsCall.result.vestingTerm),
+            minimumPrice: Number(termsCall.result.minimumPrice),
+            maxPayout: Number(termsCall.result.maxPayout),
+            maxDebt: Number(termsCall.result.maxDebt)
+          }
+        : DefaultBondTerms
+
+      const userInfo: UserBondInfo = userInfoCall.result
+        ? {
+            payout: Number(userInfoCall.result.payout), // payout token remaining to be paid
+            vesting: Number(userInfoCall.result.vesting), // Seconds left to vest
+            lastTime: Number(userInfoCall.result.lastTime), // Last Interaction
+            truePricePaid: Number(userInfoCall.result.truePricePaid)
+          }
+        : DefaultUserBondInfo
 
       const bondingInfo = {
         ...bondInfo,
@@ -537,8 +576,8 @@ export function useBondInfo(): BondInfo[] {
         maxPayout: maxPayoutCalculated,
         userBondPendingPayout: totalPendingRewardAmount,
         userBondVesting: 0,
-        // terms: terms?.result ?? DefaultBondTerms,
-        // userInfo: userInfo?.result ?? DefaultUserBondInfo,
+        terms: terms,
+        userInfo: userInfo,
         userBondTokenAmount: walletAmount,
         totalBondedAmount: totalBondedAmountCalculated,
         tokenAvailableAmount: tokenAvailableAmountCalculated,

@@ -1,27 +1,22 @@
 import styled from 'styled-components'
 import { AutoColumn } from '../../components/Column'
-import React, { useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import BondingModal from '../../components/Bond/BondingModal'
-import { TokenAmount, Pair, JSBI } from '@foxswap/sdk'
-// import { useTokenBalance } from '../../state/wallet/hooks'
-import { useActiveWeb3React } from '../../hooks'
 import { CardSection, DataCard } from '../../components/earn/styled'
 import { AutoRow, RowBetween } from '../../components/Row'
 import { Text } from 'rebass'
 import { ButtonMint } from '../../components/Button'
 import DarkIcon from '../../assets/svg/foxswap/foxswap-circle_06.svg'
 import { darken } from 'polished'
-import { toV2LiquidityToken } from '../../state/user/hooks'
-import { useMultipleContractSingleData } from '../../state/multicall/hooks'
-import useBlockchain from '../../hooks/useBlockchain'
-import { abi as IUniswapV2PairABI } from '@foxswap/core/build/IUniswapV2Pair.json'
-import { Interface } from '@ethersproject/abi'
-import { ZERO_ADDRESS } from '../../constants'
+// import { toV2LiquidityToken } from '../../state/user/hooks'
+// import { useMultipleContractSingleData } from '../../state/multicall/hooks'
+// import useBlockchain from '../../hooks/useBlockchain'
+// import { abi as IUniswapV2PairABI } from '@foxswap/core/build/IUniswapV2Pair.json'
+// import { Interface } from '@ethersproject/abi'
+// import { ZERO_ADDRESS } from '../../constants'
 // import {wrappedCurrency} from "../../utils/wrappedCurrency";
 import { useBondInfo } from '../../state/stake/hooks'
 // import { useBondingContract } from '../../hooks/useContract'
-
-const PAIR_INTERFACE = new Interface(IUniswapV2PairABI)
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 720px;
@@ -60,41 +55,15 @@ export const MintCard = styled(DataCard)`
 `
 
 export default function Bond() {
-  const { account, chainId } = useActiveWeb3React()
-  const blockchain = useBlockchain()
+  // const { account, chainId } = useActiveWeb3React()
+  // const blockchain = useBlockchain()
 
   const [showBondingModal, setShowBondingModal] = useState(false)
   // const [showInput, setShowInput] = useState(false)
   // const [typedValue, setTypedValue] = useState('')
   const bonds = useBondInfo()
+  const bond = bonds[0]
   console.log('bond data:', bonds)
-
-  const bondPairs = bonds ? bonds.map(bond => bond.bondToken) : []
-  const bondTokens = useMemo(() => {
-    return bondPairs.map(
-      ([currencyA, currencyB]) => new Pair(new TokenAmount(currencyA, '0'), new TokenAmount(currencyB, '0'))
-    )
-  }, [bondPairs])
-
-  const liquidityTokenAddresses = useMemo(
-    () =>
-      bondPairs
-        ? bondPairs.map(item => {
-            return blockchain && chainId && item ? toV2LiquidityToken(item)?.address : undefined
-          })
-        : [],
-    [blockchain, chainId, bondPairs]
-  ).filter(address => address !== undefined)
-
-  const bondTokenBalanceResults = useMultipleContractSingleData(liquidityTokenAddresses, PAIR_INTERFACE, 'balanceOf', [
-    account ? account : ZERO_ADDRESS
-  ])
-  const bondTokenBalances = useMemo(() => {
-    return bondTokens.map(
-      (dummyPair, idx) =>
-        new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(bondTokenBalanceResults[idx].result?.[0] ?? 0))
-    )
-  }, [bondTokens, bondTokenBalanceResults])
 
   // const data = useBondingContract()
   const isActive = true
@@ -106,8 +75,8 @@ export default function Bond() {
           isOpen={showBondingModal}
           bondTokenName={'FOX/UST'}
           onDismiss={() => setShowBondingModal(false)}
-          bondingToken={bondTokenBalances[0].token}
-          userLiquidityUnstaked={bondTokenBalances[0]}
+          bondingToken={bond.userBondTokenAmount.token}
+          userLiquidityUnstaked={bond.userBondTokenAmount}
         />
       </>
       {!isActive ? (
