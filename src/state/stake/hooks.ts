@@ -1,4 +1,4 @@
-import { CurrencyAmount, JSBI, Token, TokenAmount, Pair, Fraction } from '@foxswap/sdk'
+import { CurrencyAmount, JSBI, Token, TokenAmount, Pair, Price, Fraction } from '@foxswap/sdk'
 import { useMemo } from 'react'
 import { useActiveWeb3React } from '../../hooks'
 import { useSingleCallResult, useSingleContractMultipleData } from '../multicall/hooks'
@@ -16,12 +16,29 @@ import calculateWethAdjustedTotalStakedAmount from '../../utils/calculateWethAdj
 import calculateApr from '../../utils/calculateApr'
 import validStakingInfo from '../../utils/validStakingInfo'
 import determineBaseToken from '../../utils/determineBaseToken'
+import { BONDS } from '../../constants/bond'
+import lpBondAbi from 'constants/abis/custom-bond.json'
+import useWeth from '../../hooks/useWeth'
+// import { toV2LiquidityToken } from '../user/hooks'
 
 const PAIR_INTERFACE = new Interface(IUniswapV2PairABI)
+const LP_BOND_ABI = new Interface(lpBondAbi)
 
+const GWEI_DENOM7 = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(7))
+const GWEI_DENOM16 = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(16))
 export const STAKING_GENESIS = 6502000
 
 export const REWARDS_DURATION_DAYS = 60
+
+function isStable(token: Token): boolean {
+  const STABLES = ['UST', '1USDC', 'BUSD', 'USDT', 'USDC']
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  if (STABLES.includes(<string>token?.symbol?.toUpperCase())) {
+    return true
+  }
+  return false
+}
+
 export interface StakingInfo {
   // the pool id (pid) of the pool
   pid: number
@@ -67,6 +84,53 @@ export interface StakingInfo {
   apr: Fraction | undefined
   // if pool is active
   active: boolean
+}
+
+export interface BondTerms {
+  controlVariable: number // scaling variable for price
+  vestingTerm: number // in seconds
+  minimumPrice: number // vs principal value
+  maxPayout: number // in thousandths of a %. i.e. 500 = 0.5%
+  maxDebt: number // payout token decimal debt ratio, max % total supply created as debt
+}
+
+export interface UserBondInfo {
+  payout: TokenAmount | undefined // payout token remaining to be paid
+  vesting: number // Seconds left to vest
+  lastTime: number // Last Interaction
+  truePricePaid: number // Price paid (principal tokens per payout token) in ten-millionths - 4000000 = 0.4
+}
+
+export interface BondInfo {
+  name: string
+  isLpBond: boolean
+  isWethBond: boolean
+  displayName: string
+  bondToken: [Token, Token] // | Token
+  rewardToken: Token | undefined
+  bondAddress: string
+  price: Fraction | undefined
+  roi: Fraction | undefined
+  bondDiscount: Fraction | undefined
+  debtRatio: Fraction | undefined
+  maxPayout: TokenAmount | undefined
+  userBondTokenAmount: TokenAmount
+  userBondPendingPayout: TokenAmount | undefined
+  userBondMaturationSecondsRemaining: number
+  tokenAvailableAmount: TokenAmount | undefined
+  totalBondedAmount: TokenAmount | undefined
+  terms: BondTerms
+  userInfo: UserBondInfo
+  valOfOneLpToken: Fraction | undefined
+  isActive: boolean
+}
+
+const DefaultBondTerms = {
+  controlVariable: 0, // scaling variable for price
+  vestingTerm: 0, // in seconds
+  minimumPrice: 0, // vs principal value
+  maxPayout: 0, // in thousandths of a %. i.e. 500 = 0.5%
+  maxDebt: 0 // payout token decimal debt ratio, max % total supply created as debt
 }
 
 // gets the staking info from the network for the active chain id
@@ -374,4 +438,181 @@ export function useDerivedUnstakeInfo(
     parsedAmount,
     error
   }
+}
+
+// gets the staking info from the network for the active chain id
+export function useBondInfo(): BondInfo[] {
+  const { chainId, account } = useActiveWeb3React()
+  const bondInfos = chainId ? BONDS[chainId] : []
+
+  // TODO - get tokens from bondInfos.rewardToken
+  const govToken = useGovernanceToken()
+  // const govTokenPrice = useBUSDPrice(govToken)
+  const weth = useWeth()
+  // const wethBusdPrice = useBUSDPrice(weth)
+
+  const DefaultUserBondInfo = {
+    payout: govToken ? new TokenAmount(govToken, JSBI.BigInt(0)) : undefined,
+    vesting: 0,
+    lastTime: 0,
+    truePricePaid: 0
+  }
+
+  // For testnet
+  const lpTokenAddresses = ['0xDaF8199DDA3442040f347E29Ac256e2B0e560b3C']
+  const govTokenPrice = govToken ? new Price(govToken, govToken, JSBI.BigInt(1), JSBI.BigInt(5)) : undefined
+  const wethBusdPrice = weth ? new Price(weth, weth, JSBI.BigInt(3), JSBI.BigInt(1)) : undefined
+
+  const accountMapping = useMemo(() => bondInfos?.map(() => (account ? account : undefined)), [bondInfos, account])
+  const bondAddressses = useMemo(() => (bondInfos ? bondInfos.map(b => b.bondAddress) : []), [bondInfos])
+  // const lpTokenAddresses = useMemo(
+  //   () => (bondInfos ? bondInfos.map(b => toV2LiquidityToken(b.bondToken)?.address) : []),
+  //   [bondInfos]
+  // )
+
+  // Bond info
+  const bondPrices = useMultipleContractSingleData(bondAddressses, LP_BOND_ABI, 'trueBondPrice')
+  const maxPayouts = useMultipleContractSingleData(bondAddressses, LP_BOND_ABI, 'maxPayout')
+  const termsList = useMultipleContractSingleData(bondAddressses, LP_BOND_ABI, 'terms')
+  const debtRatios = useMultipleContractSingleData(bondAddressses, LP_BOND_ABI, 'debtRatio')
+  const totalBondedAmounts = useMultipleContractSingleData(bondAddressses, LP_BOND_ABI, 'totalPrincipalBonded')
+  const tokenAvailableAmounts = useMultipleContractSingleData(bondAddressses, LP_BOND_ABI, 'tokenAvailableToPay')
+
+  // LP Token calls
+  const lpTokenTotalSupplies = useMultipleContractSingleData(lpTokenAddresses, PAIR_INTERFACE, 'totalSupply')
+  const lpTokenReserves = useMultipleContractSingleData(lpTokenAddresses, PAIR_INTERFACE, 'getReserves')
+
+  // User calls
+  const userInfos = useMultipleContractSingleData(bondAddressses, LP_BOND_ABI, 'bondInfo', accountMapping)
+  const pendingRewards = useMultipleContractSingleData(bondAddressses, LP_BOND_ABI, 'pendingPayoutFor', accountMapping)
+  const lpTokenBalances = useMultipleContractSingleData(lpTokenAddresses, PAIR_INTERFACE, 'balanceOf', [
+    account ? account : undefined
+  ])
+  console.log('lpTokenAddresses', lpTokenAddresses)
+
+  return useMemo(() => {
+    if (!chainId || !govToken || !bondInfos) return []
+
+    return bondInfos.reduce<BondInfo[]>((memo, bondInfo, index) => {
+      const tokens = bondInfo.bondToken
+      const bondPrice = bondPrices[index]
+      const maxPayout = maxPayouts[index]
+      const termsCall = termsList[index]
+      const debtRatio = debtRatios[index]
+      const totalBondedAmount = totalBondedAmounts[index]
+      const tokenAvailableAmount = tokenAvailableAmounts[index]
+
+      const userInfoCall = userInfos[index]
+      const pendingReward = pendingRewards[index]
+      const lpTokenTotalSupply = lpTokenTotalSupplies[index]
+      const lpTokenReserve = lpTokenReserves[index]
+      const lpTokenBalance = lpTokenBalances[index]
+
+      const calculatedPendingRewards = JSBI.BigInt(pendingReward?.result?.[0] ?? 0)
+
+      const dummyPair = new Pair(new TokenAmount(tokens[0], '0'), new TokenAmount(tokens[1], '0'))
+      const walletAmount = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(lpTokenBalance?.result?.[0] ?? 0))
+      const maxPayoutCalculated = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(maxPayout?.result?.[0] ?? 0))
+      const totalBondedAmountCalculated = new TokenAmount(
+        dummyPair.liquidityToken,
+        JSBI.BigInt(totalBondedAmount?.result?.[0] ?? 0)
+      )
+      const debtRatioCalculated = new Fraction(debtRatio?.result?.[0] ?? 0, GWEI_DENOM16)
+
+      const bondPriceRaw = new Fraction(JSBI.BigInt(bondPrice.result?.[0] ?? 0), GWEI_DENOM7)
+
+      let stableIdx = isStable(tokens[0]) ? 0 : 1
+      let mult = new Fraction(JSBI.BigInt(1))
+      if (bondInfo.isWethBond) {
+        stableIdx = Boolean(tokens[0] && tokens[0].symbol === 'WONE') ? 0 : 1
+        mult = wethBusdPrice ? wethBusdPrice.raw : mult
+      }
+
+      const valOfOneLpToken = new Fraction(
+        JSBI.BigInt(lpTokenTotalSupply.result?.[0] ?? 0),
+        JSBI.BigInt(lpTokenReserve?.result?.[stableIdx] ?? 1)
+      ).multiply(mult)
+
+      const bondPriceCalculated = valOfOneLpToken.multiply(bondPriceRaw)
+
+      const roiCalculated =
+        govTokenPrice && bondPriceCalculated.greaterThan(JSBI.BigInt(0))
+          ? govTokenPrice
+              .divide(bondPriceCalculated)
+              .subtract(JSBI.BigInt(1))
+              .multiply(JSBI.BigInt(100))
+          : new Fraction(JSBI.BigInt(0))
+      const bondDiscount = govTokenPrice
+        ? new Fraction(JSBI.BigInt(1)).subtract(bondPriceCalculated.divide(govTokenPrice.raw))
+        : new Fraction(JSBI.BigInt(0))
+      const totalPendingRewardAmount = new TokenAmount(govToken, calculatedPendingRewards)
+      const tokenAvailableAmountCalculated = new TokenAmount(
+        govToken,
+        JSBI.BigInt(tokenAvailableAmount?.result?.[0] ?? 0)
+      )
+      console.log('govTokenPrice', govTokenPrice?.toFixed(5))
+      console.log('debtRatioCalculated', debtRatioCalculated.toFixed(5))
+      console.log('valOfOneLpToken', valOfOneLpToken.toFixed(5))
+      console.log('bondPriceCalculated', bondPriceCalculated.toFixed(5))
+      console.log('roiCalculated', roiCalculated.toFixed(5))
+      console.log('bondDiscount', bondDiscount.toFixed(5))
+      console.log('totalPendingRewardAmount', totalPendingRewardAmount.toFixed(5))
+
+      const terms: BondTerms = termsCall.result
+        ? {
+            controlVariable: Number(termsCall.result.controlVariable),
+            vestingTerm: Number(termsCall.result.vestingTerm),
+            minimumPrice: Number(termsCall.result.minimumPrice),
+            maxPayout: Number(termsCall.result.maxPayout),
+            maxDebt: Number(termsCall.result.maxDebt)
+          }
+        : DefaultBondTerms
+
+      const userInfo: UserBondInfo = userInfoCall.result
+        ? {
+            payout: new TokenAmount(govToken, JSBI.BigInt(userInfoCall.result.payout ?? 0)), // payout token remaining to be paid
+            vesting: Number(userInfoCall.result.vesting), // Seconds left to vest
+            lastTime: Number(userInfoCall.result.lastTime), // Last Interaction
+            truePricePaid: Number(userInfoCall.result.truePricePaid)
+          }
+        : DefaultUserBondInfo
+
+      const userBondMaturationSecondsRemaining = userInfo.lastTime + userInfo.vesting - Math.floor(Date.now() / 1000)
+
+      const bondingInfo = {
+        ...bondInfo,
+        price: bondPriceCalculated,
+        roi: roiCalculated,
+        bondDiscount: bondDiscount,
+        debtRatio: debtRatioCalculated,
+        maxPayout: maxPayoutCalculated,
+        terms: terms,
+        userInfo: userInfo,
+        userBondPendingPayout: totalPendingRewardAmount,
+        userBondMaturationSecondsRemaining: userBondMaturationSecondsRemaining,
+        userBondTokenAmount: walletAmount,
+        totalBondedAmount: totalBondedAmountCalculated,
+        tokenAvailableAmount: tokenAvailableAmountCalculated,
+        valOfOneLpToken: valOfOneLpToken,
+        isActive: true
+      }
+
+      memo.push(bondingInfo)
+      return memo
+    }, [])
+  }, [
+    chainId,
+    govToken,
+    bondPrices,
+    maxPayouts,
+    termsList,
+    debtRatios,
+    totalBondedAmounts,
+    tokenAvailableAmounts,
+    userInfos,
+    pendingRewards,
+    lpTokenTotalSupplies,
+    lpTokenReserves,
+    lpTokenBalances
+  ])
 }

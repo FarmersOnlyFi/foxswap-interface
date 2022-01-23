@@ -10,11 +10,11 @@ import { TYPE, CloseIcon } from '../../theme'
 import { ButtonConfirmed, ButtonError } from '../Button'
 import ProgressCircles from '../ProgressSteps'
 import CurrencyInputPanel from '../CurrencyInputPanel'
-import { TokenAmount, Token } from '@foxswap/sdk'
+// import { TokenAmount, Token } from '@foxswap/sdk'
 import { useActiveWeb3React } from '../../hooks'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
 import { useApproveCallback, ApprovalState } from '../../hooks/useApproveCallback'
-import { useDerivedStakeInfo } from '../../state/stake/hooks'
+import { BondInfo, useDerivedStakeInfo } from '../../state/stake/hooks'
 //import { wrappedCurrencyAmount } from '../../utils/wrappedCurrency'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useTransactionAdder } from '../../state/transactions/hooks'
@@ -46,17 +46,20 @@ const ModalWrapper = styled(DataCard)`
 
 interface BondingModalProps {
   isOpen: boolean
+  bond: BondInfo
   onDismiss: () => void
-  bondingToken: Token
-  userLiquidityUnstaked: TokenAmount | undefined
 }
 
-export default function BondingModal({ isOpen, onDismiss, bondingToken, userLiquidityUnstaked }: BondingModalProps) {
+export default function BondingModal({ isOpen, bond, onDismiss }: BondingModalProps) {
   const { chainId, library } = useActiveWeb3React()
 
   // track and parse user input
   const [typedValue, setTypedValue] = useState('')
-  const { parsedAmount, error } = useDerivedStakeInfo(typedValue, bondingToken, userLiquidityUnstaked)
+  const { parsedAmount, error } = useDerivedStakeInfo(
+    typedValue,
+    bond.userBondTokenAmount.token,
+    bond.userBondTokenAmount
+  )
 
   const bondToken = useGovernanceToken()
   const pitSettings = chainId ? PIT_SETTINGS[chainId] : undefined
@@ -77,7 +80,7 @@ export default function BondingModal({ isOpen, onDismiss, bondingToken, userLiqu
 
   // approval data for stake
   const deadline = useTransactionDeadline()
-  const [approval, approveCallback] = useApproveCallback(parsedAmount, pit?.address)
+  const [approval, approveCallback] = useApproveCallback(parsedAmount, bond?.bondAddress)
 
   async function onBond() {
     setAttempting(true)
@@ -92,7 +95,7 @@ export default function BondingModal({ isOpen, onDismiss, bondingToken, userLiqu
           })
           .then((response: TransactionResponse) => {
             addTransaction(response, {
-              summary: `Bond ${bondToken?.symbol}`
+              summary: `Bond ${bond.displayName}`
             })
             setHash(response.hash)
           })
@@ -116,7 +119,7 @@ export default function BondingModal({ isOpen, onDismiss, bondingToken, userLiqu
   }, [])
 
   // used for max input button
-  const maxAmountInput = maxAmountSpend(userLiquidityUnstaked)
+  const maxAmountInput = maxAmountSpend(bond.userBondTokenAmount)
   const atMaxAmount = Boolean(maxAmountInput && parsedAmount?.equalTo(maxAmountInput))
   const handleMax = useCallback(() => {
     maxAmountInput && onUserInput(maxAmountInput.toExact())
@@ -136,7 +139,7 @@ export default function BondingModal({ isOpen, onDismiss, bondingToken, userLiqu
         {!attempting && !hash && !failed && (
           <ContentWrapper gap="lg">
             <RowBetween>
-              <TYPE.mediumHeader>Bond</TYPE.mediumHeader>
+              <TYPE.mediumHeader>Bond {bond.displayName}</TYPE.mediumHeader>
               <CloseIcon onClick={wrappedOnDismiss} />
             </RowBetween>
 
@@ -145,7 +148,7 @@ export default function BondingModal({ isOpen, onDismiss, bondingToken, userLiqu
               onUserInput={onUserInput}
               onMax={handleMax}
               showMaxButton={!atMaxAmount}
-              currency={bondingToken}
+              currency={bond.userBondTokenAmount.token}
               label={''}
               disableCurrencySelect={true}
               customBalanceText={'Available to Bond: '}
@@ -171,51 +174,33 @@ export default function BondingModal({ isOpen, onDismiss, bondingToken, userLiqu
             </RowBetween>
             <DataCard>
               <RowBetween>
-                {/*Your Balance*/}
-                {/*0 LP*/}
-                {/*You Will Get*/}
-                {/*0 WAGMI*/}
-                {/*Max You Can Buy*/}
-                {/*299.0535 WAGMI*/}
-                {/*ROI*/}
-                {/*10.36%*/}
-                {/*Debt Ratio*/}
-                {/*42.61%*/}
-                {/*Vesting Term*/}
-                {/*5 days*/}
-                {/*Minimum purchase*/}
-                {/*0.01 WAGMI*/}
-                <p>test</p>
-                <p>1</p>
-              </RowBetween>
-              <RowBetween>
                 <Text>Balance</Text>
-                <Text>0 LP</Text>
+                <Text>{bond.userBondTokenAmount.toSignificant(4)} LP</Text>
               </RowBetween>
               <RowBetween>
                 <Text>You Will Get:</Text>
-                <Text>0 FOX</Text>
+                <Text>TODO FOX</Text>
               </RowBetween>
               <RowBetween>
                 <Text>Max Purchase Volume</Text>
-                <Text>0 LP</Text>
+                <Text>{bond.maxPayout?.toSignificant(4)} FOX</Text>
+              </RowBetween>
+              <RowBetween>
+                <Text>ROI</Text>
+                <Text>{bond.roi?.toSignificant(4)}%</Text>
               </RowBetween>
               <RowBetween>
                 <Text>Minimum Purchase Volume</Text>
-                <Text>0 LP</Text>
+                <Text>0.01 FOX</Text>
               </RowBetween>
               <RowBetween>
                 <Text>Debt Ratio*</Text>
-                <Text>0 LP</Text>
+                <Text>{bond.debtRatio?.toSignificant(3)}%</Text>
               </RowBetween>
 
               <RowBetween>
                 <Text>Vesting Term*</Text>
                 <Text>5 Days</Text>
-              </RowBetween>
-              <RowBetween>
-                <Text>Minim</Text>
-                <Text>0 LP</Text>
               </RowBetween>
             </DataCard>
             <ProgressCircles steps={[approval === ApprovalState.APPROVED]} disabled={true} />

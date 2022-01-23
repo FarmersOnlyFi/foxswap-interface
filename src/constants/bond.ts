@@ -5,10 +5,11 @@ import getTokenWithDefault from '../utils/getTokenWithDefault'
 export const BONDS: {
   [chainId in ChainId]?: {
     name: string
-    isLpBond?: boolean
+    isLpBond: boolean
+    isWethBond: boolean // bonds must be either stable or WETH
     displayName: string
-    bondToken: [Token, Token] | Token
-    rewardToken: Token | undefined
+    bondToken: [Token, Token] // | Token
+    rewardToken: Token
     bondAddress: string
   }[]
 } = {
@@ -17,6 +18,7 @@ export const BONDS: {
     {
       name: 'fox_ust_lp',
       isLpBond: true,
+      isWethBond: false,
       displayName: 'FOX-UST LP',
       bondToken: getPairTokensWithDefaults(ChainId.HARMONY_TESTNET, 'FOX/UST'),
       rewardToken: getTokenWithDefault(ChainId.HARMONY_TESTNET, 'FOX'),
