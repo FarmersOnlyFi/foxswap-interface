@@ -14,7 +14,6 @@ import { ButtonMint } from '../../components/Button'
 // import {PIT} from "../../constants";
 
 const PageWrapper = styled(AutoColumn)`
-  max-width: 720px;
   width: 100%;
 `
 
@@ -66,11 +65,9 @@ export default function Bond() {
         />
       </>
       {!isActive ? (
-        <MintCard>
-          <Text fontWeight={200} fontSize={33} textAlign={'center'}>
-            Coming Soon
-          </Text>
-        </MintCard>
+        <div className="lg:container lg:mx-auto border">
+          <h1>hello</h1>
+        </div>
       ) : (
         <MintCard>
           <CardSection>

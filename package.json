@@ -96,10 +96,9 @@
     "@walletconnect/web3-provider": "1.1.1-alpha.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "start:service-worker": "yarn build && yarn serve -s build",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject",
     "lint": "eslint . --config ./.eslintrc.json --ext .js,.ts,.tsx",
     "lint:fix": "eslint . --config ./.eslintrc.json --ext .js,.ts,.tsx --fix"
@@ -124,9 +123,15 @@
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {
+    "@craco/craco": "^6.4.3",
     "@foxswap/default-token-list": "^2.1.9",
     "@material-ui/core": "^4.12.3",
     "@material-ui/lab": "^4.0.0-alpha.60",
+    "@tailwindcss/forms": "^0.4.0",
+    "autoprefixer": "^9",
+    "daisyui": "^1.25.4",
+    "postcss": "^7",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "toformat": "^2.0.0"
   },
   "version": "0.1.3"
