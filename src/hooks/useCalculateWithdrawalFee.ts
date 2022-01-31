@@ -4,7 +4,7 @@ import { useBlockNumber } from '../state/application/hooks'
 import { BigNumber } from '@ethersproject/bignumber'
 import { Fraction, JSBI } from '@foxswap/sdk'
 import { Contract } from '@ethersproject/contracts'
-import { ZERO_ADDRESS } from "../constants";
+import { ZERO_ADDRESS } from '../constants'
 
 function calculateFee(devFeeStage: BigNumber, divisor: number, multiply = '100'): Fraction | undefined {
   return devFeeStage && !devFeeStage.isZero()

@@ -8,16 +8,9 @@ import { Text } from 'rebass'
 import { ButtonMint } from '../../components/Button'
 import DarkIcon from '../../assets/svg/foxswap/foxswap-circle_06.svg'
 import { darken } from 'polished'
-// import { toV2LiquidityToken } from '../../state/user/hooks'
-// import { useMultipleContractSingleData } from '../../state/multicall/hooks'
-// import useBlockchain from '../../hooks/useBlockchain'
-// import { abi as IUniswapV2PairABI } from '@foxswap/core/build/IUniswapV2Pair.json'
-// import { Interface } from '@ethersproject/abi'
-// import { ZERO_ADDRESS } from '../../constants'
-// import {wrappedCurrency} from "../../utils/wrappedCurrency";
 import { useBondInfo } from '../../state/stake/hooks'
 import WithdrawFeeTimer from '../../components/Pit/WithdrawFeeTimer'
-// import { useBondingContract } from '../../hooks/useContract'
+import TabsCard from './BondCard'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 720px;
@@ -56,17 +49,13 @@ export const MintCard = styled(DataCard)`
 `
 
 export default function Bond() {
-  // const { account, chainId } = useActiveWeb3React()
-  // const blockchain = useBlockchain()
-
   const [showBondingModal, setShowBondingModal] = useState(false)
-  // const [showInput, setShowInput] = useState(false)
-  // const [typedValue, setTypedValue] = useState('')
+
   const bonds = useBondInfo()
   const bond = bonds[0]
   console.log('bond data:', bonds)
 
-  const isActive = true
+  const isActive = false
 
   return (
     <PageWrapper gap="lg">
@@ -74,11 +63,7 @@ export default function Bond() {
         <BondingModal isOpen={showBondingModal} bond={bond} onDismiss={() => setShowBondingModal(false)} />
       </>
       {!isActive ? (
-        <MintCard>
-          <Text fontWeight={200} fontSize={33} textAlign={'center'}>
-            Coming Soon
-          </Text>
-        </MintCard>
+        <TabsCard />
       ) : (
         <>
           <MintCard>
