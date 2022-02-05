@@ -105,6 +105,8 @@ const HeaderElementWrap = styled.div`
 `
 
 const HeaderRow = styled(RowFixed)`
+  display: flex;
+  flex-direction: row;
   ${({ theme }) => theme.mediaWidth.upToLarge`
    width: 100%;
   `};
@@ -112,10 +114,11 @@ const HeaderRow = styled(RowFixed)`
 
 const HeaderLinks = styled(Row)`
   ${({ theme }) => theme.mediaWidth.upToLarge`
-    padding: 1rem 0 1rem 1rem;
     justify-content: flex-end;
 `};
+  flex-direction: row;
   padding: 0.68rem;
+  display: flex;
 `
 
 const LogoImage = styled('img')`
