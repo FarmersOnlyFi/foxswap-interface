@@ -1,11 +1,10 @@
 import React, { useCallback, useState } from 'react'
-import { Card, Col, Row, Skeleton, Statistic, Avatar, Button, Divider, Input, Typography } from 'antd'
+import { Card, Col, Row, Skeleton, Statistic, Avatar, Divider } from 'antd'
 import { useBondInfo } from '../../state/stake/hooks'
-// import { useTokenBalance } from '../../state/wallet/hooks'
 import FoxLogo from 'assets/svg/foxswap/foxswap-circle_05.svg'
 import USTLogo from 'assets/svg/foxswap/ust.png'
-// import CurrencyInputPanel from '../../components/CurrencyInputPanel'
-import { usePair } from '../../data/Reserves'
+import CurrencyInputPanel from '../../components/CurrencyInputPanel'
+import { maxAmountSpend } from '../../utils/maxAmountSpend'
 
 /* Tab 1: Mint
  * Your Balance, You will get, Max you can buy, ROI, Debt Ratio, Vesting Term, Minimum Purchase
@@ -25,27 +24,39 @@ const tabListNoTitle: any = [
   }
 ]
 
-function BondCurrencyInput({ bondTokens, userBalance, pendingPayout }: any): JSX.Element {
-  const [, inputTokenPair] = usePair(bondTokens[0], bondTokens[1])
-  const [typedValue, setTypedValue] = useState('')
-  const onUserInput = useCallback((typedValue: string) => {
-    setTypedValue(typedValue)
-  }, [])
-  console.log(typedValue, onUserInput, inputTokenPair, userBalance)
-  return (
-    <Input.Group>
-      <Typography.Text type={'secondary'}>Balance: {userBalance}</Typography.Text>
-      <Row>
-        <Col>
-          <Input defaultValue="0" type={'number'} />
-        </Col>
-        <Col>
-          <Button type="primary">Submit</Button>
-        </Col>
-      </Row>
-    </Input.Group>
-  )
-}
+// function BondCurrencyInput({ bondTokens, userBalance, pendingPayout }: any): JSX.Element {
+//
+//   console.log(typedValue, onUserInput, inputTokenPair, userBalance)
+//   return (
+//     <Row gutter={24}>
+//       <Col span={24}>
+//         <CurrencyInputPanel
+//           value={typedValue}
+//           onUserInput={onUserInput}
+//           onMax={handleMax}
+//           showMaxButton={!atMaxAmount}
+//           currency={inputTokenPair?.liquidityToken}
+//           pair={inputTokenPair}
+//           label={''}
+//           id={'bond-token-panel'}
+//         />
+//       </Col>
+//     </Row>
+//     // <Input.Group>
+//     //   <Typography.Text type={'secondary'}>Balance: {userBalance ? userBalance.toFixed(4) : '-'}</Typography.Text>
+//     //   <Row>
+//     //     <Col>
+//     //       <InputNumber onChange={onUserInput} value={typedValue} size={'large'} />
+//     //     </Col>
+//     //     <Col>
+//     //       <Button type={'primary'} size={'large'}>
+//     //         Bond
+//     //       </Button>
+//     //     </Col>
+//     //   </Row>
+//     // </Input.Group>
+//   )
+// }
 
 function CardItem({
   displayName,
@@ -57,6 +68,20 @@ function CardItem({
   userBalance,
   pendingPayout
 }: any): JSX.Element {
+  const duration = terms.vestingTerm / 60 / 60 / 24
+  const [typedValue, setTypedValue] = useState('')
+  const onUserInput = useCallback((typedValue: string) => {
+    setTypedValue(typedValue)
+  }, [])
+
+  const maxAmountInput = maxAmountSpend(userBalance)
+  const atMaxAmount = Boolean(maxAmountInput && userBalance?.equalTo(maxAmountInput))
+  const handleMax = useCallback(() => {
+    maxAmountInput && onUserInput(maxAmountInput.toExact())
+  }, [maxAmountInput, onUserInput])
+
+  console.log(userBalance.toFixed(2), pendingPayout.toFixed(2), totalBonded.token)
+
   return (
     <>
       <Row gutter={24} justify={'space-around'}>
@@ -76,19 +101,23 @@ function CardItem({
           <Statistic title="Purchased" prefix="$" value={totalBonded.toFixed(2)} />
         </Col>
         <Col className="gutter-row" span={4}>
-          <Statistic.Countdown title="Vesting Term" value={0} />
+          <Statistic title="Vesting Term" value={`${duration} Days`} />
         </Col>
       </Row>
       <Divider />
       <Row gutter={24}>
-        <Col span={24}>
-          <BondCurrencyInput bondTokens={bondTokens} userBalance={userBalance} pendingPayout={pendingPayout} />
+        <Col span={12}>
+          <CurrencyInputPanel
+            value={typedValue}
+            onUserInput={onUserInput}
+            onMax={handleMax}
+            showMaxButton={!atMaxAmount}
+            currency={totalBonded.token}
+            label={''}
+            disableCurrencySelect={true}
+            id={'bond-token-panel'}
+          />
         </Col>
-        {/*<Col className="gutter-row" span={4}>*/}
-        {/*  <Button color={'#8B74BD'} type={'primary'} size={'large'} style={{ justifySelf: 'flex-end' }} block>*/}
-        {/*    Mint*/}
-        {/*  </Button>*/}
-        {/*</Col>*/}
       </Row>
     </>
   )
@@ -97,6 +126,7 @@ function CardItem({
 export default function BondCard() {
   const [activeTabKey, setActiveTabKey]: any = useState('mint')
   const bonds = useBondInfo()
+  console.log(bonds, 'bonding')
 
   const handleTabChange = (key: any) => {
     setActiveTabKey(key)
@@ -122,7 +152,9 @@ export default function BondCard() {
                 price={bond.price}
                 terms={bond.terms}
                 totalBonded={bond.totalBondedAmount}
-                bondTokens={bond.bondToken}
+                bondTokens={bond.maxPayout?.currency}
+                userBalance={bond.userBondTokenAmount}
+                pendingPayout={bond.userBondPendingPayout}
               />
             )
           })}
