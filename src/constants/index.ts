@@ -101,6 +101,7 @@ const WETH_ONLY: ChainTokenList = {
 
 export const WONE = WETH_ONLY[ChainId.HARMONY_MAINNET]
 export const FOX = getTokenWithDefault(ChainId.HARMONY_MAINNET, 'FOX')
+export const HVILLE = getTokenWithDefault(ChainId.HARMONY_MAINNET, 'HVILLE')
 export const UST = getTokenWithDefault(ChainId.HARMONY_MAINNET, 'UST')
 export const ETH = getTokenWithDefault(ChainId.HARMONY_MAINNET, '1ETH')
 export const MIS = getTokenWithDefault(ChainId.HARMONY_MAINNET, 'MIS')
@@ -108,7 +109,7 @@ export const USDC = getTokenWithDefault(ChainId.HARMONY_MAINNET, '1USDC')
 
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
-  [ChainId.HARMONY_MAINNET]: [WETH[ChainId.HARMONY_MAINNET], FOX, UST, ETH, MIS, USDC],
+  [ChainId.HARMONY_MAINNET]: [WETH[ChainId.HARMONY_MAINNET], FOX, UST, ETH, MIS, USDC, HVILLE],
   [ChainId.HARMONY_TESTNET]: [
     WETH[ChainId.HARMONY_TESTNET],
     getTokenWithDefault(ChainId.HARMONY_TESTNET, 'FOX'),
