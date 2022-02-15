@@ -66,7 +66,12 @@ function CardItem({
   totalBonded,
   bondTokens,
   userBalance,
-  pendingPayout
+  pendingPayout,
+  userBondMaturationSecondsRemaining,
+  userBondPendingPayout,
+  tokenAvailableAmount,
+  payout,
+  discount
 }: any): JSX.Element {
   const duration = terms.vestingTerm / 60 / 60 / 24
   const [typedValue, setTypedValue] = useState('')
@@ -80,7 +85,8 @@ function CardItem({
     maxAmountInput && onUserInput(maxAmountInput.toExact())
   }, [maxAmountInput, onUserInput])
 
-  console.log(userBalance.toFixed(2), pendingPayout.toFixed(2), totalBonded.token)
+  const { Countdown } = Statistic
+  const deadline = Date.now() + userBondMaturationSecondsRemaining * 1000
 
   return (
     <>
@@ -95,7 +101,10 @@ function CardItem({
           {price ? <Statistic title="Price" prefix="$" value={price.toFixed(2)} precision={2} /> : <Skeleton />}
         </Col>
         <Col className="gutter-row" span={4}>
-          <Statistic title="ROI" prefix="$" value={roi.toFixed(2)} />
+          <Statistic title="Discount" suffix="%" value={discount.toSignificant(3)} />
+        </Col>
+        <Col className="gutter-row" span={4}>
+          <Statistic title="ROI" suffix="%" value={roi.toSignificant(3)} />
         </Col>
         <Col className="gutter-row" span={4}>
           <Statistic title="Purchased" prefix="$" value={totalBonded.toFixed(2)} />
@@ -118,6 +127,38 @@ function CardItem({
             id={'bond-token-panel'}
           />
         </Col>
+        <Col span={12}>
+          <Statistic
+            title="Tokens Available to Buy" // TODO - show "Sold Out" if this is 0
+            suffix={'FOX'} // TODO - this should be reward token name
+            value={tokenAvailableAmount.toSignificant(3)}
+          />
+        </Col>
+      </Row>
+      <Divider />
+      <Row gutter={24} justify={'space-around'} style={{ fontSize: '24px' }}>
+        UserInfo
+      </Row>
+      <Row gutter={24} justify={'space-around'} style={{ fontSize: '14px' }}>
+        <Col className="gutter-row" span={6}>
+          <Statistic title="Pending" suffix="FOX" value={payout.toSignificant(4)} valueStyle={{ fontSize: '18px' }} />
+        </Col>
+        <Col className="gutter-row" span={6}>
+          <Statistic
+            title="Claimable"
+            suffix="FOX" // TODO - this should be reward token name
+            value={userBondPendingPayout.toSignificant(3)}
+            valueStyle={{ fontSize: '18px' }}
+          />
+        </Col>
+        <Col className="gutter-row" span={6}>
+          <Countdown
+            title="Until Fully Vested"
+            value={deadline}
+            format="Dd HH:mm:ss"
+            valueStyle={{ fontSize: '18px' }}
+          />
+        </Col>
       </Row>
     </>
   )
@@ -126,7 +167,7 @@ function CardItem({
 export default function BondCard() {
   const [activeTabKey, setActiveTabKey]: any = useState('mint')
   const bonds = useBondInfo()
-  console.log(bonds, 'bonding')
+  console.log('BondCard - bonds', bonds)
 
   const handleTabChange = (key: any) => {
     setActiveTabKey(key)
@@ -155,6 +196,11 @@ export default function BondCard() {
                 bondTokens={bond.maxPayout?.currency}
                 userBalance={bond.userBondTokenAmount}
                 pendingPayout={bond.userBondPendingPayout}
+                userBondMaturationSecondsRemaining={bond.userBondMaturationSecondsRemaining}
+                userBondPendingPayout={bond.userBondPendingPayout}
+                tokenAvailableAmount={bond.tokenAvailableAmount}
+                payout={bond.userInfo.payout}
+                discount={bond.bondDiscount}
               />
             )
           })}

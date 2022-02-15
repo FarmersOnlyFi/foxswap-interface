@@ -53,7 +53,7 @@ export default function Bond() {
 
   const bonds = useBondInfo()
   const bond = bonds[0]
-  console.log('bond data:', bonds)
+  // console.log('bond data:', bonds)
 
   const isActive = false
 

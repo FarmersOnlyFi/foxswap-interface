@@ -13,7 +13,17 @@ export const BONDS: {
     bondAddress: string
   }[]
 } = {
-  [ChainId.HARMONY_MAINNET]: [],
+  [ChainId.HARMONY_MAINNET]: [
+    {
+      name: 'fox_ust_lp',
+      isLpBond: true,
+      isWethBond: false,
+      displayName: 'FOX-UST LP',
+      bondToken: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/UST'),
+      rewardToken: getTokenWithDefault(ChainId.HARMONY_MAINNET, 'FOX'),
+      bondAddress: '0x5E0a1ea7fe6F1B2e051C4C1CE1CbE1feaEcCcFc2'
+    }
+  ],
   [ChainId.HARMONY_TESTNET]: [
     {
       name: 'fox_ust_lp',

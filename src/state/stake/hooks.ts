@@ -1,4 +1,4 @@
-import { CurrencyAmount, JSBI, Token, TokenAmount, Pair, Price, Fraction } from '@foxswap/sdk'
+import { CurrencyAmount, JSBI, Token, TokenAmount, Pair, Fraction } from '@foxswap/sdk'
 import { useMemo } from 'react'
 import { useActiveWeb3React } from '../../hooks'
 import { useSingleCallResult, useSingleContractMultipleData } from '../multicall/hooks'
@@ -19,7 +19,7 @@ import determineBaseToken from '../../utils/determineBaseToken'
 import { BONDS } from '../../constants/bond'
 import lpBondAbi from 'constants/abis/custom-bond.json'
 import useWeth from '../../hooks/useWeth'
-// import { toV2LiquidityToken } from '../user/hooks'
+import { toV2LiquidityToken } from '../user/hooks'
 
 const PAIR_INTERFACE = new Interface(IUniswapV2PairABI)
 const LP_BOND_ABI = new Interface(lpBondAbi)
@@ -447,9 +447,9 @@ export function useBondInfo(): BondInfo[] {
 
   // TODO - get tokens from bondInfos.rewardToken
   const govToken = useGovernanceToken()
-  // const govTokenPrice = useBUSDPrice(govToken)
+  const govTokenPrice = useBUSDPrice(govToken)
   const weth = useWeth()
-  // const wethBusdPrice = useBUSDPrice(weth)
+  const wethBusdPrice = useBUSDPrice(weth)
 
   const DefaultUserBondInfo = {
     payout: govToken ? new TokenAmount(govToken, JSBI.BigInt(0)) : undefined,
@@ -458,17 +458,12 @@ export function useBondInfo(): BondInfo[] {
     truePricePaid: 0
   }
 
-  // For testnet
-  const lpTokenAddresses = ['0xDaF8199DDA3442040f347E29Ac256e2B0e560b3C']
-  const govTokenPrice = govToken ? new Price(govToken, govToken, JSBI.BigInt(1), JSBI.BigInt(5)) : undefined
-  const wethBusdPrice = weth ? new Price(weth, weth, JSBI.BigInt(3), JSBI.BigInt(1)) : undefined
-
   const accountMapping = useMemo(() => bondInfos?.map(() => (account ? account : undefined)), [bondInfos, account])
   const bondAddressses = useMemo(() => (bondInfos ? bondInfos.map(b => b.bondAddress) : []), [bondInfos])
-  // const lpTokenAddresses = useMemo(
-  //   () => (bondInfos ? bondInfos.map(b => toV2LiquidityToken(b.bondToken)?.address) : []),
-  //   [bondInfos]
-  // )
+  const lpTokenAddresses = useMemo(
+    () => (bondInfos ? bondInfos.map(b => toV2LiquidityToken(b.bondToken)?.address) : []),
+    [bondInfos]
+  )
 
   // Bond info
   const bondPrices = useMultipleContractSingleData(bondAddressses, LP_BOND_ABI, 'trueBondPrice')
@@ -529,9 +524,11 @@ export function useBondInfo(): BondInfo[] {
       }
 
       const valOfOneLpToken = new Fraction(
-        JSBI.BigInt(lpTokenTotalSupply.result?.[0] ?? 0),
-        JSBI.BigInt(lpTokenReserve?.result?.[stableIdx] ?? 1)
-      ).multiply(mult)
+        JSBI.BigInt(lpTokenReserve?.result?.[stableIdx] ?? 0),
+        JSBI.BigInt(lpTokenTotalSupply.result?.[0] ?? 1)
+      )
+        .multiply(mult)
+        .multiply('2')
 
       const bondPriceCalculated = valOfOneLpToken.multiply(bondPriceRaw)
 
@@ -542,8 +539,9 @@ export function useBondInfo(): BondInfo[] {
               .subtract(JSBI.BigInt(1))
               .multiply(JSBI.BigInt(100))
           : new Fraction(JSBI.BigInt(0))
+
       const bondDiscount = govTokenPrice
-        ? new Fraction(JSBI.BigInt(1)).subtract(bondPriceCalculated.divide(govTokenPrice.raw))
+        ? new Fraction(JSBI.BigInt(1)).subtract(bondPriceCalculated.divide(govTokenPrice.raw)).multiply('100')
         : new Fraction(JSBI.BigInt(0))
       const totalPendingRewardAmount = new TokenAmount(govToken, calculatedPendingRewards)
       const tokenAvailableAmountCalculated = new TokenAmount(
