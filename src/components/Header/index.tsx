@@ -18,7 +18,7 @@ import useGovernanceToken from '../../hooks/useGovernanceToken'
 import usePitToken from '../../hooks/usePitToken'
 import { CardNoise } from '../earn/styled'
 import { ExternalLink, TYPE } from '../../theme'
-import Menu from '../Menu'
+import MiscMenu from '../Menu'
 import Row, { RowFixed } from '../Row'
 import Web3Status from '../Web3Status'
 import ClaimModal from '../claim/ClaimModal'
@@ -34,6 +34,16 @@ import { PIT_SETTINGS } from '../../constants'
 import useAddTokenToMetamask from '../../hooks/useAddTokenToMetamask'
 import usePitRatio from '../../hooks/usePitRatio'
 import useBUSDPrice from '../../hooks/useBUSDPrice'
+import { Menu, Dropdown } from 'antd'
+import {
+  LockOutlined,
+  MenuOutlined,
+  ThunderboltOutlined,
+  ExperimentOutlined,
+  SwapOutlined,
+  WalletOutlined,
+  LinkOutlined
+} from '@ant-design/icons'
 
 const HeaderFrame = styled.div`
   display: grid;
@@ -84,6 +94,17 @@ const HeaderControls = styled.div`
   `};
 `
 
+const HeaderSubMenu = styled(Row)`
+  display: none;
+  ${({ theme }) => theme.mediaWidth.upToLarge`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: end;
+    padding: 1rem 0 1rem 1rem;
+  `};
+`
+
 const HeaderElement = styled.div`
   display: flex;
   align-items: center;
@@ -114,6 +135,7 @@ const HeaderLinks = styled(Row)`
   ${({ theme }) => theme.mediaWidth.upToLarge`
     padding: 1rem 0 1rem 1rem;
     justify-content: flex-end;
+    display: none;
 `};
   padding: 0.68rem;
 `
@@ -202,9 +224,9 @@ const StyledNavLink = styled(NavLink).attrs({
   padding: .65rem;
   margin-left: 20px;
   border-radius: 15px;
+  font-weight: 600;
   &:hover {
     color: ${({ theme }) => theme.primary1}
-    // box-shadow: 0 0 0 1pt ${({ theme }) => darken(0.05, theme.primary1)};
   }
 
   &:focus {
@@ -233,7 +255,7 @@ const StyledRedirectLink = styled(ExternalLink)`
   padding: .65rem;
   margin-left: 20px;
   border-radius: 15px;
-  font-weight: normal;
+  font-weight: 600;
   &:hover {
     color: ${({ theme }) => theme.primary1}
     text-decoration: none;
@@ -276,6 +298,52 @@ export const StyledMenuButton = styled.button`
   }
 `
 
+const CondensedMenu = (
+  <Menu>
+    <Menu.Item key="3" icon={<SwapOutlined />}>
+      <StyledNavLink id={`swap-nav-link`} to={'/swap'} style={{ marginLeft: '0px' }}>
+        Swap
+      </StyledNavLink>
+    </Menu.Item>
+    <Menu.Item key="2" icon={<ExperimentOutlined />}>
+      <StyledNavLink
+        id={`pool-nav-link`}
+        to={'/pool'}
+        style={{ marginLeft: '0px' }}
+        isActive={(match, { pathname }) =>
+          Boolean(match) ||
+          pathname.startsWith('/add') ||
+          pathname.startsWith('/remove') ||
+          pathname.startsWith('/create') ||
+          pathname.startsWith('/find')
+        }
+      >
+        Pool
+      </StyledNavLink>
+    </Menu.Item>
+    <Menu.Item icon={<WalletOutlined />}>
+      <StyledNavLink id={`pit-nav-link`} to={'/den'} style={{ marginLeft: '0px' }}>
+        Stake
+      </StyledNavLink>
+    </Menu.Item>
+    <Menu.Item icon={<LinkOutlined />}>
+      <StyledNavLink id={`bond-nav-link`} to={'/bond'} style={{ marginLeft: '0px' }}>
+        Bond
+      </StyledNavLink>
+    </Menu.Item>
+    <Menu.Item key="0" icon={<LockOutlined />}>
+      <StyledRedirectLink style={{ marginLeft: '0px' }} href={`https://app.farmersonly.fi/vaults`}>
+        Vaults
+      </StyledRedirectLink>
+    </Menu.Item>
+    <Menu.Item key="1" icon={<ThunderboltOutlined />}>
+      <StyledRedirectLink style={{ marginLeft: '0px' }} href={`https://app.farmersonly.fi/zap`}>
+        Zapper
+      </StyledRedirectLink>
+    </Menu.Item>
+  </Menu>
+)
+
 export default function Header() {
   const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
@@ -301,11 +369,18 @@ export default function Header() {
   const toggleClaimModal = useToggleSelfClaimModal()
   const availableClaim: boolean = useUserHasAvailableClaim(account)
   const showClaimPopup = useShowClaimPopup()
+  //
+  // const [current, setCurrent] = useState('')
+  //
+  // const handleClickMenu = (e: any) => {
+  //   console.log('click')
+  //   setCurrent(e.key)
+  // }
 
   return (
     <HeaderFrame>
       <ClaimModal />
-      <HeaderRow gap={'lg'}>
+      <HeaderRow gap={'lg'} justify={'space-between'}>
         <Modal isOpen={showUniBalanceModal} onDismiss={() => setShowUniBalanceModal(false)}>
           <GovTokenBalanceContent setShowUniBalanceModal={setShowUniBalanceModal} />
         </Modal>
@@ -340,6 +415,11 @@ export default function Header() {
           <StyledRedirectLink href={`https://app.farmersonly.fi/vaults`}>{t('Vaults')}</StyledRedirectLink>
           <StyledRedirectLink href={`https://app.farmersonly.fi/zap`}>{t('Zapper')}</StyledRedirectLink>
         </HeaderLinks>
+        <HeaderSubMenu>
+          <Dropdown overlay={CondensedMenu}>
+            <MenuOutlined style={{ fontSize: '3em' }} />
+          </Dropdown>
+        </HeaderSubMenu>
       </HeaderRow>
       <HeaderControls>
         <HeaderElement>
@@ -380,7 +460,7 @@ export default function Header() {
           <StyledMenuButton onClick={() => toggleDarkMode()}>
             {darkMode ? <Moon size={20} /> : <Sun size={20} />}
           </StyledMenuButton>
-          <Menu />
+          <MiscMenu />
         </HeaderElementWrap>
       </HeaderControls>
     </HeaderFrame>

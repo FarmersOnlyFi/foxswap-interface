@@ -91,7 +91,7 @@ const MenuItem = styled(ExternalLink)`
 
 const CODE_LINK = 'https://github.com/FarmersOnlyFi'
 
-export default function Menu() {
+export default function MiscMenu() {
   const { account } = useActiveWeb3React()
   const blockchain = useBlockchain()
   const govToken = useGovernanceToken()
