@@ -300,12 +300,12 @@ export const StyledMenuButton = styled.button`
 
 const CondensedMenu = (
   <Menu>
-    <Menu.Item key="3" icon={<SwapOutlined />}>
+    <Menu.Item icon={<SwapOutlined style={{ fontSize: '1.25em' }} />}>
       <StyledNavLink id={`swap-nav-link`} to={'/swap'} style={{ marginLeft: '0px' }}>
         Swap
       </StyledNavLink>
     </Menu.Item>
-    <Menu.Item key="2" icon={<ExperimentOutlined />}>
+    <Menu.Item icon={<ExperimentOutlined style={{ fontSize: '1.25em' }} />}>
       <StyledNavLink
         id={`pool-nav-link`}
         to={'/pool'}
@@ -321,22 +321,22 @@ const CondensedMenu = (
         Pool
       </StyledNavLink>
     </Menu.Item>
-    <Menu.Item icon={<WalletOutlined />}>
+    <Menu.Item icon={<WalletOutlined style={{ fontSize: '1.25em' }} />}>
       <StyledNavLink id={`pit-nav-link`} to={'/den'} style={{ marginLeft: '0px' }}>
         Stake
       </StyledNavLink>
     </Menu.Item>
-    <Menu.Item icon={<LinkOutlined />}>
+    <Menu.Item icon={<LinkOutlined style={{ fontSize: '1.25em' }} />}>
       <StyledNavLink id={`bond-nav-link`} to={'/bond'} style={{ marginLeft: '0px' }}>
         Bond
       </StyledNavLink>
     </Menu.Item>
-    <Menu.Item key="0" icon={<LockOutlined />}>
+    <Menu.Item icon={<LockOutlined style={{ fontSize: '1.25em' }} />}>
       <StyledRedirectLink style={{ marginLeft: '0px' }} href={`https://app.farmersonly.fi/vaults`}>
         Vaults
       </StyledRedirectLink>
     </Menu.Item>
-    <Menu.Item key="1" icon={<ThunderboltOutlined />}>
+    <Menu.Item icon={<ThunderboltOutlined style={{ fontSize: '1.25em' }} />}>
       <StyledRedirectLink style={{ marginLeft: '0px' }} href={`https://app.farmersonly.fi/zap`}>
         Zapper
       </StyledRedirectLink>
