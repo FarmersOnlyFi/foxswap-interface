@@ -322,7 +322,7 @@ const CondensedMenu = (
       </StyledNavLink>
     </Menu.Item>
     <Menu.Item icon={<WalletOutlined style={{ fontSize: '1.25em' }} />}>
-      <StyledNavLink id={`pit-nav-link`} to={'/den'} style={{ marginLeft: '0px' }}>
+      <StyledNavLink id={`pit-nav-link`} to={'/stake'} style={{ marginLeft: '0px' }}>
         Stake
       </StyledNavLink>
     </Menu.Item>
