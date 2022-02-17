@@ -16,6 +16,12 @@ export default function useXFoxApy() {
   const totalAllocPoints = useSingleCallResult(masterBreederContract, 'totalAllocPoint')
   const govTokenMasterchefBalance = useSingleCallResult(govTokenContract, 'balanceOf', [masterBreederContract?.address])
 
+  const govTokenMasterchefBalanceResult = govTokenMasterchefBalance.result
+    ? BigInt(govTokenMasterchefBalance.result)
+    : BigInt(0)
+  if (govTokenMasterchefBalanceResult < 0) {
+    return { apyDay: 0, apy: 0 }
+  }
   const nCompounds = 3000
   const poolShare =
     poolRewardsPerBlock.result &&
@@ -28,9 +34,12 @@ export default function useXFoxApy() {
       .multiply(blocksPerYear)
       .divide(BigInt(nCompounds))
       .multiply(JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(18)))
-  const aprDay = rewardsPerCoumpound && rewardsPerCoumpound.divide(BigInt(govTokenMasterchefBalance.result))
+  const aprDay =
+    rewardsPerCoumpound &&
+    govTokenMasterchefBalanceResult > 0 &&
+    rewardsPerCoumpound.divide(govTokenMasterchefBalanceResult)
 
-  const apyDay = aprDay && (Number(aprDay?.add(JSBI.BigInt(1)).toFixed(10)) ** (nCompounds / 365) - 1) * 100
-  const apy = aprDay && (Number(aprDay?.add(JSBI.BigInt(1)).toFixed(10)) ** nCompounds - 1) * 100
+  const apyDay = aprDay ? (Number(aprDay?.add(JSBI.BigInt(1)).toFixed(10)) ** (nCompounds / 365) - 1) * 100 : 0
+  const apy = aprDay ? (Number(aprDay?.add(JSBI.BigInt(1)).toFixed(10)) ** nCompounds - 1) * 100 : 0
   return { apyDay, apy }
 }

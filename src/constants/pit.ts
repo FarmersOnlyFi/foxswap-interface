@@ -21,8 +21,9 @@ export const PIT_POOLS: {
     { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/RAVAX') },
     { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/TRANQ') },
     { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/COINKX') },
-    { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'HVILLE/WONE') },
-    { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'HVILLE/1USDC') },
+    { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'WONE/HVILLE') },
+    { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, '1USDC/HVILLE') },
+    { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/HVILLE') },
     { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/XYA') }
   ],
   [ChainId.HARMONY_TESTNET]: [

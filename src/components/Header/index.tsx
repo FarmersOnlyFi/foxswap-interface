@@ -359,7 +359,6 @@ export default function Header() {
 
   const govToken = useGovernanceToken()
   const govTokenPrice = useBUSDPrice(govToken)
-  console.log(govTokenPrice)
   const addGov = useAddTokenToMetamask(govToken)
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
   const userFoxBalance: TokenAmount | undefined = useTokenBalance(
@@ -387,7 +386,7 @@ export default function Header() {
         )}
         <HeaderLinks>
           <StyledNavLink id={`swap-nav-link`} to={'/swap'}>
-            {t('swap')}
+            {t('Swap')}
           </StyledNavLink>
           <StyledNavLink
             id={`pool-nav-link`}
@@ -400,7 +399,7 @@ export default function Header() {
               pathname.startsWith('/find')
             }
           >
-            {t('pool')}
+            {t('Pool')}
           </StyledNavLink>
           <StyledNavLink id={`pit-nav-link`} to={`${pitSettings?.path}`}>
             {pitSettings?.name}
@@ -427,7 +426,7 @@ export default function Header() {
                 </MouseoverTooltip>
                 <div>
                   <Text margin={'0 10px 0 0'} fontSize={'16px'}>
-                    ${govTokenPrice?.toFixed(2)}
+                    ${govTokenPrice?.toSignificant(4)}
                   </Text>
                 </div>
               </FoxPricePill>
