@@ -124,15 +124,20 @@ export default function Pit({
   const escrowFeeAprDaily = escrowFeeApr / 365
 
   const yearlyReturns = `${apy.apy?.toLocaleString('en-US', {
+    minimumFractionDigits: 2,
     maximumFractionDigits: 2
   })}% APY - Compounding\n
-  ${dexFeeApr.toLocaleString('en-US', { maximumFractionDigits: 2 })}% APR - DEX Fees\n
-  ${escrowFeeApr.toLocaleString('en-US', { maximumFractionDigits: 2 })}% APR - Escrow Fees`
+  ${dexFeeApr.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}% APR - DEX Fees\n
+  ${escrowFeeApr.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}% APR - Escrow Fees`
   const dailyReturns = `${apy.apyDay?.toLocaleString('en-US', {
+    minimumFractionDigits: 3,
     maximumFractionDigits: 3
   })}% APY - Compounding\n
-  ${dexFeeAprDaily.toLocaleString('en-US', { maximumFractionDigits: 3 })}% APR - DEX Fees\n
-  ${escrowFeeAprDaily.toLocaleString('en-US', { maximumFractionDigits: 3 })}% APR - Escrow Fees`
+  ${dexFeeAprDaily.toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}% APR - DEX Fees\n
+  ${escrowFeeAprDaily.toLocaleString('en-US', {
+    minimumFractionDigits: 3,
+    maximumFractionDigits: 3
+  })}% APR - Escrow Fees`
 
   const totalYearly = apy.apy && apy.apy + dexFeeApr + escrowFeeApr
   const totalDaily = apy.apyDay && apy.apyDay + dexFeeApr / 365 + escrowFeeApr / 365
