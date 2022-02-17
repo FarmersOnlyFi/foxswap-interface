@@ -5,18 +5,14 @@ import { Moon, Sun } from 'react-feather'
 import { NavLink } from 'react-router-dom'
 import { darken } from 'polished'
 import { useTranslation } from 'react-i18next'
-import { MouseoverTooltip } from '../Tooltip'
 import styled from 'styled-components'
 import DarkLogo from 'assets/svg/foxswap/foxswap-thickwhite.svg'
 import LightLogo from 'assets/svg/foxswap/foxswap-thickblack.svg'
-import DarkIcon from 'assets/svg/foxswap/foxswap-circle_06.svg'
-import LightIcon from 'assets/svg/foxswap/foxswap-circle_02.svg'
+import DarkIcon from 'assets/svg/foxswap/foxswap-circle_05.svg'
 import { useActiveWeb3React } from '../../hooks'
 import { useDarkModeManager } from '../../state/user/hooks'
 import { useTokenBalance, useETHBalances } from '../../state/wallet/hooks'
 import useGovernanceToken from '../../hooks/useGovernanceToken'
-import usePitToken from '../../hooks/usePitToken'
-import { CardNoise } from '../earn/styled'
 import { ExternalLink, TYPE } from '../../theme'
 import MiscMenu from '../Menu'
 import Row, { RowFixed } from '../Row'
@@ -25,14 +21,13 @@ import ClaimModal from '../claim/ClaimModal'
 import { useToggleSelfClaimModal, useShowClaimPopup } from '../../state/application/hooks'
 import { useUserHasAvailableClaim } from '../../state/claim/hooks'
 import { useUserHasSubmittedClaim } from '../../state/transactions/hooks'
+import { MouseoverTooltip } from '../Tooltip'
 import { Dots } from '../swap/styleds'
 import Modal from '../Modal'
 import GovTokenBalanceContent from './GovTokenBalanceContent'
 import { GOVERNANCE_TOKEN_INTERFACE } from '../../constants/abis/governanceToken'
-// import { BASE_CURRENCY } from '../../connectors'
 import { PIT_SETTINGS } from '../../constants'
 import useAddTokenToMetamask from '../../hooks/useAddTokenToMetamask'
-import usePitRatio from '../../hooks/usePitRatio'
 import useBUSDPrice from '../../hooks/useBUSDPrice'
 import { Menu, Dropdown } from 'antd'
 import {
@@ -148,10 +143,11 @@ const LogoImage = styled('img')`
 `
 
 const LogoIcon = styled('img')`
-  width: 40px;
-  height: 40px;
-  margin: 8px;
+  width: 45px;
+  height: 45px;
   cursor: pointer;
+  margin-right: 3px;
+  padding: 0.5px;
   box-shadow: 0 0 2px ${({ theme }) => theme.bg1};
   transition: box-shadow 0.3s ease-in-out;
   border-radius: 50%;
@@ -237,6 +233,15 @@ const StyledNavLink = styled(NavLink).attrs({
     color: ${({ theme }) => darken(0.1, theme.primary1)}
     transform: translateY(0.1rem)
   }
+`
+
+const FoxPricePill = styled(Row)`
+  color: ${({ theme }) => theme.primary2};
+  border-radius: 2.5rem;
+  font-weight: 500;
+  margin: 16px;
+  display: flex;
+  background: #b9bfff;
 `
 
 const TokenSelectionWrapper = styled.div`
@@ -353,11 +358,9 @@ export default function Header() {
   const [showUniBalanceModal, setShowUniBalanceModal] = useState(false)
 
   const govToken = useGovernanceToken()
-  const pitToken = usePitToken()
-  const pitRatio = usePitRatio()
   const govTokenPrice = useBUSDPrice(govToken)
+  console.log(govTokenPrice)
   const addGov = useAddTokenToMetamask(govToken)
-  const addPit = useAddTokenToMetamask(pitToken)
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
   const userFoxBalance: TokenAmount | undefined = useTokenBalance(
     account ?? undefined,
@@ -369,13 +372,6 @@ export default function Header() {
   const toggleClaimModal = useToggleSelfClaimModal()
   const availableClaim: boolean = useUserHasAvailableClaim(account)
   const showClaimPopup = useShowClaimPopup()
-  //
-  // const [current, setCurrent] = useState('')
-  //
-  // const handleClickMenu = (e: any) => {
-  //   console.log('click')
-  //   setCurrent(e.key)
-  // }
 
   return (
     <HeaderFrame>
@@ -425,12 +421,16 @@ export default function Header() {
         <HeaderElement>
           <TokenSelectionWrapper>
             <HeaderElementWrap>
-              <MouseoverTooltip text={`Add FOX ($${govTokenPrice?.toFixed(2)}) to MetaMask`}>
-                <LogoIcon src={DarkIcon} onClick={addGov.addToken} alt="logo" />
-              </MouseoverTooltip>
-              <MouseoverTooltip text={`Add xFOX to MetaMask. (1 FOX = ${pitRatio?.toFixed(5)} xFOX)`}>
-                <LogoIcon src={LightIcon} onClick={addPit.addToken} alt="logo" />
-              </MouseoverTooltip>
+              <FoxPricePill>
+                <MouseoverTooltip text={'Add FOX to MetaMask'}>
+                  <LogoIcon src={DarkIcon} onClick={addGov.addToken} alt="logo" />
+                </MouseoverTooltip>
+                <div>
+                  <Text margin={'0 10px 0 0'} fontSize={'16px'}>
+                    ${govTokenPrice?.toFixed(2)}
+                  </Text>
+                </div>
+              </FoxPricePill>
             </HeaderElementWrap>
           </TokenSelectionWrapper>
           {availableClaim && !showClaimPopup && (
@@ -444,7 +444,6 @@ export default function Header() {
                   )}
                 </TYPE.white>
               </UNIAmount>
-              <CardNoise />
             </UNIWrapper>
           )}
           <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
