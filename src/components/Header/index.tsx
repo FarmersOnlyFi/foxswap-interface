@@ -5,35 +5,40 @@ import { Moon, Sun } from 'react-feather'
 import { NavLink } from 'react-router-dom'
 import { darken } from 'polished'
 import { useTranslation } from 'react-i18next'
-import { MouseoverTooltip } from '../Tooltip'
 import styled from 'styled-components'
 import DarkLogo from 'assets/svg/foxswap/foxswap-thickwhite.svg'
 import LightLogo from 'assets/svg/foxswap/foxswap-thickblack.svg'
-import DarkIcon from 'assets/svg/foxswap/foxswap-circle_06.svg'
-import LightIcon from 'assets/svg/foxswap/foxswap-circle_02.svg'
+import DarkIcon from 'assets/svg/foxswap/foxswap-circle_05.svg'
 import { useActiveWeb3React } from '../../hooks'
 import { useDarkModeManager } from '../../state/user/hooks'
 import { useTokenBalance, useETHBalances } from '../../state/wallet/hooks'
 import useGovernanceToken from '../../hooks/useGovernanceToken'
-import usePitToken from '../../hooks/usePitToken'
-import { CardNoise } from '../earn/styled'
 import { ExternalLink, TYPE } from '../../theme'
-import Menu from '../Menu'
+import MiscMenu from '../Menu'
 import Row, { RowFixed } from '../Row'
 import Web3Status from '../Web3Status'
 import ClaimModal from '../claim/ClaimModal'
 import { useToggleSelfClaimModal, useShowClaimPopup } from '../../state/application/hooks'
 import { useUserHasAvailableClaim } from '../../state/claim/hooks'
 import { useUserHasSubmittedClaim } from '../../state/transactions/hooks'
+import { MouseoverTooltip } from '../Tooltip'
 import { Dots } from '../swap/styleds'
 import Modal from '../Modal'
 import GovTokenBalanceContent from './GovTokenBalanceContent'
 import { GOVERNANCE_TOKEN_INTERFACE } from '../../constants/abis/governanceToken'
-// import { BASE_CURRENCY } from '../../connectors'
 import { PIT_SETTINGS } from '../../constants'
 import useAddTokenToMetamask from '../../hooks/useAddTokenToMetamask'
-import usePitRatio from '../../hooks/usePitRatio'
 import useBUSDPrice from '../../hooks/useBUSDPrice'
+import { Menu, Dropdown } from 'antd'
+import {
+  LockOutlined,
+  MenuOutlined,
+  ThunderboltOutlined,
+  ExperimentOutlined,
+  SwapOutlined,
+  WalletOutlined,
+  LinkOutlined
+} from '@ant-design/icons'
 
 const HeaderFrame = styled.div`
   display: grid;
@@ -84,6 +89,17 @@ const HeaderControls = styled.div`
   `};
 `
 
+const HeaderSubMenu = styled(Row)`
+  display: none;
+  ${({ theme }) => theme.mediaWidth.upToLarge`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: end;
+    padding: 1rem 0 1rem 1rem;
+  `};
+`
+
 const HeaderElement = styled.div`
   display: flex;
   align-items: center;
@@ -115,6 +131,7 @@ const HeaderRow = styled(RowFixed)`
 const HeaderLinks = styled(Row)`
   ${({ theme }) => theme.mediaWidth.upToLarge`
     justify-content: flex-end;
+    display: none;
 `};
   flex-direction: row;
   padding: 0.68rem;
@@ -129,10 +146,11 @@ const LogoImage = styled('img')`
 `
 
 const LogoIcon = styled('img')`
-  width: 40px;
-  height: 40px;
-  margin: 8px;
+  width: 45px;
+  height: 45px;
   cursor: pointer;
+  margin-right: 3px;
+  padding: 0.5px;
   box-shadow: 0 0 2px ${({ theme }) => theme.bg1};
   transition: box-shadow 0.3s ease-in-out;
   border-radius: 50%;
@@ -205,9 +223,9 @@ const StyledNavLink = styled(NavLink).attrs({
   padding: .65rem;
   margin-left: 20px;
   border-radius: 15px;
+  font-weight: 600;
   &:hover {
     color: ${({ theme }) => theme.primary1}
-    // box-shadow: 0 0 0 1pt ${({ theme }) => darken(0.05, theme.primary1)};
   }
 
   &:focus {
@@ -218,6 +236,15 @@ const StyledNavLink = styled(NavLink).attrs({
     color: ${({ theme }) => darken(0.1, theme.primary1)}
     transform: translateY(0.1rem)
   }
+`
+
+const FoxPricePill = styled(Row)`
+  color: ${({ theme }) => theme.primary2};
+  border-radius: 2.5rem;
+  font-weight: 500;
+  margin: 16px;
+  display: flex;
+  background: #b9bfff;
 `
 
 const TokenSelectionWrapper = styled.div`
@@ -236,7 +263,7 @@ const StyledRedirectLink = styled(ExternalLink)`
   padding: .65rem;
   margin-left: 20px;
   border-radius: 15px;
-  font-weight: normal;
+  font-weight: 600;
   &:hover {
     color: ${({ theme }) => theme.primary1}
     text-decoration: none;
@@ -279,6 +306,52 @@ export const StyledMenuButton = styled.button`
   }
 `
 
+const CondensedMenu = (
+  <Menu>
+    <Menu.Item icon={<SwapOutlined style={{ fontSize: '1.25em' }} />}>
+      <StyledNavLink id={`swap-nav-link`} to={'/swap'} style={{ marginLeft: '0px' }}>
+        Swap
+      </StyledNavLink>
+    </Menu.Item>
+    <Menu.Item icon={<ExperimentOutlined style={{ fontSize: '1.25em' }} />}>
+      <StyledNavLink
+        id={`pool-nav-link`}
+        to={'/pool'}
+        style={{ marginLeft: '0px' }}
+        isActive={(match, { pathname }) =>
+          Boolean(match) ||
+          pathname.startsWith('/add') ||
+          pathname.startsWith('/remove') ||
+          pathname.startsWith('/create') ||
+          pathname.startsWith('/find')
+        }
+      >
+        Pool
+      </StyledNavLink>
+    </Menu.Item>
+    <Menu.Item icon={<WalletOutlined style={{ fontSize: '1.25em' }} />}>
+      <StyledNavLink id={`pit-nav-link`} to={'/stake'} style={{ marginLeft: '0px' }}>
+        Stake
+      </StyledNavLink>
+    </Menu.Item>
+    <Menu.Item icon={<LinkOutlined style={{ fontSize: '1.25em' }} />}>
+      <StyledNavLink id={`bond-nav-link`} to={'/bond'} style={{ marginLeft: '0px' }}>
+        Bond
+      </StyledNavLink>
+    </Menu.Item>
+    <Menu.Item icon={<LockOutlined style={{ fontSize: '1.25em' }} />}>
+      <StyledRedirectLink style={{ marginLeft: '0px' }} href={`https://app.farmersonly.fi/vaults`}>
+        Vaults
+      </StyledRedirectLink>
+    </Menu.Item>
+    <Menu.Item icon={<ThunderboltOutlined style={{ fontSize: '1.25em' }} />}>
+      <StyledRedirectLink style={{ marginLeft: '0px' }} href={`https://app.farmersonly.fi/zap`}>
+        Zapper
+      </StyledRedirectLink>
+    </Menu.Item>
+  </Menu>
+)
+
 export default function Header() {
   const { account, chainId } = useActiveWeb3React()
   const { t } = useTranslation()
@@ -288,11 +361,8 @@ export default function Header() {
   const [showUniBalanceModal, setShowUniBalanceModal] = useState(false)
 
   const govToken = useGovernanceToken()
-  const pitToken = usePitToken()
-  const pitRatio = usePitRatio()
   const govTokenPrice = useBUSDPrice(govToken)
   const addGov = useAddTokenToMetamask(govToken)
-  const addPit = useAddTokenToMetamask(pitToken)
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
   const userFoxBalance: TokenAmount | undefined = useTokenBalance(
     account ?? undefined,
@@ -308,7 +378,7 @@ export default function Header() {
   return (
     <HeaderFrame>
       <ClaimModal />
-      <HeaderRow gap={'lg'}>
+      <HeaderRow gap={'lg'} justify={'space-between'}>
         <Modal isOpen={showUniBalanceModal} onDismiss={() => setShowUniBalanceModal(false)}>
           <GovTokenBalanceContent setShowUniBalanceModal={setShowUniBalanceModal} />
         </Modal>
@@ -319,7 +389,7 @@ export default function Header() {
         )}
         <HeaderLinks>
           <StyledNavLink id={`swap-nav-link`} to={'/swap'}>
-            {t('swap')}
+            {t('Swap')}
           </StyledNavLink>
           <StyledNavLink
             id={`pool-nav-link`}
@@ -332,7 +402,7 @@ export default function Header() {
               pathname.startsWith('/find')
             }
           >
-            {t('pool')}
+            {t('Pool')}
           </StyledNavLink>
           <StyledNavLink id={`pit-nav-link`} to={`${pitSettings?.path}`}>
             {pitSettings?.name}
@@ -343,17 +413,26 @@ export default function Header() {
           <StyledRedirectLink href={`https://app.farmersonly.fi/vaults`}>{t('Vaults')}</StyledRedirectLink>
           <StyledRedirectLink href={`https://app.farmersonly.fi/zap`}>{t('Zapper')}</StyledRedirectLink>
         </HeaderLinks>
+        <HeaderSubMenu>
+          <Dropdown overlay={CondensedMenu}>
+            <MenuOutlined style={{ fontSize: '3em' }} />
+          </Dropdown>
+        </HeaderSubMenu>
       </HeaderRow>
       <HeaderControls>
         <HeaderElement>
           <TokenSelectionWrapper>
             <HeaderElementWrap>
-              <MouseoverTooltip text={`Add FOX ($${govTokenPrice?.toFixed(2)}) to MetaMask`}>
-                <LogoIcon src={DarkIcon} onClick={addGov.addToken} alt="logo" />
-              </MouseoverTooltip>
-              <MouseoverTooltip text={`Add xFOX to MetaMask. (1 FOX = ${pitRatio?.toFixed(5)} xFOX)`}>
-                <LogoIcon src={LightIcon} onClick={addPit.addToken} alt="logo" />
-              </MouseoverTooltip>
+              <FoxPricePill>
+                <MouseoverTooltip text={'Add FOX to MetaMask'}>
+                  <LogoIcon src={DarkIcon} onClick={addGov.addToken} alt="logo" />
+                </MouseoverTooltip>
+                <div>
+                  <Text margin={'0 10px 0 0'} fontSize={'16px'}>
+                    ${govTokenPrice?.toSignificant(4)}
+                  </Text>
+                </div>
+              </FoxPricePill>
             </HeaderElementWrap>
           </TokenSelectionWrapper>
           {availableClaim && !showClaimPopup && (
@@ -367,7 +446,6 @@ export default function Header() {
                   )}
                 </TYPE.white>
               </UNIAmount>
-              <CardNoise />
             </UNIWrapper>
           )}
           <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
@@ -383,7 +461,7 @@ export default function Header() {
           <StyledMenuButton onClick={() => toggleDarkMode()}>
             {darkMode ? <Moon size={20} /> : <Sun size={20} />}
           </StyledMenuButton>
-          <Menu />
+          <MiscMenu />
         </HeaderElementWrap>
       </HeaderControls>
     </HeaderFrame>

@@ -28,6 +28,7 @@ import WithdrawFeeTimer from '../../components/Pit/WithdrawFeeTimer'
 import { Text } from 'rebass'
 import { MouseoverTooltip } from '../../components/Tooltip'
 import useBUSDPrice from '../../hooks/useBUSDPrice'
+import Loader from '../../components/Loader'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 720px;
@@ -113,6 +114,34 @@ export default function Pit({
   const userLiquidityUnstaked = govTokenBalance
   const lastDepositedTime = userInfo.result?.lastDepositedTime
 
+  // TODO - get these from somewhere else?
+  const dailyDexVolume = 1000000 // Assume 2Mil daily volume for DEX fees
+  const dailyEscrowVolume = 140000 // Assume 1400,00k daily volume for DEX fees
+
+  const dexFeeApr = (dailyDexVolume * 100 * 365) / 1000 / pitTVL
+  const dexFeeAprDaily = dexFeeApr / 365
+  const escrowFeeApr = (((dailyEscrowVolume * 100 * 0.012) / 6) * 365) / pitTVL
+  const escrowFeeAprDaily = escrowFeeApr / 365
+
+  const yearlyReturns = `${apy.apy?.toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  })}% APY - Compounding\n
+  ${dexFeeApr.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}% APR - DEX Fees\n
+  ${escrowFeeApr.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}% APR - Escrow Fees`
+  const dailyReturns = `${apy.apyDay?.toLocaleString('en-US', {
+    minimumFractionDigits: 3,
+    maximumFractionDigits: 3
+  })}% APY - Compounding\n
+  ${dexFeeAprDaily.toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}% APR - DEX Fees\n
+  ${escrowFeeAprDaily.toLocaleString('en-US', {
+    minimumFractionDigits: 3,
+    maximumFractionDigits: 3
+  })}% APR - Escrow Fees`
+
+  const totalYearly = apy.apy && apy.apy + dexFeeApr + escrowFeeApr
+  const totalDaily = apy.apyDay && apy.apyDay + dexFeeApr / 365 + escrowFeeApr / 365
+
   const { secondsRemaining } = useWithdrawalFeeTimer(parseInt(lastDepositedTime, 10), parseInt(withdrawalFeePeriod, 10))
 
   const [showStakingModal, setShowStakingModal] = useState(false)
@@ -157,40 +186,62 @@ export default function Pit({
           <CustomCard>
             <CardSection gap="md">
               <AutoRow>
-                <Text>DEX Fee Sharing Vault</Text>
+                <Text fontWeight={500} fontSize={18}>
+                  Fee Sharing, Auto-Compounding Vault
+                </Text>
               </AutoRow>
               <AutoRow justify="space-between">
                 <AutoColumn>
-                  <Text fontWeight={200} fontSize={11}>
+                  <Text fontWeight={400} fontSize={13}>
                     TVL
                   </Text>
-                  <Text fontWeight={300} fontSize={18}>
-                    ${pitTVL.toFixed(2)}
-                  </Text>
+                  {pitTokenBalance && govTokenPrice ? (
+                    <Text fontWeight={500} fontSize={18}>
+                      ${pitTVL.toLocaleString('en-US', { maximumFractionDigits: 0 })}
+                    </Text>
+                  ) : (
+                    <Loader />
+                  )}
                 </AutoColumn>
                 <AutoColumn>
-                  <Text fontWeight={200} fontSize={11}>
+                  <Text fontWeight={400} fontSize={13}>
                     Ratio
                   </Text>
-                  <Text fontWeight={300} fontSize={18}>
-                    {govTokenPitTokenRatio ? govTokenPitTokenRatio.toFixed(5) : '1.00000'}
-                  </Text>
+                  {pitTokenBalance && govTokenPitTokenRatio ? (
+                    <Text fontWeight={500} fontSize={18}>
+                      {govTokenPitTokenRatio.toFixed(5)}
+                    </Text>
+                  ) : (
+                    <Loader />
+                  )}
                 </AutoColumn>
                 <AutoColumn>
-                  <Text fontWeight={200} fontSize={11}>
+                  <Text fontWeight={400} fontSize={13}>
                     Daily
                   </Text>
-                  <Text fontWeight={300} fontSize={18}>
-                    {apy.apyDay?.toFixed(3)}%
-                  </Text>
+                  {apy && pitTokenBalance ? (
+                    <MouseoverTooltip text={dailyReturns}>
+                      <Text fontWeight={500} fontSize={18}>
+                        {totalDaily.toFixed(3)}%
+                      </Text>
+                    </MouseoverTooltip>
+                  ) : (
+                    <Loader />
+                  )}
                 </AutoColumn>
                 <AutoColumn>
-                  <Text fontWeight={200} fontSize={11}>
+                  <Text fontWeight={400} fontSize={13}>
                     Yearly
                   </Text>
-                  <Text fontWeight={300} fontSize={18}>
-                    {apy.apy?.toPrecision(4)}%
-                  </Text>
+                  {apy && pitTokenBalance ? (
+                    <MouseoverTooltip text={yearlyReturns}>
+                      <Text fontWeight={500} fontSize={18}>
+                        {apy.apy > 1e10 ? '∞' : totalYearly.toLocaleString('en-US', { maximumFractionDigits: 2 })}%
+                      </Text>
+                    </MouseoverTooltip>
+                  ) : (
+                    <Loader />
+                  )}
                   <RowBetween />
                 </AutoColumn>
                 <AutoColumn>
@@ -199,8 +250,8 @@ export default function Pit({
                       'xFOX has a 0.2% unstaking fee if withdrawn within 2h. All fees are distributed to xFOX holders.'
                     }
                   >
-                    <Text fontWeight={200} fontSize={11}>
-                      Withdrawal Fee Duration
+                    <Text fontWeight={400} fontSize={13}>
+                      Withdraw Fee Until
                     </Text>
                   </MouseoverTooltip>
                   {secondsRemaining ? (
@@ -239,6 +290,27 @@ export default function Pit({
                   />
                 </TYPE.largeHeader>
               </RowBetween>
+              {account && adjustedPitBalance && adjustedPitBalance.greaterThan('0') && (
+                <TYPE.italic15>
+                  ≈{' '}
+                  <b>
+                    {adjustedPitBalance?.toFixed(3, { groupSeparator: ',' })} {govToken?.symbol}
+                  </b>
+                </TYPE.italic15>
+              )}
+              {account && adjustedPitBalance && govTokenPrice && adjustedPitBalance.greaterThan('0') && (
+                <RowBetween>
+                  <TYPE.italic15>
+                    ≈{' $'}
+                    <b>
+                      {govTokenPrice
+                        ? adjustedPitBalance?.multiply(govTokenPrice?.raw).toFixed(2, { groupSeparator: ',' })
+                        : '0'}
+                      {' USD'}
+                    </b>
+                  </TYPE.italic15>
+                </RowBetween>
+              )}
             </AutoColumn>
           </StyledBottomCard>
         </BottomSection>
