@@ -175,19 +175,19 @@ export default function BondCard() {
 
   return (
     <>
-      <Card
-        bordered
-        style={{ width: '100%', background: '#121212', color: 'white', flexDirection: 'row' }}
-        tabList={tabListNoTitle}
-        activeTabKey={activeTabKey}
-        tabBarExtraContent={<a href="#">Contract</a>}
-        onTabChange={(key: any) => handleTabChange(key)}
-      >
-        {bonds &&
-          bonds.map(bond => {
-            return (
+      {bonds &&
+        bonds.map(bond => {
+          return (
+            <Card
+              key={bond.displayName}
+              bordered
+              style={{ width: '100%', background: '#121212', color: 'white', flexDirection: 'row' }}
+              tabList={tabListNoTitle}
+              activeTabKey={activeTabKey}
+              tabBarExtraContent={<a href="#">Contract</a>}
+              onTabChange={(key: any) => handleTabChange(key)}
+            >
               <CardItem
-                key={bond.displayName}
                 displayName={bond.displayName}
                 roi={bond.roi}
                 price={bond.price}
@@ -202,9 +202,9 @@ export default function BondCard() {
                 payout={bond.userInfo.payout}
                 discount={bond.bondDiscount}
               />
-            )
-          })}
-      </Card>
+            </Card>
+          )
+        })}
     </>
   )
 }

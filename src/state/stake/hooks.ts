@@ -458,7 +458,7 @@ export function useBondInfo(): BondInfo[] {
     truePricePaid: 0
   }
 
-  const accountMapping = useMemo(() => bondInfos?.map(() => (account ? account : undefined)), [bondInfos, account])
+  const accountMapping = useMemo(() => [account ? account : undefined], [account])
   const bondAddressses = useMemo(() => (bondInfos ? bondInfos.map(b => b.bondAddress) : []), [bondInfos])
   const lpTokenAddresses = useMemo(
     () => (bondInfos ? bondInfos.map(b => toV2LiquidityToken(b.bondToken)?.address) : []),
