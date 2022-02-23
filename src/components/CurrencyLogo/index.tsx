@@ -16,7 +16,11 @@ export const getTokenLogoURL = (address: string) =>
 
 export const getTokenFallbackLogoURL = (currency: Currency) => {
   const symbol = currency.symbol?.toLocaleLowerCase()
-  if (symbol && (symbol === 'fox' || symbol === 'mis' || symbol === 'rvrs' || symbol == 'xfox')) {
+  if (symbol && symbol === 'lumen') {
+    // svgs
+    return `https://app.farmersonly.fi/assets/images/tokens/${symbol}.svg`
+  } else if (symbol && (symbol === 'fox' || symbol === 'mis' || symbol === 'rvrs' || symbol == 'xfox')) {
+    // pngs
     return `https://app.farmersonly.fi/assets/images/tokens/${symbol}.png`
   }
   return `https://d1xrz6ki9z98vb.cloudfront.net/venomswap/tokens/${currency.symbol}.png`
