@@ -115,8 +115,8 @@ export default function Pit({
   const lastDepositedTime = userInfo.result?.lastDepositedTime
 
   // TODO - get these from somewhere else?
-  const dailyDexVolume = 1000000 // Assume 2Mil daily volume for DEX fees
-  const dailyEscrowVolume = 140000 // Assume 1400,00k daily volume for DEX fees
+  const dailyDexVolume = 700000 // Assume 2Mil?? daily volume for DEX fees
+  const dailyEscrowVolume = 60000 // Assume 1400,00k daily volume for DEX fees
 
   const dexFeeApr = (dailyDexVolume * 100 * 365) / 1000 / pitTVL
   const dexFeeAprDaily = dexFeeApr / 365
