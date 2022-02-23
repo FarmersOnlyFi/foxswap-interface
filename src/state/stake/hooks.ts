@@ -110,6 +110,7 @@ export interface BondInfo {
   rewardToken: Token | undefined
   bondAddress: string
   price: Fraction | undefined
+  trueBondPrice: Fraction | undefined
   roi: Fraction | undefined
   bondDiscount: Fraction | undefined
   debtRatio: Fraction | undefined
@@ -580,6 +581,7 @@ export function useBondInfo(): BondInfo[] {
       const bondingInfo = {
         ...bondInfo,
         price: bondPriceCalculated,
+        trueBondPrice: bondPriceRaw,
         roi: roiCalculated,
         bondDiscount: bondDiscount,
         debtRatio: debtRatioCalculated,

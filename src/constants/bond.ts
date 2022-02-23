@@ -11,6 +11,7 @@ export const BONDS: {
     bondToken: [Token, Token] // | Token
     rewardToken: Token
     bondAddress: string
+    autostakeActive: boolean
   }[]
 } = {
   [ChainId.HARMONY_MAINNET]: [
@@ -21,7 +22,8 @@ export const BONDS: {
       displayName: 'FOX-UST LP',
       bondToken: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/UST'),
       rewardToken: getTokenWithDefault(ChainId.HARMONY_MAINNET, 'FOX'),
-      bondAddress: '0x5E0a1ea7fe6F1B2e051C4C1CE1CbE1feaEcCcFc2'
+      bondAddress: '0x5E0a1ea7fe6F1B2e051C4C1CE1CbE1feaEcCcFc2',
+      autostakeActive: true
     },
     {
       name: 'fox_ust_lp2',
@@ -30,7 +32,8 @@ export const BONDS: {
       displayName: 'FOX-UST LP2',
       bondToken: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/UST'),
       rewardToken: getTokenWithDefault(ChainId.HARMONY_MAINNET, 'FOX'),
-      bondAddress: '0x5E0a1ea7fe6F1B2e051C4C1CE1CbE1feaEcCcFc2'
+      bondAddress: '0x5E0a1ea7fe6F1B2e051C4C1CE1CbE1feaEcCcFc2',
+      autostakeActive: false
     }
   ],
   [ChainId.HARMONY_TESTNET]: [
@@ -41,7 +44,8 @@ export const BONDS: {
       displayName: 'FOX-UST LP',
       bondToken: getPairTokensWithDefaults(ChainId.HARMONY_TESTNET, 'FOX/UST'),
       rewardToken: getTokenWithDefault(ChainId.HARMONY_TESTNET, 'FOX'),
-      bondAddress: '0x42b769209eC38286b858Ae2d919Cd111b12975FE'
+      bondAddress: '0x42b769209eC38286b858Ae2d919Cd111b12975FE',
+      autostakeActive: false
     }
   ]
 }
