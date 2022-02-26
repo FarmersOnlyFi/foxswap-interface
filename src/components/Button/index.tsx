@@ -63,6 +63,7 @@ export const ButtonMint = styled(Base)`
 export const ButtonPrimary = styled(Base)`
   background: linear-gradient(60deg, #bb86fc 0%, #6200ee 100%);
   border: 1px solid #bb86fc;
+  border-radius: 8px;
   color: white;
   transition: all 0.2s ease-in-out;
   &:focus {

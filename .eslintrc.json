@@ -30,5 +30,13 @@
     "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/ban-ts-ignore": "off",
     "react-hooks/exhaustive-deps": "off"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["**/*.tsx"],
+      "rules": {
+        "react/prop-types": "off"
+      }
+    }
+  ]
 }
