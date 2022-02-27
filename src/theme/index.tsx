@@ -225,8 +225,8 @@ export function harmonyColors(darkMode: boolean): Colors {
 
     // text
     text1: darkMode ? '#FFFFFF' : '#000000',
-    text2: darkMode ? '#E5EAF5' : '#565A69',
-    text3: darkMode ? '#6C7284' : '#888D9B',
+    text2: darkMode ? '#B9BFFF' : '#565A69',
+    text3: darkMode ? '#8B74BD' : '#888D9B',
     text4: darkMode ? '#565A69' : '#E5EAF5',
     text5: darkMode ? '#494D5F' : '#EDEEF2',
 

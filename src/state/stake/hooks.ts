@@ -549,13 +549,6 @@ export function useBondInfo(): BondInfo[] {
         govToken,
         JSBI.BigInt(tokenAvailableAmount?.result?.[0] ?? 0)
       )
-      // console.log('govTokenPrice', govTokenPrice?.toFixed(5))
-      // console.log('debtRatioCalculated', debtRatioCalculated.toFixed(5))
-      // console.log('valOfOneLpToken', valOfOneLpToken.toFixed(5))
-      // console.log('bondPriceCalculated', bondPriceCalculated.toFixed(5))
-      // console.log('roiCalculated', roiCalculated.toFixed(5))
-      // console.log('bondDiscount', bondDiscount.toFixed(5))
-      // console.log('totalPendingRewardAmount', totalPendingRewardAmount.toFixed(5))
 
       const terms: BondTerms = termsCall.result
         ? {

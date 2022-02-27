@@ -6,11 +6,7 @@ import { DataCard } from '../../components/earn/styled'
 // import { AutoRow, RowBetween } from '../../components/Row'
 // import { Text } from 'rebass'
 import { ButtonMint } from '../../components/Button'
-// import DarkIcon from '../../assets/svg/foxswap/foxswap-circle_06.svg'
-// import { darken } from 'polished'
-// import { useBondInfo } from '../../state/stake/hooks'
-// import WithdrawFeeTimer from '../../components/Pit/WithdrawFeeTimer'
-import TabsCard from './BondCard'
+import BondCard from './BondCard'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 720px;
@@ -38,7 +34,7 @@ export const MintCard = styled(DataCard)`
 export default function Bond() {
   return (
     <PageWrapper gap="lg">
-      <TabsCard />
+      <BondCard />
     </PageWrapper>
   )
 }
