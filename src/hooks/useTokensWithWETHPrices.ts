@@ -5,6 +5,7 @@ import useTokenWethPrice from './useTokenWETHPrice'
 import useBlockchain from './useBlockchain'
 import getToken from '../utils/getToken'
 import { useActiveWeb3React } from './index'
+import useBUSDPrice from './useBUSDPrice'
 
 export default function useTokensWithWethPrices(): Record<string, any> {
   const { chainId } = useActiveWeb3React()
@@ -23,6 +24,9 @@ export default function useTokensWithWethPrices(): Record<string, any> {
   const USDC: Token | undefined = getToken(chainId, USDCTicker)
   const USDCWETHPrice = useTokenWethPrice(USDC)
 
+  const rvrs: Token | undefined = getToken(chainId, 'RVRS')
+  const rvrsWETHPrice = useBUSDPrice(rvrs)
+
   // Harmony specific tokens
   const bscBUSD: Token | undefined = blockchain === Blockchain.HARMONY ? getToken(chainId, 'bscBUSD') : undefined
   const bscBUSDWETHPrice = useTokenWethPrice(bscBUSD)
@@ -37,6 +41,7 @@ export default function useTokensWithWethPrices(): Record<string, any> {
       BUSD: { token: BUSD, price: BUSDWETHPrice },
       USDC: { token: USDC, price: USDCWETHPrice },
       bscBUSD: { token: bscBUSD, price: bscBUSDWETHPrice },
+      RVRS: { token: rvrs, price: rvrsWETHPrice },
       bridgedETH: { token: bridgedETH, price: bridgedETHWETHPrice }
     }
   }, [

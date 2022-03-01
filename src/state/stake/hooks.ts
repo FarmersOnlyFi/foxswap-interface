@@ -446,18 +446,12 @@ export function useBondInfo(): BondInfo[] {
   const { chainId, account } = useActiveWeb3React()
   const bondInfos = chainId ? BONDS[chainId] : []
 
-  // TODO - get tokens from bondInfos.rewardToken
   const govToken = useGovernanceToken()
   const govTokenPrice = useBUSDPrice(govToken)
   const weth = useWeth()
   const wethBusdPrice = useBUSDPrice(weth)
 
-  const DefaultUserBondInfo = {
-    payout: govToken ? new TokenAmount(govToken, JSBI.BigInt(0)) : undefined,
-    vesting: 0,
-    lastTime: 0,
-    truePricePaid: 0
-  }
+  const tokensWithPrices = useTokensWithWethPrices()
 
   const accountMapping = useMemo(() => [account ? account : undefined], [account])
   const bondAddressses = useMemo(() => (bondInfos ? bondInfos.map(b => b.bondAddress) : []), [bondInfos])
@@ -532,21 +526,25 @@ export function useBondInfo(): BondInfo[] {
         .multiply('2')
 
       const bondPriceCalculated = valOfOneLpToken.multiply(bondPriceRaw)
+      const rewardTokenPrice =
+        bondInfo.rewardToken.symbol !== govToken.symbol && bondInfo.rewardToken.symbol
+          ? tokensWithPrices[bondInfo.rewardToken.symbol]?.price
+          : govTokenPrice
 
       const roiCalculated =
-        govTokenPrice && bondPriceCalculated.greaterThan(JSBI.BigInt(0))
-          ? govTokenPrice
+        rewardTokenPrice && bondPriceCalculated.greaterThan(JSBI.BigInt(0))
+          ? rewardTokenPrice
               .divide(bondPriceCalculated)
               .subtract(JSBI.BigInt(1))
               .multiply(JSBI.BigInt(100))
           : new Fraction(JSBI.BigInt(0))
 
-      const bondDiscount = govTokenPrice
-        ? new Fraction(JSBI.BigInt(1)).subtract(bondPriceCalculated.divide(govTokenPrice.raw)).multiply('100')
+      const bondDiscount = rewardTokenPrice
+        ? new Fraction(JSBI.BigInt(1)).subtract(bondPriceCalculated.divide(rewardTokenPrice.raw)).multiply('100')
         : new Fraction(JSBI.BigInt(0))
-      const totalPendingRewardAmount = new TokenAmount(govToken, calculatedPendingRewards)
+      const totalPendingRewardAmount = new TokenAmount(bondInfo.rewardToken, calculatedPendingRewards)
       const tokenAvailableAmountCalculated = new TokenAmount(
-        govToken,
+        bondInfo.rewardToken,
         JSBI.BigInt(tokenAvailableAmount?.result?.[0] ?? 0)
       )
 
@@ -562,12 +560,17 @@ export function useBondInfo(): BondInfo[] {
 
       const userInfo: UserBondInfo = userInfoCall.result
         ? {
-            payout: new TokenAmount(govToken, JSBI.BigInt(userInfoCall.result.payout ?? 0)), // payout token remaining to be paid
+            payout: new TokenAmount(bondInfo.rewardToken, JSBI.BigInt(userInfoCall.result.payout ?? 0)), // payout token remaining to be paid
             vesting: Number(userInfoCall.result.vesting), // Seconds left to vest
             lastTime: Number(userInfoCall.result.lastTime), // Last Interaction
             truePricePaid: Number(userInfoCall.result.truePricePaid)
           }
-        : DefaultUserBondInfo
+        : {
+            payout: new TokenAmount(bondInfo.rewardToken, JSBI.BigInt(0)), // payout token remaining to be paid
+            vesting: 0, // Seconds left to vest
+            lastTime: 0, // Last Interaction
+            truePricePaid: 0
+          }
 
       const userBondMaturationSecondsRemaining = userInfo.lastTime + userInfo.vesting - Math.floor(Date.now() / 1000)
 
@@ -606,6 +609,8 @@ export function useBondInfo(): BondInfo[] {
     pendingRewards,
     lpTokenTotalSupplies,
     lpTokenReserves,
-    lpTokenBalances
+    lpTokenBalances,
+    tokensWithPrices,
+    govTokenPrice
   ])
 }

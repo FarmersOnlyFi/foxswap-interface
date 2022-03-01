@@ -43,7 +43,7 @@ export default function useBUSDPrice(currency?: Currency): Price | undefined {
       }
     }
 
-    // handle busd
+    // handle usd
     if (usd && wrapped.equals(usd)) {
       return usd ? new Price(usd, usd, '1', '1') : undefined
     }
