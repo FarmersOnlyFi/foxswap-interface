@@ -1,7 +1,7 @@
 import useENS from '../../hooks/useENS'
 import { Version } from '../../hooks/useToggledVersion'
 import { parseUnits } from '@ethersproject/units'
-import { Currency, CurrencyAmount, JSBI, Token, TokenAmount, Trade, DEFAULT_CURRENCIES } from '@foxswap/sdk'
+import { Currency, CurrencyAmount, JSBI, Token, TokenAmount, Trade, DEFAULT_CURRENCIES, ChainId } from '@foxswap/sdk'
 import { ParsedQs } from 'qs'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -21,6 +21,7 @@ import { computeSlippageAdjustedAmounts } from '../../utils/prices'
 import { BASE_CURRENCY } from '../../connectors'
 import useBlockchain from '../../hooks/useBlockchain'
 import getBlockchainAdjustedCurrency from '../../utils/getBlockchainAdjustedCurrency'
+import { GOVERNANCE_TOKEN } from '../../constants'
 
 export function useSwapState(): AppState['swap'] {
   return useSelector<AppState, AppState['swap']>(state => state.swap)
@@ -230,10 +231,12 @@ export function useDerivedSwapInfo(): {
 }
 
 function parseCurrencyFromURLParameter(urlParam: any): string {
+  console.log('parseCurrencyFromURLParameter', urlParam)
   if (typeof urlParam === 'string') {
     const valid = isAddress(urlParam)
     if (valid) return valid
-    if (urlParam.toUpperCase() === BASE_CURRENCY.symbol) return BASE_CURRENCY.symbol as string
+    if (urlParam.toUpperCase() === BASE_CURRENCY.symbol || urlParam.toUpperCase() === 'ETH')
+      return BASE_CURRENCY.symbol as string
     if (valid === false) return BASE_CURRENCY.symbol as string
   }
   return BASE_CURRENCY.symbol ?? ''
@@ -262,7 +265,9 @@ export function queryParametersToSwapState(parsedQs: ParsedQs): SwapState {
   let inputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency)
   let outputCurrency = parseCurrencyFromURLParameter(parsedQs.outputCurrency)
   if (inputCurrency === outputCurrency) {
-    if (typeof parsedQs.outputCurrency === 'string') {
+    if (inputCurrency.toUpperCase() === BASE_CURRENCY.symbol) {
+      outputCurrency = GOVERNANCE_TOKEN[ChainId.HARMONY_MAINNET].address
+    } else if (typeof parsedQs.outputCurrency === 'string') {
       inputCurrency = ''
     } else {
       outputCurrency = ''
