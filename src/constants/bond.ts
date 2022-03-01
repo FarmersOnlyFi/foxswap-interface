@@ -22,17 +22,27 @@ export const BONDS: {
       displayName: 'FOX-UST LP',
       bondToken: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/UST'),
       rewardToken: getTokenWithDefault(ChainId.HARMONY_MAINNET, 'FOX'),
-      bondAddress: '0x5E0a1ea7fe6F1B2e051C4C1CE1CbE1feaEcCcFc2',
+      bondAddress: '0x05E7D92286a21cdc563495FF46627E483cc583bA',
       autostakeActive: true
     },
     {
-      name: 'fox_ust_lp2',
+      name: 'fox_one_lp',
+      isLpBond: true,
+      isWethBond: true,
+      displayName: 'FOX-ONE LP',
+      bondToken: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/WONE'),
+      rewardToken: getTokenWithDefault(ChainId.HARMONY_MAINNET, 'FOX'),
+      bondAddress: '0xf69aB095e94a4F95dfBd6cBd0c2B352985D1843a',
+      autostakeActive: true
+    },
+    {
+      name: 'ust_rvrs_lp',
       isLpBond: true,
       isWethBond: false,
-      displayName: 'FOX-UST LP2',
-      bondToken: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/UST'),
-      rewardToken: getTokenWithDefault(ChainId.HARMONY_MAINNET, 'FOX'),
-      bondAddress: '0x5E0a1ea7fe6F1B2e051C4C1CE1CbE1feaEcCcFc2',
+      displayName: 'RVRS-UST LP',
+      bondToken: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'UST/RVRS'),
+      rewardToken: getTokenWithDefault(ChainId.HARMONY_MAINNET, 'RVRS'),
+      bondAddress: '0xB2D1f6f7927f38DCf8F0482ede99845F625E6473',
       autostakeActive: false
     }
   ],
