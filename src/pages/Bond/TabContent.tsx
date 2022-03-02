@@ -1,5 +1,5 @@
-import { JSBI } from '@foxswap/sdk'
-import { Avatar, Col, Row, Skeleton, Statistic } from 'antd'
+import { JSBI, Percent } from '@foxswap/sdk'
+import { Col, Row, Skeleton, Statistic, Button, Progress } from 'antd'
 import React, { useCallback, useState } from 'react'
 import { useActiveWeb3React } from '../../hooks'
 import { useBondingContract } from '../../hooks/useContract'
@@ -13,8 +13,10 @@ import { useDerivedStakeInfo } from '../../state/stake/hooks'
 import { ApprovalState, useApproveCallback } from '../../hooks/useApproveCallback'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
 import CurrencyInputPanel from '../../components/CurrencyInputPanel'
-import FoxLogo from '../../assets/svg/foxswap/foxswap-circle_05.svg'
-import USTLogo from '../../assets/svg/foxswap/ust.png'
+// import FoxLogo from '../../assets/svg/foxswap/foxswap-circle_05.svg'
+// import USTLogo from '../../assets/svg/foxswap/ust.png'
+import { DownOutlined, UpOutlined } from '@ant-design/icons'
+import CurrencyLogo from '../../components/CurrencyLogo'
 
 const GWEI_DENOM7 = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(7))
 const { Countdown } = Statistic
@@ -54,7 +56,7 @@ export const RedeemContent: React.FC<any> = ({ bond }) => {
             title="Pending"
             suffix={bond.userBondPendingPayout.token.symbol}
             value={bond.userInfo.payout.toSignificant(4)}
-            valueStyle={{ fontSize: '18px' }}
+            valueStyle={{ fontSize: '17px' }}
           />
         </Col>
         <Col className="gutter-row" span={6}>
@@ -62,7 +64,7 @@ export const RedeemContent: React.FC<any> = ({ bond }) => {
             title="Claimable"
             suffix={bond.userBondPendingPayout.token.symbol}
             value={bond.userBondPendingPayout.toSignificant(3)}
-            valueStyle={{ fontSize: '18px' }}
+            valueStyle={{ fontSize: '17px' }}
           />
         </Col>
         <Col className="gutter-row" span={6}>
@@ -70,19 +72,19 @@ export const RedeemContent: React.FC<any> = ({ bond }) => {
             title="Until Fully Vested"
             value={deadline}
             format="Dd HH:mm:ss"
-            valueStyle={{ fontSize: '18px' }}
+            valueStyle={{ fontSize: '17px' }}
           />
         </Col>
       </Row>
       <Row gutter={24} style={{ fontSize: '14px' }} justify={'space-around'}>
         <Col className="gutter-row" span={12}>
-          <ButtonPrimary padding="8px" marginTop="18px" onClick={() => onClaim(false)}>
+          <ButtonPrimary padding="8px" marginTop="17px" onClick={() => onClaim(false)}>
             Claim
           </ButtonPrimary>
         </Col>
         {bond.autostakeActive && (
           <Col className="gutter-row" span={12}>
-            <ButtonPrimary padding="8px" marginTop="18px" onClick={() => onClaim(true)}>
+            <ButtonPrimary padding="8px" marginTop="17px" onClick={() => onClaim(true)}>
               Claim & AutoStake
             </ButtonPrimary>
           </Col>
@@ -165,7 +167,6 @@ export const MintContent: React.FC<any> = ({ bond }: any) => {
             if (error?.code === -32603) {
               console.error(error?.code)
             }
-            console.log(error)
           })
       } else {
         setAttempting(false)
@@ -176,28 +177,23 @@ export const MintContent: React.FC<any> = ({ bond }: any) => {
 
   return (
     <>
-      <Row gutter={18} justify={'space-around'}>
+      <Row gutter={8} justify={'space-around'}>
         <Col span={6}>
           <Statistic
             title="Projected Earnings"
             suffix={symbol}
             value={purchaseAmount}
-            valueStyle={{ fontSize: '18px' }}
+            valueStyle={{ fontSize: '17px' }}
           />
         </Col>
         <Col span={6}>
-          <Statistic
-            title="Tokens Available"
-            suffix={symbol}
-            value={bond.tokenAvailableAmount.toSignificant(4)}
-            valueStyle={{ fontSize: '18px' }}
-          />
+          <Statistic title="ROI" suffix="%" value={bond.roi.toSignificant(3)} valueStyle={{ fontSize: '17px' }} />
         </Col>
         <Col span={6}>
-          <Statistic title="LP Value" prefix="$" value={lpValue} valueStyle={{ fontSize: '18px' }} />
+          <Statistic title="LP Value" prefix="$" value={lpValue} valueStyle={{ fontSize: '17px' }} />
         </Col>
       </Row>
-      <Row gutter={24} style={{ marginTop: '18px' }} justify={'space-between'}>
+      <Row gutter={8} style={{ marginTop: '17px' }} justify={'space-between'}>
         <Col span={16} style={{ alignSelf: 'center' }}>
           <CurrencyInputPanel
             value={typedValue}
@@ -243,29 +239,36 @@ export const generateContentMap = (bond: any) => {
   }
 }
 
-export const HeaderContent: React.FC<any> = ({ bond }: any) => {
+export const HeaderContent: React.FC<any> = ({ bond, expandCard, isOpen }: any) => {
   const duration = bond.terms.vestingTerm / 60 / 60 / 24
-
+  const totalBonded =
+    !!bond.totalBondedAmount &&
+    !!bond.tokenAvailableAmount &&
+    JSBI.greaterThanOrEqual(bond.tokenAvailableAmount.raw, bond.totalBondedAmount.raw)
+      ? new Percent(bond.totalBondedAmount.raw, bond.tokenAvailableAmount.raw)
+      : undefined
   return (
     <>
-      <Row gutter={24} justify={'space-around'}>
-        <Col className="gutter-row" span={4}>
-          <Avatar.Group maxCount={2}>
-            <Avatar src={FoxLogo} size={50} />
-            <Avatar src={USTLogo} size={50} />
-          </Avatar.Group>
+      <Row gutter={16} justify={'space-between'}>
+        <Col className="gutter-row" span={6} style={{ alignSelf: 'center' }}>
+          <Statistic
+            title="Reward Asset"
+            value={bond.rewardToken.symbol}
+            prefix={<CurrencyLogo currency={bond.rewardToken} />}
+            valueStyle={{ fontSize: '17px' }}
+          />
         </Col>
         <Col className="gutter-row" span={4}>
           {bond.price ? (
             <Statistic
               title="Price"
               prefix="$"
-              value={bond.price.toFixed(2)}
-              precision={2}
-              valueStyle={{ fontSize: '18px' }}
+              value={bond.price.toFixed(4)}
+              precision={4}
+              valueStyle={{ fontSize: '17px' }}
             />
           ) : (
-            <Skeleton />
+            <Skeleton.Input />
           )}
         </Col>
         <Col className="gutter-row" span={4}>
@@ -273,22 +276,50 @@ export const HeaderContent: React.FC<any> = ({ bond }: any) => {
             title="Discount"
             suffix="%"
             value={bond.bondDiscount.toSignificant(3)}
-            valueStyle={{ fontSize: '18px' }}
+            valueStyle={{ fontSize: '17px' }}
           />
         </Col>
         <Col className="gutter-row" span={4}>
-          <Statistic title="ROI" suffix="%" value={bond.roi.toSignificant(3)} valueStyle={{ fontSize: '18px' }} />
+          <Statistic
+            title={'TVB'}
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            valueRender={() => {
+              return (
+                <>
+                  {}
+                  <Progress percent={Number(totalBonded)} showInfo={true} size={'small'} />
+                </>
+              )
+            }}
+          />
+          {/*  <Statistic*/}
+          {/*    title="Available"*/}
+          {/*    suffix={bond.userBondPendingPayout.token.symbol}*/}
+          {/*    value={bond.tokenAvailableAmount.toSignificant(4)}*/}
+          {/*    valueStyle={{ fontSize: '17px' }}*/}
+          {/*  />*/}
         </Col>
         <Col className="gutter-row" span={4}>
           <Statistic
             title="Purchased"
             prefix="$"
             value={bond.totalBondedAmount.multiply(bond.valOfOneLpToken).toFixed(2)}
-            valueStyle={{ fontSize: '18px' }}
+            valueStyle={{ fontSize: '17px' }}
           />
         </Col>
-        <Col className="gutter-row" span={4}>
-          <Statistic title="Vesting Term" value={`${duration} Days`} valueStyle={{ fontSize: '18px' }} />
+        {false && (
+          <Col className="gutter-row" span={4}>
+            <Statistic title="Vesting Term" value={`${duration} Days`} valueStyle={{ fontSize: '17px' }} />
+          </Col>
+        )}
+        <Col className="gutter-row" span={2} style={{ alignSelf: 'center' }}>
+          <Button
+            type={'text'}
+            onClick={expandCard}
+            icon={isOpen ? <UpOutlined /> : <DownOutlined />}
+            shape={'circle'}
+            style={{ color: '#B9BFFF' }}
+          />
         </Col>
       </Row>
     </>

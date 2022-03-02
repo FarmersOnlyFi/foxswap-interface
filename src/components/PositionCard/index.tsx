@@ -13,7 +13,6 @@ import { TYPE } from '../../theme'
 import { currencyId } from '../../utils/currencyId'
 import { unwrappedToken } from '../../utils/wrappedCurrency'
 import { ButtonPrimary, ButtonEmpty } from '../Button'
-import { transparentize } from 'polished'
 
 import { useColor } from '../../hooks/useColor'
 
@@ -37,8 +36,7 @@ export const HoverCard = styled(Card)`
 `
 const StyledPositionCard = styled(LightCard)<{ bgColor: any }>`
   border: none;
-  background: ${({ theme, bgColor }) =>
-    `radial-gradient(91.85% 100% at 1.84% 0%, ${transparentize(0.8, bgColor)} 0%, ${theme.bg3} 100%) `};
+  background: ${({ theme }) => theme.bg1};
   position: relative;
   overflow: hidden;
 `
