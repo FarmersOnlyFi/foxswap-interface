@@ -45,22 +45,20 @@ const HeaderFrame = styled.div`
   grid-template-columns: 1fr 120px;
   align-items: center;
   justify-content: space-between;
+  background-color: ${({ theme }) => theme.bg1};
   flex-direction: row;
   width: 100%;
   position: relative;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 0 1rem 0 1rem;
+  padding: 0 1rem;
   z-index: 2;
   text-align: center;
-  ${({ theme }) => theme.mediaWidth.upToLarge`
+  ${({ theme }) => theme.mediaWidth.upToMedium`
     grid-template-columns: 1fr;
     padding: 0 1rem;
     width: calc(100%);
     position: relative;
   `};
-  background: ${({ theme }) => theme.bg1};
-  border-radius: 12px;
-  margin: 30px;
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
         padding: 0.5rem 1rem;
   `}
@@ -77,14 +75,13 @@ const HeaderControls = styled.div`
     justify-content: space-between;
     justify-self: center;
     width: 100%;
-    padding: 1rem;
+    padding: 1rem;  
     position: fixed;
     bottom: 0px;
     left: 0px;
     width: 100%;
     z-index: 99;
     height: 72px;
-    border-radius: 12px;
     background-color: ${({ theme }) => theme.bg1};
   `};
 `
@@ -150,8 +147,7 @@ const LogoIcon = styled('img')`
   height: 45px;
   cursor: pointer;
   margin-right: 3px;
-  padding: 0.5px;
-  box-shadow: 0 0 2px ${({ theme }) => theme.bg1};
+  padding: 2px;
   transition: box-shadow 0.3s ease-in-out;
   border-radius: 50%;
   &:hover {
@@ -164,7 +160,7 @@ const AccountElement = styled.div<{ active: boolean }>`
   flex-direction: row;
   align-items: center;
   background-color: ${({ theme, active }) => (!active ? theme.bg1 : theme.bg3)};
-  border-radius: 12px;
+  border-radius: 8px;
   white-space: nowrap;
   width: 100%;
   cursor: pointer;
@@ -240,7 +236,7 @@ const StyledNavLink = styled(NavLink).attrs({
 
 const FoxPricePill = styled(Row)`
   color: ${({ theme }) => theme.primary2};
-  border-radius: 2.5rem;
+  border-radius: 8px;
   font-weight: 500;
   margin: 16px;
   display: flex;

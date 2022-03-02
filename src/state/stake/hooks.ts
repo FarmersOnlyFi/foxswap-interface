@@ -558,7 +558,7 @@ export function useBondInfo(): BondInfo[] {
           }
         : DefaultBondTerms
 
-      const userInfo: UserBondInfo = userInfoCall.result
+      const userInfo: UserBondInfo = userInfoCall?.result
         ? {
             payout: new TokenAmount(bondInfo.rewardToken, JSBI.BigInt(userInfoCall.result.payout ?? 0)), // payout token remaining to be paid
             vesting: Number(userInfoCall.result.vesting), // Seconds left to vest

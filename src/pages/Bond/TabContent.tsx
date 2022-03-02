@@ -1,5 +1,5 @@
-import { JSBI, Percent } from '@foxswap/sdk'
-import { Col, Row, Skeleton, Statistic, Button, Progress } from 'antd'
+import { JSBI } from '@foxswap/sdk'
+import { Col, Row, Skeleton, Statistic, Button } from 'antd'
 import React, { useCallback, useState } from 'react'
 import { useActiveWeb3React } from '../../hooks'
 import { useBondingContract } from '../../hooks/useContract'
@@ -13,9 +13,7 @@ import { useDerivedStakeInfo } from '../../state/stake/hooks'
 import { ApprovalState, useApproveCallback } from '../../hooks/useApproveCallback'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
 import CurrencyInputPanel from '../../components/CurrencyInputPanel'
-// import FoxLogo from '../../assets/svg/foxswap/foxswap-circle_05.svg'
-// import USTLogo from '../../assets/svg/foxswap/ust.png'
-import { DownOutlined, UpOutlined } from '@ant-design/icons'
+import { DownOutlined, UpOutlined, PlusOutlined, MinusOutlined } from '@ant-design/icons'
 import CurrencyLogo from '../../components/CurrencyLogo'
 
 const GWEI_DENOM7 = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(7))
@@ -95,10 +93,9 @@ export const RedeemContent: React.FC<any> = ({ bond }) => {
 }
 
 export const MintContent: React.FC<any> = ({ bond }: any) => {
-  const { account, library } = useActiveWeb3React()
-  const bondContract = useBondingContract(bond.bondAddress)
   const [typedValue, setTypedValue] = useState('')
-  const deadline = Date.now() + bond.userBondMaturationSecondsRemaining * 1000
+  const [attempting, setAttempting] = useState<boolean>(false)
+  const { account, library } = useActiveWeb3React()
   const { parsedAmount, error } = useDerivedStakeInfo(
     typedValue,
     bond.userBondTokenAmount.token,
@@ -106,7 +103,10 @@ export const MintContent: React.FC<any> = ({ bond }: any) => {
   )
   const [approval, approveCallback] = useApproveCallback(parsedAmount, bond.bondAddress)
   const addTransaction = useTransactionAdder()
-  const [attempting, setAttempting] = useState<boolean>(false)
+  const bondContract = useBondingContract(bond.bondAddress)
+  const duration = bond.terms.vestingTerm / 60 / 60 / 24
+  const deadline = Date.now() + bond.userBondMaturationSecondsRemaining * 1000
+
   const onUserInput = useCallback(
     (value: string) => {
       setTypedValue(value)
@@ -131,6 +131,7 @@ export const MintContent: React.FC<any> = ({ bond }: any) => {
   }
 
   const symbol = bond.tokenAvailableAmount.token.symbol
+
   const lpValue = (Number(typedValue) * Number(bond.valOfOneLpToken.toSignificant(8))).toLocaleString('en-US', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
@@ -178,7 +179,7 @@ export const MintContent: React.FC<any> = ({ bond }: any) => {
   return (
     <>
       <Row gutter={8} justify={'space-around'}>
-        <Col span={6}>
+        <Col span={4}>
           <Statistic
             title="Projected Earnings"
             suffix={symbol}
@@ -186,11 +187,14 @@ export const MintContent: React.FC<any> = ({ bond }: any) => {
             valueStyle={{ fontSize: '17px' }}
           />
         </Col>
-        <Col span={6}>
-          <Statistic title="ROI" suffix="%" value={bond.roi.toSignificant(3)} valueStyle={{ fontSize: '17px' }} />
+        <Col span={4}>
+          <Statistic title="ROI" suffix="%" value={bond.roi.toSignificant(4)} valueStyle={{ fontSize: '17px' }} />
         </Col>
-        <Col span={6}>
+        <Col span={4}>
           <Statistic title="LP Value" prefix="$" value={lpValue} valueStyle={{ fontSize: '17px' }} />
+        </Col>
+        <Col className="gutter-row" span={4}>
+          <Statistic title="Vesting Term" value={`${duration} Days`} valueStyle={{ fontSize: '17px' }} />
         </Col>
       </Row>
       <Row gutter={8} style={{ marginTop: '17px' }} justify={'space-between'}>
@@ -240,19 +244,14 @@ export const generateContentMap = (bond: any) => {
 }
 
 export const HeaderContent: React.FC<any> = ({ bond, expandCard, isOpen }: any) => {
-  const duration = bond.terms.vestingTerm / 60 / 60 / 24
-  const totalBonded =
-    !!bond.totalBondedAmount &&
-    !!bond.tokenAvailableAmount &&
-    JSBI.greaterThanOrEqual(bond.tokenAvailableAmount.raw, bond.totalBondedAmount.raw)
-      ? new Percent(bond.totalBondedAmount.raw, bond.tokenAvailableAmount.raw)
-      : undefined
+  const bondDiscount = bond.bondDiscount.toSignificant(3) > 0
+  const discountColor = bondDiscount ? '#3f8600' : '#cf1322'
   return (
     <>
       <Row gutter={16} justify={'space-between'}>
-        <Col className="gutter-row" span={6} style={{ alignSelf: 'center' }}>
+        <Col className="gutter-row" span={5} style={{ alignSelf: 'center', border: '1px solid purple' }}>
           <Statistic
-            title="Reward Asset"
+            title="Reward"
             value={bond.rewardToken.symbol}
             prefix={<CurrencyLogo currency={bond.rewardToken} />}
             valueStyle={{ fontSize: '17px' }}
@@ -275,29 +274,18 @@ export const HeaderContent: React.FC<any> = ({ bond, expandCard, isOpen }: any) 
           <Statistic
             title="Discount"
             suffix="%"
+            prefix={bondDiscount ? <PlusOutlined /> : <MinusOutlined />}
             value={bond.bondDiscount.toSignificant(3)}
-            valueStyle={{ fontSize: '17px' }}
+            valueStyle={{ fontSize: '17px', color: discountColor }}
           />
         </Col>
         <Col className="gutter-row" span={4}>
           <Statistic
-            title={'TVB'}
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            valueRender={() => {
-              return (
-                <>
-                  {}
-                  <Progress percent={Number(totalBonded)} showInfo={true} size={'small'} />
-                </>
-              )
-            }}
+            title="Available"
+            suffix={bond.userBondPendingPayout.token.symbol}
+            value={bond.tokenAvailableAmount.toSignificant(2)}
+            valueStyle={{ fontSize: '17px' }}
           />
-          {/*  <Statistic*/}
-          {/*    title="Available"*/}
-          {/*    suffix={bond.userBondPendingPayout.token.symbol}*/}
-          {/*    value={bond.tokenAvailableAmount.toSignificant(4)}*/}
-          {/*    valueStyle={{ fontSize: '17px' }}*/}
-          {/*  />*/}
         </Col>
         <Col className="gutter-row" span={4}>
           <Statistic
@@ -307,11 +295,6 @@ export const HeaderContent: React.FC<any> = ({ bond, expandCard, isOpen }: any) 
             valueStyle={{ fontSize: '17px' }}
           />
         </Col>
-        {false && (
-          <Col className="gutter-row" span={4}>
-            <Statistic title="Vesting Term" value={`${duration} Days`} valueStyle={{ fontSize: '17px' }} />
-          </Col>
-        )}
         <Col className="gutter-row" span={2} style={{ alignSelf: 'center' }}>
           <Button
             type={'text'}
