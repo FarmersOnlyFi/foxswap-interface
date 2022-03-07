@@ -118,6 +118,7 @@ export const MintContent: React.FC<any> = ({ bond }: any) => {
   const maxAmountInput = maxAmountSpend(
     bond.userBondTokenAmount.greaterThan(maxPossibleBuy) ? maxPossibleBuy : bond.userBondTokenAmount
   )
+
   const atMaxAmount = Boolean(maxAmountInput && typedValue === maxAmountInput.toSignificant(18))
   const handleMax = useCallback(() => {
     maxAmountInput && onUserInput(maxAmountInput.toSignificant(10))
@@ -188,10 +189,10 @@ export const MintContent: React.FC<any> = ({ bond }: any) => {
           />
         </Col>
         <Col span={4}>
-          <Statistic title="ROI" suffix="%" value={bond.roi.toSignificant(4)} valueStyle={{ fontSize: '17px' }} />
+          <Statistic title="LP Value" prefix="$" value={lpValue} valueStyle={{ fontSize: '17px' }} />
         </Col>
         <Col span={4}>
-          <Statistic title="LP Value" prefix="$" value={lpValue} valueStyle={{ fontSize: '17px' }} />
+          <Statistic title="ROI" suffix="%" value={bond.roi.toSignificant(4)} valueStyle={{ fontSize: '17px' }} />
         </Col>
         <Col className="gutter-row" span={4}>
           <Statistic title="Vesting Term" value={`${duration} Days`} valueStyle={{ fontSize: '17px' }} />
@@ -249,7 +250,7 @@ export const HeaderContent: React.FC<any> = ({ bond, expandCard, isOpen }: any) 
   return (
     <>
       <Row gutter={16} justify={'space-between'}>
-        <Col className="gutter-row" span={5} style={{ alignSelf: 'center', border: '1px solid purple' }}>
+        <Col className="gutter-row" span={5} style={{ alignSelf: 'center' }}>
           <Statistic
             title="Reward"
             value={bond.rewardToken.symbol}
@@ -281,17 +282,17 @@ export const HeaderContent: React.FC<any> = ({ bond, expandCard, isOpen }: any) 
         </Col>
         <Col className="gutter-row" span={4}>
           <Statistic
-            title="Available"
-            suffix={bond.userBondPendingPayout.token.symbol}
-            value={bond.tokenAvailableAmount.toSignificant(2)}
+            title="Purchased"
+            prefix="$"
+            value={bond.totalBondedAmount.multiply(bond.valOfOneLpToken).toFixed(2)}
             valueStyle={{ fontSize: '17px' }}
           />
         </Col>
         <Col className="gutter-row" span={4}>
           <Statistic
-            title="Purchased"
-            prefix="$"
-            value={bond.totalBondedAmount.multiply(bond.valOfOneLpToken).toFixed(2)}
+            title="Available"
+            suffix={bond.userBondPendingPayout.token.symbol}
+            value={bond.tokenAvailableAmount.toSignificant(2)}
             valueStyle={{ fontSize: '17px' }}
           />
         </Col>
