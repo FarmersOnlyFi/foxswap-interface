@@ -545,7 +545,11 @@ export function useBondInfo(): BondInfo[] {
       const totalPendingRewardAmount = new TokenAmount(bondInfo.rewardToken, calculatedPendingRewards)
       const tokenAvailableAmountCalculated = new TokenAmount(
         bondInfo.rewardToken,
-        JSBI.BigInt(tokenAvailableAmount?.result?.[0] ?? 0)
+        // Available to pay for users doesn't include the fee for protocol
+        new Fraction(JSBI.BigInt(tokenAvailableAmount?.result?.[0] ?? 0))
+          .multiply((10000 - bondInfo.fee).toString())
+          .divide('10000')
+          .toFixed(0)
       )
 
       const terms: BondTerms = termsCall.result

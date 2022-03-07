@@ -120,7 +120,7 @@ export const MintContent: React.FC<any> = ({ bond }: any) => {
   )
   const atMaxAmount = Boolean(maxAmountInput && typedValue === maxAmountInput.toSignificant(18))
   const handleMax = useCallback(() => {
-    maxAmountInput && onUserInput(maxAmountInput.toSignificant(18))
+    maxAmountInput && onUserInput(maxAmountInput.toSignificant(10))
   }, [maxAmountInput, onUserInput])
 
   async function onAttemptToApprove() {
