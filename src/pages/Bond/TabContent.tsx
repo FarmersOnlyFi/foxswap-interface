@@ -1,5 +1,5 @@
 import { JSBI } from '@foxswap/sdk'
-import { Col, Row, Skeleton, Statistic, Button } from 'antd'
+import { Col, Row, Statistic, Button } from 'antd'
 import React, { useCallback, useState } from 'react'
 import { useActiveWeb3React } from '../../hooks'
 import { useBondingContract } from '../../hooks/useContract'
@@ -181,12 +181,7 @@ export const MintContent: React.FC<any> = ({ bond }: any) => {
     <>
       <Row gutter={8} justify={'space-around'}>
         <Col span={4}>
-          <Statistic
-            title="Projected Earnings"
-            suffix={symbol}
-            value={purchaseAmount}
-            valueStyle={{ fontSize: '17px' }}
-          />
+          <Statistic title="Reward Estimate" suffix={symbol} value={purchaseAmount} valueStyle={{ fontSize: '17px' }} />
         </Col>
         <Col span={4}>
           <Statistic title="LP Value" prefix="$" value={lpValue} valueStyle={{ fontSize: '17px' }} />
@@ -224,7 +219,9 @@ export const MintContent: React.FC<any> = ({ bond }: any) => {
           ) : (
             <ButtonError
               padding="8px"
-              disabled={!!error || approval !== ApprovalState.APPROVED}
+              disabled={
+                !!error || approval !== ApprovalState.APPROVED || bond.tokenAvailableAmount.toSignificant(2) < 0.01
+              }
               error={!!error && !!parsedAmount}
               onClick={onBond}
             >
@@ -247,29 +244,20 @@ export const generateContentMap = (bond: any) => {
 export const HeaderContent: React.FC<any> = ({ bond, expandCard, isOpen }: any) => {
   const bondDiscount = bond.bondDiscount.toSignificant(3) > 0
   const discountColor = bondDiscount ? '#3f8600' : '#cf1322'
+
   return (
     <>
-      <Row gutter={16} justify={'space-between'}>
+      <Row gutter={6} justify={'space-between'}>
         <Col className="gutter-row" span={5} style={{ alignSelf: 'center' }}>
           <Statistic
             title="Reward"
             value={bond.rewardToken.symbol}
-            prefix={<CurrencyLogo currency={bond.rewardToken} />}
+            prefix={<CurrencyLogo size={'33px'} style={{ border: '1px white solid' }} currency={bond.rewardToken} />}
             valueStyle={{ fontSize: '17px' }}
           />
         </Col>
         <Col className="gutter-row" span={4}>
-          {bond.price ? (
-            <Statistic
-              title="Price"
-              prefix="$"
-              value={bond.price.toFixed(4)}
-              precision={4}
-              valueStyle={{ fontSize: '17px' }}
-            />
-          ) : (
-            <Skeleton.Input />
-          )}
+          <Statistic title="Price" prefix="$" value={bond.price.toFixed(4)} valueStyle={{ fontSize: '17px' }} />
         </Col>
         <Col className="gutter-row" span={4}>
           <Statistic
@@ -289,12 +277,16 @@ export const HeaderContent: React.FC<any> = ({ bond, expandCard, isOpen }: any) 
           />
         </Col>
         <Col className="gutter-row" span={4}>
-          <Statistic
-            title="Available"
-            suffix={bond.userBondPendingPayout.token.symbol}
-            value={bond.tokenAvailableAmount.toSignificant(2)}
-            valueStyle={{ fontSize: '17px' }}
-          />
+          {bond.tokenAvailableAmount.toSignificant(2) > 0.01 ? (
+            <Statistic
+              title="Available"
+              suffix={bond.userBondPendingPayout.token.symbol}
+              value={bond.tokenAvailableAmount.toSignificant(2)}
+              valueStyle={{ fontSize: '17px' }}
+            />
+          ) : (
+            <Statistic title="Available" value={'Sold Out'} valueStyle={{ fontSize: '17px', color: '#cf1322' }} />
+          )}
         </Col>
         <Col className="gutter-row" span={2} style={{ alignSelf: 'center' }}>
           <Button

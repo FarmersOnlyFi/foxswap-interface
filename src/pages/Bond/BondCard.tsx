@@ -62,7 +62,7 @@ function BondCardTitle(currency0: any, currency1: any, displayName: any) {
   return (
     <Row justify={'start'} gutter={16}>
       <Col span={3} style={{ alignSelf: 'top' }}>
-        <DoubleCurrencyLogo size={37} currency0={currency0} currency1={currency1} />
+        <DoubleCurrencyLogo size={35} currency0={currency0} currency1={currency1} />
       </Col>
       <Col className="gutter-row" span={3} style={{ alignSelf: 'flex-start' }}>
         <Typography.Text style={{ fontSize: '1.25rem' }}>{displayName.replace('LP', '')}</Typography.Text>
@@ -85,8 +85,8 @@ export default function BondCard() {
                 width: '100%',
                 background: '#212429',
                 color: 'white',
-                flexDirection: 'row',
-                borderRadius: '8px'
+                borderRadius: '8px',
+                justifySelf: 'space-around'
               }}
               title={BondCardTitle(bond.bondToken[0], bond.bondToken[1], bond.displayName)}
               headStyle={{
