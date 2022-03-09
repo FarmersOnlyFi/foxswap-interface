@@ -1,7 +1,7 @@
 import { TokenAmount } from '@foxswap/sdk'
 import React, { useState } from 'react'
 import { Text } from 'rebass'
-import { Moon, Sun } from 'react-feather'
+import { Moon, Sun, ExternalLink as ExternalLinkIcon } from 'react-feather'
 import { NavLink } from 'react-router-dom'
 import { darken } from 'polished'
 import { useTranslation } from 'react-i18next'
@@ -142,6 +142,16 @@ const LogoImage = styled('img')`
   cursor: pointer;
 `
 
+const StyledExternalLinkIcon = styled(ExternalLinkIcon)`
+  padding: 4px 0px 0px 5px;
+  width: 21px;
+
+  > * {
+    stroke: ${({ theme }) => theme.text2};
+    transition: 0.3s;
+  }
+`
+
 const LogoIcon = styled('img')`
   width: 45px;
   height: 45px;
@@ -262,13 +272,21 @@ const StyledRedirectLink = styled(ExternalLink)`
   border-radius: 15px;
   font-weight: 600;
   &:hover {
-    color: ${({ theme }) => theme.primary1}
+    color: ${({ theme }) => theme.primary1} !important;
     text-decoration: none;
+
+    > svg > * {
+      stroke: ${({ theme }) => theme.primary1};
+    }
   }
 
   &:focus {
     color: ${({ theme }) => darken(0.1, theme.primary1)}
     text-decoration: none;
+
+    > svg > * {
+      stroke: ${({ theme }) => theme.primary1};
+    }
   }
 
   &:active {
@@ -339,11 +357,13 @@ const CondensedMenu = (
     <Menu.Item icon={<LockOutlined style={{ fontSize: '1.25em' }} />}>
       <StyledRedirectLink style={{ marginLeft: '0px' }} href={`https://app.farmersonly.fi/vaults`}>
         Vaults
+        <StyledExternalLinkIcon style={{ padding: '0 0 0 5px' }} />
       </StyledRedirectLink>
     </Menu.Item>
     <Menu.Item icon={<ThunderboltOutlined style={{ fontSize: '1.25em' }} />}>
       <StyledRedirectLink style={{ marginLeft: '0px' }} href={`https://app.farmersonly.fi/zap`}>
         Zapper
+        <StyledExternalLinkIcon style={{ padding: '0 0 0 5px' }} />
       </StyledRedirectLink>
     </Menu.Item>
   </Menu>
@@ -407,8 +427,14 @@ export default function Header() {
           <StyledNavLink id={`bond-nav-link`} to={'/bond'}>
             {t('Bond')}
           </StyledNavLink>
-          <StyledRedirectLink href={`https://app.farmersonly.fi/vaults`}>{t('Vaults')}</StyledRedirectLink>
-          <StyledRedirectLink href={`https://app.farmersonly.fi/zap`}>{t('Zapper')}</StyledRedirectLink>
+          <StyledRedirectLink href={`https://app.farmersonly.fi/vaults`}>
+            {t('Vaults')}
+            <StyledExternalLinkIcon />
+          </StyledRedirectLink>
+          <StyledRedirectLink href={`https://app.farmersonly.fi/zap`}>
+            {t('Zapper')}
+            <StyledExternalLinkIcon />
+          </StyledRedirectLink>
         </HeaderLinks>
         <HeaderSubMenu>
           <Dropdown overlay={CondensedMenu}>
