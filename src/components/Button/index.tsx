@@ -56,13 +56,14 @@ export const ButtonMint = styled(Base)`
     box-shadow: none;
     border: 1px solid transparent;
     outline: none;
-    opacity: ${({ altDisabledStyle }) => (altDisabledStyle ? '0.5' : '1')};
+    opacity: ${({ altDisabledStyle }) => (altDisabledStyle ? '0.5' : '0.5')};
   }
 `
 
 export const ButtonPrimary = styled(Base)`
   background: linear-gradient(60deg, #bb86fc 0%, #6200ee 100%);
   border: 1px solid #bb86fc;
+  border-radius: 8px;
   color: white;
   transition: all 0.2s ease-in-out;
   &:focus {
@@ -82,7 +83,7 @@ export const ButtonPrimary = styled(Base)`
     cursor: auto;
     box-shadow: none;
     outline: none;
-    opacity: ${({ altDisabledStyle }) => (altDisabledStyle ? '0.5' : '1')};
+    opacity: ${({ altDisabledStyle }) => (altDisabledStyle ? '0.5' : '0.5')};
   }
 `
 
@@ -277,6 +278,7 @@ const ButtonConfirmedStyle = styled(Base)`
 const ButtonErrorStyle = styled(Base)`
   background-color: ${({ theme }) => theme.red1};
   border: 1px solid ${({ theme }) => theme.red1};
+  opacity: 50%;
 
   &:focus {
     box-shadow: 0 0 0 1pt ${({ theme }) => darken(0.05, theme.red1)};
