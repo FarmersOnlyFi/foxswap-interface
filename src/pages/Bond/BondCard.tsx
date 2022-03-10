@@ -3,6 +3,8 @@ import { useBondInfo } from '../../state/stake/hooks'
 import { Card, Col, Divider, Row, Typography } from 'antd'
 import { generateContentMap, HeaderContent } from './TabContent'
 import DoubleCurrencyLogo from '../../components/DoubleLogo'
+import { Token } from '@foxswap/sdk'
+import CurrencyLogo from '../../components/CurrencyLogo'
 
 const tabListNoTitle: any = [
   {
@@ -58,14 +60,18 @@ export const TabCard: React.FC<any> = ({ bond }: any) => {
   )
 }
 
-function BondCardTitle(currency0: any, currency1: any, displayName: any) {
+function BondCardTitle(currency: any, displayName: any) {
   return (
     <Row justify={'start'} gutter={16}>
       <Col span={3} style={{ alignSelf: 'top' }}>
-        <DoubleCurrencyLogo size={35} currency0={currency0} currency1={currency1} />
+        {currency instanceof Token ? (
+          <CurrencyLogo size={'35px'} currency={currency} />
+        ) : (
+          <DoubleCurrencyLogo size={35} currency0={currency[0]} currency1={currency[1]} />
+        )}
       </Col>
       <Col className="gutter-row" span={3} style={{ alignSelf: 'flex-start' }}>
-        <Typography.Text style={{ fontSize: '1.25rem' }}>{displayName.replace('LP', '')}</Typography.Text>
+        <Typography.Text style={{ fontSize: '1.25rem' }}>{displayName}</Typography.Text>
       </Col>
     </Row>
   )
@@ -88,7 +94,7 @@ export default function BondCard() {
                 borderRadius: '8px',
                 justifySelf: 'space-around'
               }}
-              title={BondCardTitle(bond.bondToken[0], bond.bondToken[1], bond.displayName)}
+              title={BondCardTitle(bond.bondToken, bond.displayName)}
               headStyle={{
                 background: 'linear-gradient(60deg, #bb86fc 0%, #6200ee 100%)',
                 borderRadius: '8px 8px 0 0'

@@ -121,7 +121,7 @@ export const MintContent: React.FC<any> = ({ bond }: any) => {
 
   const atMaxAmount = Boolean(maxAmountInput && typedValue === maxAmountInput.toSignificant(18))
   const handleMax = useCallback(() => {
-    maxAmountInput && onUserInput(maxAmountInput.toSignificant(10))
+    maxAmountInput && onUserInput(maxAmountInput.toSignificant(18))
   }, [maxAmountInput, onUserInput])
 
   async function onAttemptToApprove() {
@@ -133,14 +133,17 @@ export const MintContent: React.FC<any> = ({ bond }: any) => {
 
   const symbol = bond.tokenAvailableAmount.token.symbol
 
-  const lpValue = (Number(typedValue) * Number(bond.valOfOneLpToken.toSignificant(8))).toLocaleString('en-US', {
+  const lpValue = (Number(typedValue) * Number(bond.valOfOneLpToken.toSignificant(18))).toLocaleString('en-US', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
-  })
-  const purchaseAmount = (Number(typedValue) / Number(bond.trueBondPrice.toSignificant(8))).toLocaleString('en-US', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 3
-  })
+  }) // 0.3665094
+  const purchaseAmount =
+    typedValue && bond.trueBondPrice
+      ? (Number(typedValue) / Number(bond.trueBondPrice.toSignificant(18))).toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 3
+        })
+      : '0.00'
 
   const priceWithSlippage = bond.trueBondPrice
     .multiply(GWEI_DENOM7)
@@ -153,23 +156,32 @@ export const MintContent: React.FC<any> = ({ bond }: any) => {
     if (bondContract && parsedAmount && deadline) {
       if (approval === ApprovalState.APPROVED) {
         const formattedAmount = `0x${parsedAmount.raw.toString(16)}`
-        const estimatedGas = await bondContract.estimateGas.deposit(formattedAmount, priceWithSlippage, account)
-        await bondContract
-          .deposit(formattedAmount, priceWithSlippage, account, {
-            gasLimit: calculateGasMargin(estimatedGas)
+        const estimatedGas = await bondContract.estimateGas
+          .deposit(formattedAmount, priceWithSlippage, account)
+          .catch(gasError => {
+            console.debug('Gas estimate failed, trying eth_call to extract error', gasError)
+            setAttempting(false)
           })
-          .then((response: TransactionResponse) => {
-            addTransaction(response, {
-              summary: `Bond ${bond.displayName} for ${bond.rewardToken?.symbol}`
+        if (estimatedGas) {
+          await bondContract
+            .deposit(formattedAmount, priceWithSlippage, account, {
+              gasLimit: calculateGasMargin(estimatedGas)
             })
-            setAttempting(false)
-          })
-          .catch((error: any) => {
-            setAttempting(false)
-            if (error?.code === -32603) {
-              console.error(error?.code)
-            }
-          })
+            .then((response: TransactionResponse) => {
+              addTransaction(response, {
+                summary: `Bond ${bond.displayName} for ${bond.rewardToken?.symbol}`
+              })
+              setAttempting(false)
+            })
+            .catch((error: any) => {
+              setAttempting(false)
+              if (error?.code === -32603) {
+                console.error(error?.code)
+                setAttempting(false)
+                throw new Error(error?.code)
+              }
+            })
+        }
       } else {
         setAttempting(false)
         throw new Error('Attempting to stake without approval or a signature. Please contact support.')
@@ -242,7 +254,7 @@ export const generateContentMap = (bond: any) => {
 }
 
 export const HeaderContent: React.FC<any> = ({ bond, expandCard, isOpen }: any) => {
-  const bondDiscount = bond.bondDiscount.toSignificant(3) > 0
+  const bondDiscount = bond.bondDiscount.toSignificant(5) >= 0
   const discountColor = bondDiscount ? '#3f8600' : '#cf1322'
 
   return (
@@ -281,7 +293,7 @@ export const HeaderContent: React.FC<any> = ({ bond, expandCard, isOpen }: any) 
             <Statistic
               title="Available"
               suffix={bond.userBondPendingPayout.token.symbol}
-              value={bond.tokenAvailableAmount.toSignificant(2)}
+              value={bond.tokenAvailableAmount.toSignificant(1)}
               valueStyle={{ fontSize: '17px' }}
             />
           ) : (

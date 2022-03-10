@@ -25,7 +25,9 @@ export default function useTokensWithWethPrices(): Record<string, any> {
   const USDCWETHPrice = useTokenWethPrice(USDC)
 
   const rvrs: Token | undefined = getToken(chainId, 'RVRS')
-  const rvrsWETHPrice = useBUSDPrice(rvrs)
+  const rvrsPrice = useBUSDPrice(rvrs)
+  const tranq: Token | undefined = getToken(chainId, 'TRANQ')
+  const tranqPrice = useBUSDPrice(tranq)
 
   // Harmony specific tokens
   const bscBUSD: Token | undefined = blockchain === Blockchain.HARMONY ? getToken(chainId, 'bscBUSD') : undefined
@@ -41,7 +43,8 @@ export default function useTokensWithWethPrices(): Record<string, any> {
       BUSD: { token: BUSD, price: BUSDWETHPrice },
       USDC: { token: USDC, price: USDCWETHPrice },
       bscBUSD: { token: bscBUSD, price: bscBUSDWETHPrice },
-      RVRS: { token: rvrs, price: rvrsWETHPrice },
+      RVRS: { token: rvrs, price: rvrsPrice },
+      TRANQ: { token: tranq, price: tranqPrice },
       bridgedETH: { token: bridgedETH, price: bridgedETHWETHPrice }
     }
   }, [

@@ -103,10 +103,9 @@ export interface UserBondInfo {
 
 export interface BondInfo {
   name: string
-  isLpBond: boolean
   isWethBond: boolean
   displayName: string
-  bondToken: [Token, Token] // | Token
+  bondToken: [Token, Token] | Token
   rewardToken: Token | undefined
   bondAddress: string
   price: Fraction | undefined
@@ -456,7 +455,19 @@ export function useBondInfo(): BondInfo[] {
   const accountMapping = useMemo(() => [account ? account : undefined], [account])
   const bondAddressses = useMemo(() => (bondInfos ? bondInfos.map(b => b.bondAddress) : []), [bondInfos])
   const lpTokenAddresses = useMemo(
-    () => (bondInfos ? bondInfos.map(b => toV2LiquidityToken(b.bondToken)?.address) : []),
+    () =>
+      bondInfos
+        ? bondInfos.map(b =>
+            b.bondToken instanceof Token ? b.bondToken.address : toV2LiquidityToken(b.bondToken)?.address
+          )
+        : [],
+    [bondInfos]
+  )
+  const lpTokenAddressesOnly = useMemo(
+    () =>
+      bondInfos
+        ? bondInfos.map(b => (b.bondToken instanceof Token ? undefined : toV2LiquidityToken(b.bondToken)?.address))
+        : [],
     [bondInfos]
   )
 
@@ -470,7 +481,7 @@ export function useBondInfo(): BondInfo[] {
 
   // LP Token calls
   const lpTokenTotalSupplies = useMultipleContractSingleData(lpTokenAddresses, PAIR_INTERFACE, 'totalSupply')
-  const lpTokenReserves = useMultipleContractSingleData(lpTokenAddresses, PAIR_INTERFACE, 'getReserves')
+  const lpTokenReserves = useMultipleContractSingleData(lpTokenAddressesOnly, PAIR_INTERFACE, 'getReserves')
 
   // User calls
   const userInfos = useMultipleContractSingleData(bondAddressses, LP_BOND_ABI, 'bondInfo', accountMapping)
@@ -500,30 +511,39 @@ export function useBondInfo(): BondInfo[] {
 
       const calculatedPendingRewards = JSBI.BigInt(pendingReward?.result?.[0] ?? 0)
 
-      const dummyPair = new Pair(new TokenAmount(tokens[0], '0'), new TokenAmount(tokens[1], '0'))
-      const walletAmount = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(lpTokenBalance?.result?.[0] ?? 0))
-      const maxPayoutCalculated = new TokenAmount(dummyPair.liquidityToken, JSBI.BigInt(maxPayout?.result?.[0] ?? 0))
-      const totalBondedAmountCalculated = new TokenAmount(
-        dummyPair.liquidityToken,
-        JSBI.BigInt(totalBondedAmount?.result?.[0] ?? 0)
-      )
-      const debtRatioCalculated = new Fraction(debtRatio?.result?.[0] ?? 0, GWEI_DENOM16)
+      let bondToken
+      let valOfOneLpToken
+      if (bondInfo.bondToken instanceof Token) {
+        bondToken = bondInfo.bondToken
+        const tokenPrice = bondInfo.bondToken.symbol && tokensWithPrices[bondInfo.bondToken.symbol]?.price
+        valOfOneLpToken = tokenPrice ? new Fraction(tokenPrice.numerator, tokenPrice.denominator) : new Fraction('0')
+      } else {
+        // @ts-ignore
+        const dummyPair = new Pair(new TokenAmount(tokens[0], '0'), new TokenAmount(tokens[1], '0'))
+        bondToken = dummyPair.liquidityToken
+        // @ts-ignore
+        let stableIdx = isStable(tokens[0]) ? 0 : 1
+        let mult = new Fraction(JSBI.BigInt(1))
+        if (bondInfo.isWethBond) {
+          // @ts-ignore
+          stableIdx = Boolean(tokens[0] && tokens[0].symbol === 'WONE') ? 0 : 1
+          mult = wethBusdPrice ? wethBusdPrice.raw : mult
+        }
 
-      const bondPriceRaw = new Fraction(JSBI.BigInt(bondPrice.result?.[0] ?? 0), GWEI_DENOM7)
-
-      let stableIdx = isStable(tokens[0]) ? 0 : 1
-      let mult = new Fraction(JSBI.BigInt(1))
-      if (bondInfo.isWethBond) {
-        stableIdx = Boolean(tokens[0] && tokens[0].symbol === 'WONE') ? 0 : 1
-        mult = wethBusdPrice ? wethBusdPrice.raw : mult
+        valOfOneLpToken = new Fraction(
+          JSBI.BigInt(lpTokenReserve?.result?.[stableIdx] ?? 0),
+          JSBI.BigInt(lpTokenTotalSupply.result?.[0] ?? 1)
+        )
+          .multiply(mult)
+          .multiply('2')
       }
 
-      const valOfOneLpToken = new Fraction(
-        JSBI.BigInt(lpTokenReserve?.result?.[stableIdx] ?? 0),
-        JSBI.BigInt(lpTokenTotalSupply.result?.[0] ?? 1)
-      )
-        .multiply(mult)
-        .multiply('2')
+      const walletAmount = new TokenAmount(bondToken, JSBI.BigInt(lpTokenBalance?.result?.[0] ?? 0))
+      const maxPayoutCalculated = new TokenAmount(bondToken, JSBI.BigInt(maxPayout?.result?.[0] ?? 0))
+      const totalBondedAmountCalculated = new TokenAmount(bondToken, JSBI.BigInt(totalBondedAmount?.result?.[0] ?? 0))
+
+      const debtRatioCalculated = new Fraction(debtRatio?.result?.[0] ?? 0, GWEI_DENOM16)
+      const bondPriceRaw = new Fraction(JSBI.BigInt(bondPrice.result?.[0] ?? 0), GWEI_DENOM7)
 
       const bondPriceCalculated = valOfOneLpToken.multiply(bondPriceRaw)
       const rewardTokenPrice =
