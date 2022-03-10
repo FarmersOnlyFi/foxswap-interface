@@ -1,4 +1,4 @@
-import { JSBI } from '@foxswap/sdk'
+import { JSBI, TokenAmount } from '@foxswap/sdk'
 import { Col, Row, Statistic, Button } from 'antd'
 import React, { useCallback, useState } from 'react'
 import { useActiveWeb3React } from '../../hooks'
@@ -116,7 +116,11 @@ export const MintContent: React.FC<any> = ({ bond }: any) => {
 
   const maxPossibleBuy = bond.tokenAvailableAmount.multiply(bond.trueBondPrice)
   const maxAmountInput = maxAmountSpend(
-    bond.userBondTokenAmount.greaterThan(maxPossibleBuy) ? maxPossibleBuy : bond.userBondTokenAmount
+    maxPossibleBuy.toSignificant(3) < 0.01 // min possible buy
+      ? new TokenAmount(bond.userBondTokenAmount.token, '0')
+      : bond.userBondTokenAmount.greaterThan(maxPossibleBuy)
+      ? maxPossibleBuy
+      : bond.userBondTokenAmount
   )
 
   const atMaxAmount = Boolean(maxAmountInput && typedValue === maxAmountInput.toSignificant(18))
