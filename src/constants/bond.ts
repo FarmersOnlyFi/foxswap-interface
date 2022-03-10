@@ -34,17 +34,17 @@ export const BONDS: {
       bondAddress: '0x33EE9136940ca82255f9fC9bB4ebC5400c81b04C',
       autostakeActive: true,
       fee: 1
+    },
+    {
+      name: 'ust_rvrs_lp',
+      isWethBond: false,
+      displayName: 'RVRS-UST Bond',
+      bondToken: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'UST/RVRS'),
+      rewardToken: getTokenWithDefault(ChainId.HARMONY_MAINNET, 'RVRS'),
+      bondAddress: '0xB2D1f6f7927f38DCf8F0482ede99845F625E6473',
+      autostakeActive: false,
+      fee: 333
     }
-    // {
-    //   name: 'ust_rvrs_lp',
-    //   isWethBond: false,
-    //   displayName: 'RVRS-UST Bond',
-    //   bondToken: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'UST/RVRS'),
-    //   rewardToken: getTokenWithDefault(ChainId.HARMONY_MAINNET, 'RVRS'),
-    //   bondAddress: '0xB2D1f6f7927f38DCf8F0482ede99845F625E6473',
-    //   autostakeActive: false,
-    //   fee: 333
-    // },
     // {
     //   name: 'tranq_bond',
     //   isWethBond: false,

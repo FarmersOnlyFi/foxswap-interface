@@ -131,8 +131,9 @@ const HeaderLinks = styled(Row)`
     display: none;
 `};
   flex-direction: row;
-  padding: 0.68rem;
+  padding: 0.25rem;
   display: flex;
+  justify-content: flex;
 `
 
 const LogoImage = styled('img')`
@@ -226,7 +227,7 @@ const StyledNavLink = styled(NavLink).attrs({
   color: ${({ theme }) => theme.text2};
   font-size: 1rem;
   width: fit-content;
-  padding: .65rem;
+  padding: .33rem;
   margin-left: 20px;
   border-radius: 15px;
   font-weight: 600;
@@ -266,7 +267,7 @@ const StyledRedirectLink = styled(ExternalLink)`
   color: ${({ theme }) => theme.text2};
   font-size: 1rem;
   width: fit-content;
-  padding: .65rem;
+  padding: .33rem;
   margin-left: 20px;
   border-radius: 15px;
   font-weight: 600;
@@ -350,7 +351,7 @@ const CondensedMenu = (
     </Menu.Item>
     <Menu.Item icon={<LinkOutlined style={{ fontSize: '1.25em' }} />}>
       <StyledNavLink id={`bond-nav-link`} to={'/bond'} style={{ marginLeft: '0px' }}>
-        Bond
+        Bond (3,3)
       </StyledNavLink>
     </Menu.Item>
     <Menu.Item icon={<LockOutlined style={{ fontSize: '1.25em' }} />}>
@@ -424,7 +425,7 @@ export default function Header() {
             {pitSettings?.name}
           </StyledNavLink>
           <StyledNavLink id={`bond-nav-link`} to={'/bond'}>
-            {t('Bond')}
+            {t('Bond (3,3)')}
           </StyledNavLink>
           <StyledRedirectLink href={`https://app.farmersonly.fi/vaults`}>
             {t('Vaults')}
