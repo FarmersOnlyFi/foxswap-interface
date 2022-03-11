@@ -13,7 +13,7 @@ import { useDerivedStakeInfo } from '../../state/stake/hooks'
 import { ApprovalState, useApproveCallback } from '../../hooks/useApproveCallback'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
 import CurrencyInputPanel from '../../components/CurrencyInputPanel'
-import { DownOutlined, UpOutlined, PlusOutlined } from '@ant-design/icons'
+import { DownOutlined, UpOutlined, PlusOutlined, MinusOutlined } from '@ant-design/icons'
 import CurrencyLogo from '../../components/CurrencyLogo'
 import { HidingCol } from './BondCard'
 
@@ -256,7 +256,7 @@ export const generateContentMap = (bond: any) => {
 
 export const HeaderContent: React.FC<any> = ({ bond, expandCard, isOpen }: any) => {
   const bondDiscount = bond.bondDiscount.toSignificant(5) >= 0
-  const discountColor = bondDiscount ? '#3f8600' : '#ffffff'
+  const discountColor = bondDiscount ? '#3f8600' : '#cf1322'
 
   return (
     <>
@@ -276,7 +276,7 @@ export const HeaderContent: React.FC<any> = ({ bond, expandCard, isOpen }: any) 
           <Statistic
             title="Discount"
             suffix="%"
-            prefix={bondDiscount && <PlusOutlined />}
+            prefix={bondDiscount ? <PlusOutlined /> : <MinusOutlined />}
             value={
               bondDiscount ? bond.bondDiscount.toSignificant(3) : bond.bondDiscount.multiply('-1').toSignificant(3)
             }
