@@ -127,6 +127,7 @@ interface CurrencyInputPanelProps {
   hideBalance?: boolean
   pair?: Pair | null
   hideInput?: boolean
+  hideCurrencySelect?: boolean
   otherCurrency?: Currency | null
   id: string
   showCommonBases?: boolean
@@ -143,6 +144,7 @@ export default function CurrencyInputPanel({
   onCurrencySelect,
   currency,
   disableCurrencySelect = false,
+  hideCurrencySelect = false,
   hideBalance = false,
   pair = null, // used for double token logo
   hideInput = false,
@@ -214,6 +216,7 @@ export default function CurrencyInputPanel({
                 setModalOpen(true)
               }
             }}
+            style={hideCurrencySelect ? { display: 'none' } : {}}
           >
             <Aligner>
               {pair ? (
