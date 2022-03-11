@@ -15,6 +15,7 @@ import { maxAmountSpend } from '../../utils/maxAmountSpend'
 import CurrencyInputPanel from '../../components/CurrencyInputPanel'
 import { DownOutlined, UpOutlined, PlusOutlined, MinusOutlined } from '@ant-design/icons'
 import CurrencyLogo from '../../components/CurrencyLogo'
+import { HidingCol } from './BondCard'
 
 const GWEI_DENOM7 = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(7))
 const { Countdown } = Statistic
@@ -199,9 +200,9 @@ export const MintContent: React.FC<any> = ({ bond }: any) => {
         <Col span={4}>
           <Statistic title="Reward Estimate" suffix={symbol} value={purchaseAmount} valueStyle={{ fontSize: '17px' }} />
         </Col>
-        <Col span={4}>
+        <HidingCol span={4}>
           <Statistic title="LP Value" prefix="$" value={lpValue} valueStyle={{ fontSize: '17px' }} />
-        </Col>
+        </HidingCol>
         <Col span={4}>
           <Statistic title="ROI" suffix="%" value={bond.roi.toSignificant(4)} valueStyle={{ fontSize: '17px' }} />
         </Col>
@@ -217,6 +218,7 @@ export const MintContent: React.FC<any> = ({ bond }: any) => {
             onMax={handleMax}
             showMaxButton={!atMaxAmount}
             currency={bond.totalBondedAmount.token}
+            hideCurrencySelect={true}
             label={''}
             disableCurrencySelect={true}
             id={'bond-token-panel'}
@@ -286,15 +288,15 @@ export const HeaderContent: React.FC<any> = ({ bond, expandCard, isOpen }: any) 
             valueStyle={{ fontSize: '17px', color: discountColor }}
           />
         </Col>
-        <Col className="gutter-row" span={4}>
+        <HidingCol className="gutter-row" span={4}>
           <Statistic
             title="Purchased"
             prefix="$"
             value={bond.totalBondedAmount.multiply(bond.valOfOneLpToken).toFixed(2)}
             valueStyle={{ fontSize: '17px' }}
           />
-        </Col>
-        <Col className="gutter-row" span={4}>
+        </HidingCol>
+        <HidingCol className="gutter-row" span={4}>
           {bond.tokenAvailableAmount.toSignificant(5) > 0.01 ? (
             <Statistic
               title="Available"
@@ -305,7 +307,7 @@ export const HeaderContent: React.FC<any> = ({ bond, expandCard, isOpen }: any) 
           ) : (
             <Statistic title="Available" value={'Sold Out'} valueStyle={{ fontSize: '17px', color: '#cf1322' }} />
           )}
-        </Col>
+        </HidingCol>
         <Col className="gutter-row" span={2} style={{ alignSelf: 'center' }}>
           <Button
             type={'text'}

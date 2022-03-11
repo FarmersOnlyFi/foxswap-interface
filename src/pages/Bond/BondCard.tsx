@@ -5,6 +5,7 @@ import { generateContentMap, HeaderContent } from './TabContent'
 import DoubleCurrencyLogo from '../../components/DoubleLogo'
 import { Token } from '@foxswap/sdk'
 import CurrencyLogo from '../../components/CurrencyLogo'
+import styled from 'styled-components'
 
 const tabListNoTitle: any = [
   {
@@ -16,6 +17,12 @@ const tabListNoTitle: any = [
     tab: 'Redeem'
   }
 ]
+
+export const HidingCol = styled(Col)`
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    display: none;
+  `};
+`
 
 export const TabCard: React.FC<any> = ({ bond }: any) => {
   const [activeTabKey, setActiveTabKey] = useState<string>('mint')
