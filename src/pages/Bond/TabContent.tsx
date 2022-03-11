@@ -237,9 +237,7 @@ export const MintContent: React.FC<any> = ({ bond }: any) => {
           ) : (
             <ButtonError
               padding="8px"
-              disabled={
-                !!error || approval !== ApprovalState.APPROVED || bond.tokenAvailableAmount.toSignificant(2) < 0.01
-              }
+              disabled={!!error || approval !== ApprovalState.APPROVED}
               error={!!error && !!parsedAmount}
               onClick={onBond}
             >
