@@ -280,7 +280,9 @@ export const HeaderContent: React.FC<any> = ({ bond, expandCard, isOpen }: any) 
             title="Discount"
             suffix="%"
             prefix={bondDiscount ? <PlusOutlined /> : <MinusOutlined />}
-            value={bond.bondDiscount.toSignificant(3)}
+            value={
+              bondDiscount ? bond.bondDiscount.toSignificant(3) : bond.bondDiscount.multiply('-1').toSignificant(3)
+            }
             valueStyle={{ fontSize: '17px', color: discountColor }}
           />
         </Col>
