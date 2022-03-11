@@ -53,7 +53,7 @@ export const RedeemContent: React.FC<any> = ({ bond }) => {
           <Statistic
             title="Pending"
             suffix={bond.userBondPendingPayout.token.symbol}
-            value={bond.userInfo.payout.toSignificant(4)}
+            value={bond.userInfo.payout.toSignificant(5)}
             valueStyle={{ fontSize: '17px' }}
           />
         </Col>
@@ -61,7 +61,7 @@ export const RedeemContent: React.FC<any> = ({ bond }) => {
           <Statistic
             title="Claimable"
             suffix={bond.userBondPendingPayout.token.symbol}
-            value={bond.userBondPendingPayout.toSignificant(3)}
+            value={bond.userBondPendingPayout.toSignificant(5)}
             valueStyle={{ fontSize: '17px' }}
           />
         </Col>
@@ -116,7 +116,7 @@ export const MintContent: React.FC<any> = ({ bond }: any) => {
 
   const maxPossibleBuy = bond.tokenAvailableAmount.multiply(bond.trueBondPrice)
   const maxAmountInput = maxAmountSpend(
-    maxPossibleBuy.toSignificant(3) < 0.01 // min possible buy
+    maxPossibleBuy.toSignificant(5) < 0.01 // min possible buy
       ? new TokenAmount(bond.userBondTokenAmount.token, '0')
       : bond.userBondTokenAmount.greaterThan(maxPossibleBuy)
       ? maxPossibleBuy
@@ -293,11 +293,11 @@ export const HeaderContent: React.FC<any> = ({ bond, expandCard, isOpen }: any) 
           />
         </Col>
         <Col className="gutter-row" span={4}>
-          {bond.tokenAvailableAmount.toSignificant(2) > 0.01 ? (
+          {bond.tokenAvailableAmount.toSignificant(5) > 0.01 ? (
             <Statistic
               title="Available"
               suffix={bond.userBondPendingPayout.token.symbol}
-              value={bond.tokenAvailableAmount.toSignificant(1)}
+              value={bond.tokenAvailableAmount.toSignificant(4)}
               valueStyle={{ fontSize: '17px' }}
             />
           ) : (
