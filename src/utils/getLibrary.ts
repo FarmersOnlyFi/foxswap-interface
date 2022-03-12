@@ -9,7 +9,7 @@ export default function getLibrary(provider: any): Web3Provider {
       library.pollingInterval = 15000
       break
     case Blockchain.HARMONY:
-      library.pollingInterval = 10000
+      library.pollingInterval = 3000
       break
     default:
       library.pollingInterval = 15000

@@ -11,7 +11,6 @@ import { ChainId, WETH } from '@foxswap/sdk'
 import { abi as IUniswapV2PairABI } from '@foxswap/core/build/IUniswapV2Pair.json'
 import { useMemo } from 'react'
 import {
-  BONDING_ADDRESS,
   GOVERNANCE_ADDRESS,
   MASTER_BREEDER,
   MERKLE_DISTRIBUTOR_ADDRESS,
@@ -35,7 +34,10 @@ import { V1_EXCHANGE_ABI, V1_FACTORY_ABI, V1_FACTORY_ADDRESSES } from '../consta
 import { getContract } from '../utils'
 import { useActiveWeb3React } from './index'
 import useGovernanceToken from './useGovernanceToken'
-import { LP_BOND_ABI } from '../constants/abis/lp-contract'
+import lpBondAbi from 'constants/abis/custom-bond.json'
+import { Interface } from '@ethersproject/abi'
+
+const LP_BOND_ABI = new Interface(lpBondAbi)
 
 // returns null on errors
 function useContract(address: string | undefined, ABI: any, withSignerIfPossible = true): Contract | null {
@@ -150,9 +152,8 @@ export function useMasterBreederContract(withSignerIfPossible?: boolean): Contra
   return useContract(address, MASTER_BREEDER_ABI, withSignerIfPossible)
 }
 
-export function useBondingContract(): Contract | null {
-  const { chainId } = useActiveWeb3React()
-  return useContract(chainId === ChainId.HARMONY_TESTNET ? BONDING_ADDRESS : undefined, LP_BOND_ABI, false)
+export function useBondingContract(address: string): Contract | null {
+  return useContract(address, LP_BOND_ABI, true)
 }
 
 export function useSocksController(): Contract | null {

@@ -1,7 +1,7 @@
 import { TokenAmount } from '@foxswap/sdk'
 import React, { useState } from 'react'
 import { Text } from 'rebass'
-import { Moon, Sun } from 'react-feather'
+import { Moon, Sun, ExternalLink as ExternalLinkIcon } from 'react-feather'
 import { NavLink } from 'react-router-dom'
 import { darken } from 'polished'
 import { useTranslation } from 'react-i18next'
@@ -45,22 +45,20 @@ const HeaderFrame = styled.div`
   grid-template-columns: 1fr 120px;
   align-items: center;
   justify-content: space-between;
+  background-color: ${({ theme }) => theme.bg1};
   flex-direction: row;
   width: 100%;
   position: relative;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 0 1rem 0 1rem;
+  padding: 0 1rem;
   z-index: 2;
   text-align: center;
-  ${({ theme }) => theme.mediaWidth.upToLarge`
+  ${({ theme }) => theme.mediaWidth.upToMedium`
     grid-template-columns: 1fr;
     padding: 0 1rem;
     width: calc(100%);
     position: relative;
   `};
-  background: ${({ theme }) => theme.bg1};
-  border-radius: 12px;
-  margin: 30px;
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
         padding: 0.5rem 1rem;
   `}
@@ -77,14 +75,13 @@ const HeaderControls = styled.div`
     justify-content: space-between;
     justify-self: center;
     width: 100%;
-    padding: 1rem;
+    padding: 1rem;  
     position: fixed;
     bottom: 0px;
     left: 0px;
     width: 100%;
     z-index: 99;
     height: 72px;
-    border-radius: 12px;
     background-color: ${({ theme }) => theme.bg1};
   `};
 `
@@ -121,6 +118,8 @@ const HeaderElementWrap = styled.div`
 `
 
 const HeaderRow = styled(RowFixed)`
+  display: flex;
+  flex-direction: row;
   ${({ theme }) => theme.mediaWidth.upToLarge`
    width: 100%;
   `};
@@ -128,11 +127,13 @@ const HeaderRow = styled(RowFixed)`
 
 const HeaderLinks = styled(Row)`
   ${({ theme }) => theme.mediaWidth.upToLarge`
-    padding: 1rem 0 1rem 1rem;
     justify-content: flex-end;
     display: none;
 `};
-  padding: 0.68rem;
+  flex-direction: row;
+  padding: 0.25rem;
+  display: flex;
+  justify-content: flex;
 `
 
 const LogoImage = styled('img')`
@@ -142,13 +143,22 @@ const LogoImage = styled('img')`
   cursor: pointer;
 `
 
+const StyledExternalLinkIcon = styled(ExternalLinkIcon)`
+  padding: 4px 0px 0px 5px;
+  width: 21px;
+
+  > * {
+    stroke: ${({ theme }) => theme.text2};
+    transition: 0.3s;
+  }
+`
+
 const LogoIcon = styled('img')`
   width: 45px;
   height: 45px;
   cursor: pointer;
   margin-right: 3px;
-  padding: 0.5px;
-  box-shadow: 0 0 2px ${({ theme }) => theme.bg1};
+  padding: 2px;
   transition: box-shadow 0.3s ease-in-out;
   border-radius: 50%;
   &:hover {
@@ -161,7 +171,7 @@ const AccountElement = styled.div<{ active: boolean }>`
   flex-direction: row;
   align-items: center;
   background-color: ${({ theme, active }) => (!active ? theme.bg1 : theme.bg3)};
-  border-radius: 12px;
+  border-radius: 8px;
   white-space: nowrap;
   width: 100%;
   cursor: pointer;
@@ -217,7 +227,7 @@ const StyledNavLink = styled(NavLink).attrs({
   color: ${({ theme }) => theme.text2};
   font-size: 1rem;
   width: fit-content;
-  padding: .65rem;
+  padding: .33rem;
   margin-left: 20px;
   border-radius: 15px;
   font-weight: 600;
@@ -237,7 +247,7 @@ const StyledNavLink = styled(NavLink).attrs({
 
 const FoxPricePill = styled(Row)`
   color: ${({ theme }) => theme.primary2};
-  border-radius: 2.5rem;
+  border-radius: 8px;
   font-weight: 500;
   margin: 16px;
   display: flex;
@@ -257,18 +267,26 @@ const StyledRedirectLink = styled(ExternalLink)`
   color: ${({ theme }) => theme.text2};
   font-size: 1rem;
   width: fit-content;
-  padding: .65rem;
+  padding: .33rem;
   margin-left: 20px;
   border-radius: 15px;
   font-weight: 600;
   &:hover {
-    color: ${({ theme }) => theme.primary1}
+    color: ${({ theme }) => theme.primary1} !important;
     text-decoration: none;
+
+    > svg > * {
+      stroke: ${({ theme }) => theme.primary1};
+    }
   }
 
   &:focus {
     color: ${({ theme }) => darken(0.1, theme.primary1)}
     text-decoration: none;
+
+    > svg > * {
+      stroke: ${({ theme }) => theme.primary1};
+    }
   }
 
   &:active {
@@ -333,17 +351,19 @@ const CondensedMenu = (
     </Menu.Item>
     <Menu.Item icon={<LinkOutlined style={{ fontSize: '1.25em' }} />}>
       <StyledNavLink id={`bond-nav-link`} to={'/bond'} style={{ marginLeft: '0px' }}>
-        Bond
+        Bond (3,3)
       </StyledNavLink>
     </Menu.Item>
     <Menu.Item icon={<LockOutlined style={{ fontSize: '1.25em' }} />}>
       <StyledRedirectLink style={{ marginLeft: '0px' }} href={`https://app.farmersonly.fi/vaults`}>
         Vaults
+        <StyledExternalLinkIcon style={{ padding: '0 0 0 5px' }} />
       </StyledRedirectLink>
     </Menu.Item>
     <Menu.Item icon={<ThunderboltOutlined style={{ fontSize: '1.25em' }} />}>
       <StyledRedirectLink style={{ marginLeft: '0px' }} href={`https://app.farmersonly.fi/zap`}>
         Zapper
+        <StyledExternalLinkIcon style={{ padding: '0 0 0 5px' }} />
       </StyledRedirectLink>
     </Menu.Item>
   </Menu>
@@ -405,10 +425,16 @@ export default function Header() {
             {pitSettings?.name}
           </StyledNavLink>
           <StyledNavLink id={`bond-nav-link`} to={'/bond'}>
-            {t('Bond')}
+            {t('Bond (3,3)')}
           </StyledNavLink>
-          <StyledRedirectLink href={`https://app.farmersonly.fi/vaults`}>{t('Vaults')}</StyledRedirectLink>
-          <StyledRedirectLink href={`https://app.farmersonly.fi/zap`}>{t('Zapper')}</StyledRedirectLink>
+          <StyledRedirectLink href={`https://app.farmersonly.fi/vaults`}>
+            {t('Vaults')}
+            <StyledExternalLinkIcon />
+          </StyledRedirectLink>
+          <StyledRedirectLink href={`https://app.farmersonly.fi/zap`}>
+            {t('Zapper')}
+            <StyledExternalLinkIcon />
+          </StyledRedirectLink>
         </HeaderLinks>
         <HeaderSubMenu>
           <Dropdown overlay={CondensedMenu}>
