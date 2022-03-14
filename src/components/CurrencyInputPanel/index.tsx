@@ -2,6 +2,7 @@ import { Currency, CurrencyAmount, Pair } from '@foxswap/sdk'
 import React, { useState, useCallback } from 'react'
 import styled from 'styled-components'
 import { darken } from 'polished'
+import { Text } from 'rebass'
 import { useCurrencyBalance } from '../../state/wallet/hooks'
 import CurrencySearchModal from '../SearchModal/CurrencySearchModal'
 import CurrencyLogo from '../CurrencyLogo'
@@ -14,6 +15,7 @@ import { ReactComponent as DropDown } from '../../assets/images/dropdown.svg'
 import { useActiveWeb3React } from '../../hooks'
 import { useTranslation } from 'react-i18next'
 import useTheme from '../../hooks/useTheme'
+import useBUSDPrice from 'hooks/useBUSDPrice'
 
 const InputRow = styled.div<{ selected: boolean }>`
   ${({ theme }) => theme.flexRowNoWrap}
@@ -168,6 +170,12 @@ export default function CurrencyInputPanel({
     setModalOpen(false)
   }, [setModalOpen])
 
+  const BUSDPrice = useBUSDPrice(currency ?? undefined)
+  let BUSDValue = undefined
+  if (BUSDPrice != null) {
+    BUSDValue = Number(BUSDPrice?.raw.toFixed(10)) * Number(value)
+  }
+
   return (
     <InputPanel id={id}>
       <Container hideInput={hideInput}>
@@ -203,6 +211,11 @@ export default function CurrencyInputPanel({
                   onUserInput(val)
                 }}
               />
+              <div>
+                <Text margin={'0 10px 0 0'} fontSize={'12px'} color={'#777'}>
+                  {BUSDValue != null ? `~$${BUSDValue.toFixed(2)}` : null}
+                </Text>
+              </div>
               {account && currency && showMaxButton && label !== 'To' && (
                 <StyledBalanceMax onClick={onMax}>MAX</StyledBalanceMax>
               )}
