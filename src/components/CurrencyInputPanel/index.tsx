@@ -2,6 +2,7 @@ import { Currency, CurrencyAmount, Pair } from '@foxswap/sdk'
 import React, { useState, useCallback } from 'react'
 import styled from 'styled-components'
 import { darken } from 'polished'
+import { Text } from 'rebass'
 import { useCurrencyBalance } from '../../state/wallet/hooks'
 import CurrencySearchModal from '../SearchModal/CurrencySearchModal'
 import CurrencyLogo from '../CurrencyLogo'
@@ -14,11 +15,12 @@ import { ReactComponent as DropDown } from '../../assets/images/dropdown.svg'
 import { useActiveWeb3React } from '../../hooks'
 import { useTranslation } from 'react-i18next'
 import useTheme from '../../hooks/useTheme'
+import useBUSDPrice from 'hooks/useBUSDPrice'
 
 const InputRow = styled.div<{ selected: boolean }>`
   ${({ theme }) => theme.flexRowNoWrap}
   align-items: center;
-  padding: ${({ selected }) => (selected ? '0.75rem 0.5rem 0.75rem 1rem' : '0.75rem 0.75rem 0.75rem 1rem')};
+  padding: ${({ selected }) => (selected ? '0.75rem 0.5rem 0.05rem 1rem' : '0.75rem 0.75rem 0.05rem 1rem')};
 `
 
 const CurrencySelect = styled.button<{ selected: boolean }>`
@@ -168,6 +170,12 @@ export default function CurrencyInputPanel({
     setModalOpen(false)
   }, [setModalOpen])
 
+  const BUSDPrice = useBUSDPrice(currency ?? undefined)
+  let BUSDValue = undefined
+  if (BUSDPrice != null) {
+    BUSDValue = Number(BUSDPrice?.toFixed(10)) * Number(value)
+  }
+
   return (
     <InputPanel id={id}>
       <Container hideInput={hideInput}>
@@ -208,6 +216,7 @@ export default function CurrencyInputPanel({
               )}
             </>
           )}
+
           <CurrencySelect
             selected={!!currency}
             className="open-currency-select-button"
@@ -241,6 +250,17 @@ export default function CurrencyInputPanel({
             </Aligner>
           </CurrencySelect>
         </InputRow>
+
+        <div>
+          <Text margin={'0 0 2px 15px'} fontSize={'12px'} color={'#777'}>
+            {BUSDValue != null
+              ? `~$${BUSDValue.toLocaleString('en-US', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2
+                })}`
+              : null}
+          </Text>
+        </div>
       </Container>
       {!disableCurrencySelect && onCurrencySelect && (
         <CurrencySearchModal
