@@ -20,7 +20,7 @@ import useBUSDPrice from 'hooks/useBUSDPrice'
 const InputRow = styled.div<{ selected: boolean }>`
   ${({ theme }) => theme.flexRowNoWrap}
   align-items: center;
-  padding: ${({ selected }) => (selected ? '0.75rem 0.5rem 0.75rem 1rem' : '0.75rem 0.75rem 0.75rem 1rem')};
+  padding: ${({ selected }) => (selected ? '0.75rem 0.5rem 0.05rem 1rem' : '0.75rem 0.75rem 0.05rem 1rem')};
 `
 
 const CurrencySelect = styled.button<{ selected: boolean }>`
@@ -173,7 +173,7 @@ export default function CurrencyInputPanel({
   const BUSDPrice = useBUSDPrice(currency ?? undefined)
   let BUSDValue = undefined
   if (BUSDPrice != null) {
-    BUSDValue = Number(BUSDPrice?.raw.toFixed(10)) * Number(value)
+    BUSDValue = Number(BUSDPrice?.toFixed(10)) * Number(value)
   }
 
   return (
@@ -211,16 +211,12 @@ export default function CurrencyInputPanel({
                   onUserInput(val)
                 }}
               />
-              <div>
-                <Text margin={'0 10px 0 0'} fontSize={'12px'} color={'#777'}>
-                  {BUSDValue != null ? `~$${BUSDValue.toFixed(2)}` : null}
-                </Text>
-              </div>
               {account && currency && showMaxButton && label !== 'To' && (
                 <StyledBalanceMax onClick={onMax}>MAX</StyledBalanceMax>
               )}
             </>
           )}
+
           <CurrencySelect
             selected={!!currency}
             className="open-currency-select-button"
@@ -254,6 +250,17 @@ export default function CurrencyInputPanel({
             </Aligner>
           </CurrencySelect>
         </InputRow>
+
+        <div>
+          <Text margin={'0 0 2px 15px'} fontSize={'12px'} color={'#777'}>
+            {BUSDValue != null
+              ? `~$${BUSDValue.toLocaleString('en-US', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2
+                })}`
+              : null}
+          </Text>
+        </div>
       </Container>
       {!disableCurrencySelect && onCurrencySelect && (
         <CurrencySearchModal
