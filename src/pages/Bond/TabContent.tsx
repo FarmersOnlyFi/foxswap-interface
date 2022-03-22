@@ -15,6 +15,7 @@ import { maxAmountSpend } from '../../utils/maxAmountSpend'
 import CurrencyInputPanel from '../../components/CurrencyInputPanel'
 import { DownOutlined, UpOutlined, PlusOutlined, MinusOutlined } from '@ant-design/icons'
 import CurrencyLogo from '../../components/CurrencyLogo'
+import { Text } from 'rebass'
 import { HidingCol } from './BondCard'
 
 const GWEI_DENOM7 = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(7))
@@ -207,8 +208,8 @@ export const MintContent: React.FC<any> = ({ bond }: any) => {
           <Statistic title="Vesting Term" value={`${duration} Days`} valueStyle={{ fontSize: '17px' }} />
         </Col>
       </Row>
-      <Row gutter={8} style={{ marginTop: '17px' }} justify={'space-between'}>
-        <Col span={16} style={{ alignSelf: 'center' }}>
+      <Row gutter={24} style={{ marginTop: '17px' }} justify={'space-between'}>
+        <Col span={15} style={{ alignSelf: 'center' }}>
           <CurrencyInputPanel
             value={typedValue}
             onUserInput={onUserInput}
@@ -221,7 +222,17 @@ export const MintContent: React.FC<any> = ({ bond }: any) => {
             id={'bond-token-panel'}
           />
         </Col>
-        <Col span={8} style={{ alignSelf: 'center' }}>
+        <Col span={9} style={{ alignSelf: 'center' }}>
+          {bond.roi.lessThan('0') && (
+            <>
+              <Text fontWeight={500} fontSize={22} color={'#cf1322'} style={{ textAlign: 'center' }}>
+                Warning
+              </Text>
+              <Text fontWeight={500} fontSize={13} style={{ textAlign: 'center' }}>
+                Bonding is currently not profitable. You can <a href={'/#/swap'}>buy FOX</a> for cheaper.
+              </Text>
+            </>
+          )}
           {approval === ApprovalState.NOT_APPROVED ? (
             <ButtonConfirmed
               padding="8px"
