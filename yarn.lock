@@ -1785,6 +1785,11 @@
   resolved "https://registry.yarnpkg.com/@foxswap/default-token-list/-/default-token-list-2.2.3.tgz#e4bf6cda4d93976689e46ca54182bbe7e33c7254"
   integrity sha512-FkcmcoyJFHX23Sg73vheSDmyL74PzmNP835W666ycJ3fSrq5HeLOaDhQFF8aRJvj4QAriYQOncNqBKvMMqJGKQ==
 
+"@foxswap/default-token-list@^2.2.4":
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/@foxswap/default-token-list/-/default-token-list-2.2.4.tgz#baf0a99eb21a6a64ab6b46bf3d86af11eedfff1b"
+  integrity sha512-tMZXPgGEdKd60eArjBojORho8vrNVLtOq5Xcp3Rbs/vDWY/VphoxNpUsxWrMOiSKbjbjCo8OXWMKijDD/U8T5w==
+
 "@foxswap/lib@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@foxswap/lib/-/lib-1.0.0.tgz#4713a9001009c80504eca980fce5bac01089797a"
