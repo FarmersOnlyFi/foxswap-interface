@@ -1780,15 +1780,10 @@
   resolved "https://registry.yarnpkg.com/@foxswap/core/-/core-1.0.1.tgz#8e8dbb567bf50154d5158183afa7eb78ad7efa85"
   integrity sha512-UWpJJsOc0sAkRtViggJ/ACLCAGgVbgJ1TsXdJsHdM0NOZ8LQB4bhzKNPb8+x/rAIOFSRQA10hyWu+ZZtSP/QfQ==
 
-"@foxswap/default-token-list@^2.2.3":
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/@foxswap/default-token-list/-/default-token-list-2.2.3.tgz#e4bf6cda4d93976689e46ca54182bbe7e33c7254"
-  integrity sha512-FkcmcoyJFHX23Sg73vheSDmyL74PzmNP835W666ycJ3fSrq5HeLOaDhQFF8aRJvj4QAriYQOncNqBKvMMqJGKQ==
-
-"@foxswap/default-token-list@^2.2.6":
-  version "2.2.6"
-  resolved "https://registry.yarnpkg.com/@foxswap/default-token-list/-/default-token-list-2.2.6.tgz#8b66af3126a044f332a196d59e19127b8386c61b"
-  integrity sha512-SuxLwcluTMIvENjOtUCFMiAhkh8iAM9eKrg4MAgr/jPYuFqF1qrmfV3LE9t8CVaX2VXyfyXN7dNy7fXoIYYePw==
+"@foxswap/default-token-list@^2.2.8":
+  version "2.2.8"
+  resolved "https://registry.yarnpkg.com/@foxswap/default-token-list/-/default-token-list-2.2.8.tgz#28366f2251ab004cdd1f0d1ec2277b8f15680efe"
+  integrity sha512-ZEPMatPS64EL+sZTk76FnZHFg1WEKRbtge72M/cUidbjeYB+uQvW7vGOis+cvJfLsjI4rV6naCIMqEpkJ+v/RA==
 
 "@foxswap/lib@1.0.0":
   version "1.0.0"
@@ -1803,13 +1798,13 @@
     "@foxswap/core" "1.0.0"
     "@foxswap/lib" "1.0.0"
 
-"@foxswap/sdk@^2.2.3":
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/@foxswap/sdk/-/sdk-2.2.3.tgz#072da5085360db6941c70f168263877d1a9f6dab"
-  integrity sha512-F41uG70COdUI9f5DhnIl4TzKHY0c1EQmhgcTF3atPc3RgDcrZXDZ1Ek6726XdZa4Z8hYcwS4zmhzhBb5C5lKOA==
+"@foxswap/sdk@^2.2.8":
+  version "2.2.8"
+  resolved "https://registry.yarnpkg.com/@foxswap/sdk/-/sdk-2.2.8.tgz#b8eed68649e1379575bfb17b02b2b620ac163379"
+  integrity sha512-4m3zAJ8zDWEhbAjHtfHVwtwihWu70C76kisqQKgKrAA0PRruqbIJ3zEFzGIKpmNW5kIOZyGxapNo2Pe4G0WPtQ==
   dependencies:
     "@foxswap/core" "^1.0.1"
-    "@foxswap/default-token-list" "^2.2.3"
+    "@foxswap/default-token-list" "^2.2.8"
     big.js "^5.2.2"
     decimal.js-light "^2.5.0"
     jsbi "^3.1.1"
