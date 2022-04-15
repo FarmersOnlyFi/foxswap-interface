@@ -6,7 +6,7 @@
     "@ethersproject/experimental": "^5.1.2",
     "@foxswap/core": "^1.0.1",
     "@foxswap/periphery": "^1.0.0",
-    "@foxswap/sdk": "^2.2.8",
+    "@foxswap/sdk": "^2.2.7",
     "@popperjs/core": "^2.4.4",
     "@reach/dialog": "^0.10.3",
     "@reach/portal": "^0.10.3",
@@ -125,7 +125,7 @@
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
-    "@foxswap/default-token-list": "^2.2.8",
+    "@foxswap/default-token-list": "^2.2.7",
     "@material-ui/core": "^4.12.3",
     "@material-ui/lab": "^4.0.0-alpha.60",
     "@types/react-outside-click-handler": "^1.3.1",
