@@ -6,7 +6,7 @@
     "@ethersproject/experimental": "^5.1.2",
     "@foxswap/core": "^1.0.1",
     "@foxswap/periphery": "^1.0.0",
-    "@foxswap/sdk": "^2.2.3",
+    "@foxswap/sdk": "^2.3.0",
     "@popperjs/core": "^2.4.4",
     "@reach/dialog": "^0.10.3",
     "@reach/portal": "^0.10.3",

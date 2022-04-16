@@ -31,7 +31,7 @@ repository.
 
 ```bash
 yarn
-```
+``` 
 
 ### Run
 
