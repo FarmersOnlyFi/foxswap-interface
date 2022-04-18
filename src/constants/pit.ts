@@ -10,6 +10,8 @@ export const PIT_POOLS: {
   [ChainId.HARMONY_MAINNET]: [
     { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/WONE') },
     { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'XEN/WONE') },
+    { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'OIL/WONE') },
+    { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'EVO/WONE') },
     { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'GRAV/WONE') },
     // { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'USE/WONE') },
     { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'STARDUST/WONE') },
