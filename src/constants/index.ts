@@ -125,7 +125,7 @@ export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: To
 
 // used for display in the default list when adding liquidity
 export const SUGGESTED_BASES: ChainTokenList = {
-  [ChainId.HARMONY_MAINNET]: [WETH[ChainId.HARMONY_MAINNET], FOX, UST, MIS, ETH],
+  [ChainId.HARMONY_MAINNET]: [WETH[ChainId.HARMONY_MAINNET], FOX, UST, ETH],
   [ChainId.HARMONY_TESTNET]: [
     WETH[ChainId.HARMONY_TESTNET],
     getTokenWithDefault(ChainId.HARMONY_TESTNET, 'FOX'),
@@ -136,7 +136,7 @@ export const SUGGESTED_BASES: ChainTokenList = {
 // used to construct the list of all pairs we consider by default in the frontend
 export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   ...WETH_ONLY,
-  [ChainId.HARMONY_MAINNET]: [FOX, ...WETH_ONLY[ChainId.HARMONY_MAINNET], UST, ETH, MIS, USDC, ETH],
+  [ChainId.HARMONY_MAINNET]: [FOX, ...WETH_ONLY[ChainId.HARMONY_MAINNET], UST, USDC],
   [ChainId.HARMONY_TESTNET]: [
     WETH[ChainId.HARMONY_TESTNET],
     getTokenWithDefault(ChainId.HARMONY_TESTNET, 'FOX'),

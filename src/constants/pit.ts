@@ -9,6 +9,9 @@ export const PIT_POOLS: {
 } = {
   [ChainId.HARMONY_MAINNET]: [
     { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/WONE') },
+    { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/EVO') },
+    { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/OIL') },
+    { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, '1BULL/WONE') },
     { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'XEN/WONE') },
     { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'OIL/WONE') },
     { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'EVO/WONE') },
@@ -24,7 +27,6 @@ export const PIT_POOLS: {
     { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/MIS') },
     { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/JEWEL') },
     { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/RVRS') },
-    { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/RAVAX') },
     { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/TRANQ') },
     { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'FOX/COINKX') },
     { tokens: getPairTokensWithDefaults(ChainId.HARMONY_MAINNET, 'WONE/HVILLE') },
