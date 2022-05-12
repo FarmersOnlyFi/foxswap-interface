@@ -165,7 +165,7 @@ export default function PoolCard({ stakingInfo, isArchived }: { stakingInfo: Sta
                       } / $${
                         govTokenPrice
                           ? stakingInfo.unlockedEarnedAmount
-                              .multiply(govTokenPrice?.raw)
+                              .multiply(govTokenPrice?.adjusted)
                               .toSignificant(2, { groupSeparator: ',' })
                           : '0'
                       }`
@@ -186,7 +186,7 @@ export default function PoolCard({ stakingInfo, isArchived }: { stakingInfo: Sta
                       } / $${
                         govTokenPrice
                           ? stakingInfo.lockedEarnedAmount
-                              .multiply(govTokenPrice?.raw)
+                              .multiply(govTokenPrice?.adjusted)
                               .toSignificant(2, { groupSeparator: ',' })
                           : '0'
                       }`
@@ -210,7 +210,7 @@ export default function PoolCard({ stakingInfo, isArchived }: { stakingInfo: Sta
                   ? `${stakingInfo.earnedAmount.toSignificant(4, { groupSeparator: ',' })} ${govToken?.symbol} / $${
                       govTokenPrice
                         ? stakingInfo.earnedAmount
-                            .multiply(govTokenPrice?.raw)
+                            .multiply(govTokenPrice?.adjusted)
                             .toSignificant(2, { groupSeparator: ',' })
                         : '0'
                     }`

@@ -287,7 +287,7 @@ export function useStakingInfo(active: boolean | undefined = undefined, pairToFi
         )
 
         const totalStakedAmountBUSD =
-          wethBusdPrice && totalStakedAmountWETH && totalStakedAmountWETH.multiply(wethBusdPrice?.raw)
+          wethBusdPrice && totalStakedAmountWETH && totalStakedAmountWETH.multiply(wethBusdPrice?.adjusted)
 
         const apr = totalStakedAmountWETH
           ? calculateApr(govTokenWETHPrice, baseBlockRewards, blocksPerYear, poolShare, totalStakedAmountWETH)
@@ -527,7 +527,7 @@ export function useBondInfo(): BondInfo[] {
         if (bondInfo.isWethBond) {
           // @ts-ignore
           stableIdx = Boolean(tokens[0] && tokens[0].symbol === 'WONE') ? 0 : 1
-          mult = wethBusdPrice ? wethBusdPrice.raw : mult
+          mult = wethBusdPrice ? wethBusdPrice.adjusted : mult
         }
 
         valOfOneLpToken = new Fraction(
@@ -560,7 +560,7 @@ export function useBondInfo(): BondInfo[] {
           : new Fraction(JSBI.BigInt(0))
 
       const bondDiscount = rewardTokenPrice
-        ? new Fraction(JSBI.BigInt(1)).subtract(bondPriceCalculated.divide(rewardTokenPrice.raw)).multiply('100')
+        ? new Fraction(JSBI.BigInt(1)).subtract(bondPriceCalculated.divide(rewardTokenPrice.adjusted)).multiply('100')
         : new Fraction(JSBI.BigInt(0))
       const totalPendingRewardAmount = new TokenAmount(bondInfo.rewardToken, calculatedPendingRewards)
       const tokenAvailableAmountCalculated = new TokenAmount(

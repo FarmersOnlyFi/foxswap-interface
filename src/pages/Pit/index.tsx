@@ -109,7 +109,8 @@ export default function Pit({
   const apy = useXFoxApy()
 
   const adjustedPitBalance = govTokenPitTokenRatio ? pitBalance?.multiply(govTokenPitTokenRatio) : undefined
-  const pitTVL = (parseFloat(pitTokenBalance) * (govTokenPrice ? parseFloat(govTokenPrice?.raw.toFixed(3)) : 1)) / big18
+  const pitTVL =
+    (parseFloat(pitTokenBalance) * (govTokenPrice ? parseFloat(govTokenPrice?.adjusted.toFixed(3)) : 1)) / big18
   const userLiquidityStaked = pitBalance
   const userLiquidityUnstaked = govTokenBalance
   const lastDepositedTime = userInfo.result?.lastDepositedTime
@@ -304,7 +305,7 @@ export default function Pit({
                     ≈{' $'}
                     <b>
                       {govTokenPrice
-                        ? adjustedPitBalance?.multiply(govTokenPrice?.raw).toFixed(2, { groupSeparator: ',' })
+                        ? adjustedPitBalance?.multiply(govTokenPrice?.adjusted).toFixed(2, { groupSeparator: ',' })
                         : '0'}
                       {' USD'}
                     </b>

@@ -12,7 +12,7 @@ import getToken from '../utils/getToken'
 export default function useBUSDPrice(currency?: Currency): Price | undefined {
   const { chainId } = useActiveWeb3React()
   const wrapped = wrappedCurrency(currency, chainId)
-  const usdTicker = chainId !== ChainId.HARMONY_TESTNET ? 'UST' : 'UST'
+  const usdTicker = chainId !== ChainId.HARMONY_TESTNET ? '1USDC' : '1USDC'
   const usd: Token | undefined = getToken(chainId, usdTicker)
 
   const tokenPairs: [Currency | undefined, Currency | undefined][] = useMemo(

@@ -102,18 +102,17 @@ const WETH_ONLY: ChainTokenList = {
 export const WONE = WETH_ONLY[ChainId.HARMONY_MAINNET]
 export const FOX = getTokenWithDefault(ChainId.HARMONY_MAINNET, 'FOX')
 export const HVILLE = getTokenWithDefault(ChainId.HARMONY_MAINNET, 'HVILLE')
-export const UST = getTokenWithDefault(ChainId.HARMONY_MAINNET, 'UST')
 export const ETH = getTokenWithDefault(ChainId.HARMONY_MAINNET, '1ETH')
 export const MIS = getTokenWithDefault(ChainId.HARMONY_MAINNET, 'MIS')
 export const USDC = getTokenWithDefault(ChainId.HARMONY_MAINNET, '1USDC')
 
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
-  [ChainId.HARMONY_MAINNET]: [WETH[ChainId.HARMONY_MAINNET], FOX, UST, ETH, MIS, USDC, HVILLE],
+  [ChainId.HARMONY_MAINNET]: [WETH[ChainId.HARMONY_MAINNET], FOX, USDC, HVILLE],
   [ChainId.HARMONY_TESTNET]: [
     WETH[ChainId.HARMONY_TESTNET],
     getTokenWithDefault(ChainId.HARMONY_TESTNET, 'FOX'),
-    getTokenWithDefault(ChainId.HARMONY_TESTNET, 'UST')
+    getTokenWithDefault(ChainId.HARMONY_TESTNET, '1USDC')
   ]
 }
 
@@ -125,22 +124,22 @@ export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: To
 
 // used for display in the default list when adding liquidity
 export const SUGGESTED_BASES: ChainTokenList = {
-  [ChainId.HARMONY_MAINNET]: [WETH[ChainId.HARMONY_MAINNET], FOX, UST, ETH],
+  [ChainId.HARMONY_MAINNET]: [WETH[ChainId.HARMONY_MAINNET], FOX, USDC, ETH],
   [ChainId.HARMONY_TESTNET]: [
     WETH[ChainId.HARMONY_TESTNET],
     getTokenWithDefault(ChainId.HARMONY_TESTNET, 'FOX'),
-    getTokenWithDefault(ChainId.HARMONY_TESTNET, 'UST')
+    getTokenWithDefault(ChainId.HARMONY_TESTNET, '1USDC')
   ]
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
 export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   ...WETH_ONLY,
-  [ChainId.HARMONY_MAINNET]: [FOX, ...WETH_ONLY[ChainId.HARMONY_MAINNET], UST, USDC],
+  [ChainId.HARMONY_MAINNET]: [FOX, ...WETH_ONLY[ChainId.HARMONY_MAINNET], USDC],
   [ChainId.HARMONY_TESTNET]: [
     WETH[ChainId.HARMONY_TESTNET],
     getTokenWithDefault(ChainId.HARMONY_TESTNET, 'FOX'),
-    getTokenWithDefault(ChainId.HARMONY_TESTNET, 'UST')
+    getTokenWithDefault(ChainId.HARMONY_TESTNET, '1USDC')
   ]
 }
 
@@ -148,7 +147,7 @@ export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } 
   [ChainId.HARMONY_MAINNET]: [[USDC, WETH[ChainId.HARMONY_MAINNET]]],
   [ChainId.HARMONY_TESTNET]: [
     [WETH[ChainId.HARMONY_TESTNET], getTokenWithDefault(ChainId.HARMONY_TESTNET, 'FOX')],
-    [WETH[ChainId.HARMONY_TESTNET], getTokenWithDefault(ChainId.HARMONY_TESTNET, 'UST')]
+    [WETH[ChainId.HARMONY_TESTNET], getTokenWithDefault(ChainId.HARMONY_TESTNET, '1USDC')]
   ]
 }
 

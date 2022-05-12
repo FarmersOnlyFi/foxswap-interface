@@ -18,6 +18,6 @@ export default function usePitTVL(): Fraction | undefined {
   )
 
   return useMemo(() => {
-    return govTokenBusdPrice ? pitGovTokenBalance?.multiply(govTokenBusdPrice?.raw) : undefined
+    return govTokenBusdPrice ? pitGovTokenBalance?.multiply(govTokenBusdPrice?.adjusted) : undefined
   }, [govToken, govTokenBusdPrice, pit, pitGovTokenBalance])
 }
