@@ -11,7 +11,7 @@ An open source interface for Uniswap -- a protocol for decentralized exchange of
 - Docs: [docs.farmersonly.fi](https://docs.farmersonly.fi)
 - Twitter: [@FarmersOnlyFi](https://twitter.com/FarmersOnlyFi)
 - Reddit: [/r/farmersonlyfi](https://www.reddit.com/r/farmersonlyfi)
-- Email: [peechz@farmersonly.fi](mailto:peechz@farmersonly.fi)
+- Email: [peechz@farmersonly.fi](mailto:vegan@farmersonly.fi)
 - Discord: [FarmersOnlyFi](https://discord.gg/9dB8NjRR9V)
 - Whitepaper: [Link](https://docs.farmersonly.fi)
 
